@@ -1,6 +1,7 @@
 # Backend
 <h1>ERD</h1>
-![](../../Downloads/Copy of Copy of sao-jung, listens well.png)
+![Copy of Copy of sao-jung, listens well](https://user-images.githubusercontent.com/67732143/229275056-f39d5e12-265d-4c08-b1cb-a86d3f6ab1d8.png)
+
 <h1>TDD</h1>
 <h3>유저 API</h3>
 <div>
