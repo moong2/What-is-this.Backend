@@ -2,6 +2,7 @@ package com.Saojung.whatisthis.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
     @Id
     private String id;
