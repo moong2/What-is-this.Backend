@@ -1,6 +1,6 @@
 # Backend
 <h1>ERD</h1>
-![Copy of Copy of sao-jung, listens well](https://user-images.githubusercontent.com/67732143/229275056-f39d5e12-265d-4c08-b1cb-a86d3f6ab1d8.png)
+<img width="80%" src="![Copy of Copy of sao-jung, listens well](https://user-images.githubusercontent.com/67732143/229275106-740a7e52-d3fb-4387-8250-576bd26bc691.png)"/>
 
 <h1>TDD</h1>
 <h3>유저 API</h3>
