@@ -1,7 +1,6 @@
 package com.Saojung.whatisthis.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,11 +18,11 @@ public class User {
     private int age;
     private String parent_password;
 
-    public User(String id, String password, String name, int age, String parent_password) {
-        this.id = id;
-        this.password = password;
-        this.name = name;
-        this.age = age;
-        this.parent_password = parent_password;
-    }
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "analysis_id", referencedColumnName = "id")
+    private Analysis analysis;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "amends_id", referencedColumnName = "id")
+    private Amends amends;
 }
