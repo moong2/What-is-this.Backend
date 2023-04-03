@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User {
+public class Member {
     @Id
     private String id;
     private String password;
@@ -18,11 +18,11 @@ public class User {
     private int age;
     private String parent_password;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "analysis_id", referencedColumnName = "id")
-    private Analysis analysis;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "amends_id", referencedColumnName = "id")
-    private Amends amends;
+    public Member(String id, String password, String name, int age, String parent_password) {
+        this.id = id;
+        this.password = password;
+        this.name = name;
+        this.age = age;
+        this.parent_password = parent_password;
+    }
 }

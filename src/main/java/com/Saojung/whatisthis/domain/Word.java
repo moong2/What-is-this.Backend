@@ -13,11 +13,19 @@ import lombok.NoArgsConstructor;
 public class Word {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
-    private User user;
+    private Member user;
 
     @Id
     private int idx;
     private String word;
     private int level;
     private int success_level;
+
+    public Word(Member user, int idx, String word, int level, int success_level) {
+        this.user = user;
+        this.idx = idx;
+        this.word = word;
+        this.level = level;
+        this.success_level = success_level;
+    }
 }
