@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 @Entity
 @Getter
@@ -12,17 +13,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Analysis {
     @Id
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", referencedColumnName = "id")
-    private Member member;
+    private String id;
+    @NotNull
     private int count;
+    @NotNull
     private int level;
+    @NotNull
     private double success_rate_1;
+    @NotNull
     private double success_rate_2;
+    @NotNull
     private double success_rate_3;
 
-    public Analysis(Member member, int count, int level, double success_rate_1, double success_rate_2, double success_rate_3) {
-        this.member = member;
+    public Analysis(String id, int count, int level, double success_rate_1, double success_rate_2, double success_rate_3) {
+        this.id = id;
         this.count = count;
         this.level = level;
         this.success_rate_1 = success_rate_1;

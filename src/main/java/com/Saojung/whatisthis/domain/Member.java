@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 @Entity
 @Getter
@@ -13,16 +14,28 @@ import lombok.NoArgsConstructor;
 public class Member {
     @Id
     private String id;
+    @NotNull
     private String password;
+    @NotNull
     private String name;
     private int age;
+    @NotNull
     private String parent_password;
 
-    public Member(String id, String password, String name, int age, String parent_password) {
+    @OneToOne
+    @JoinColumn(name = "analysis_id")
+    private Analysis analysis;
+    @OneToOne
+    @JoinColumn(name = "amends_id")
+    private Amends amends;
+
+    public Member(String id, String password, String name, int age, String parent_password, Analysis analysis, Amends amends) {
         this.id = id;
         this.password = password;
         this.name = name;
         this.age = age;
         this.parent_password = parent_password;
+        this.analysis = analysis;
+        this.amends = amends;
     }
 }

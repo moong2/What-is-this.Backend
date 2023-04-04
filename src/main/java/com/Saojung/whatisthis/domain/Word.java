@@ -5,27 +5,31 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 @Entity
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Word {
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")
-    private Member user;
-
     @Id
     private int idx;
+    @NotNull
     private String word;
+    @NotNull
     private int level;
+    @NotNull
     private int success_level;
 
-    public Word(Member user, int idx, String word, int level, int success_level) {
-        this.user = user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "word_id")
+    private Member member;
+
+    public Word(int idx, String word, int level, int success_level, Member member) {
         this.idx = idx;
         this.word = word;
         this.level = level;
         this.success_level = success_level;
+        this.member = member;
     }
 }
