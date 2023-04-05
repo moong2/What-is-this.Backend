@@ -13,19 +13,19 @@ import org.jetbrains.annotations.NotNull;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Word {
     @Id
-    private int idx;
+    private Integer idx;
     @NotNull
     private String word;
     @NotNull
-    private int level;
+    private Integer level;
     @NotNull
-    private int success_level;
+    private Integer success_level;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "word_id")
     private Member member;
 
-    public Word(int idx, String word, int level, int success_level, Member member) {
+    public Word(Integer idx, @NotNull String word, @NotNull Integer level, @NotNull Integer success_level, Member member) {
         this.idx = idx;
         this.word = word;
         this.level = level;

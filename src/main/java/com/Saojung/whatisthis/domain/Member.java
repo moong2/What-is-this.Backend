@@ -18,7 +18,7 @@ public class Member {
     private String password;
     @NotNull
     private String name;
-    private int age;
+    private Integer age;
     @NotNull
     private String parent_password;
 
@@ -29,7 +29,7 @@ public class Member {
     @JoinColumn(name = "amends_id")
     private Amends amends;
 
-    public Member(String id, String password, String name, int age, String parent_password, Analysis analysis, Amends amends) {
+    public Member(String id, @NotNull String password, @NotNull String name, Integer age, @NotNull String parent_password, Analysis analysis, Amends amends) {
         this.id = id;
         this.password = password;
         this.name = name;

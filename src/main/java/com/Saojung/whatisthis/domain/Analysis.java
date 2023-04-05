@@ -15,9 +15,9 @@ public class Analysis {
     @Id
     private String id;
     @NotNull
-    private int count;
+    private Integer count;
     @NotNull
-    private int level;
+    private Integer level;
     @NotNull
     private double success_rate_1;
     @NotNull
@@ -25,7 +25,7 @@ public class Analysis {
     @NotNull
     private double success_rate_3;
 
-    public Analysis(String id, int count, int level, double success_rate_1, double success_rate_2, double success_rate_3) {
+    public Analysis(String id, @NotNull Integer count, @NotNull Integer level, @NotNull double success_rate_1, @NotNull double success_rate_2, @NotNull double success_rate_3) {
         this.id = id;
         this.count = count;
         this.level = level;
