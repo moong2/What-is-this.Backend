@@ -1,6 +1,6 @@
 # Backend
 <h1>ERD</h1>
-<img width="80%" src="https://user-images.githubusercontent.com/67732143/229962846-0588dd71-43ca-48d5-8edc-aacfc34db833.png"/>
+<img width="80%" src="https://user-images.githubusercontent.com/67732143/230261484-68799f2f-dba6-4b0f-b279-26f66deea776.png"/>
 
 <h1>TDD</h1>
 <h3>유저 API</h3>
@@ -9,6 +9,7 @@
 
 - 속성 NULL 여부 테스트
 - 패스워드 암호화
+- 부모 패스워드 암호화
 - 패스워드 재확인
 - 중복 회원 검사
 </div>
