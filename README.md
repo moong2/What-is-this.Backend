@@ -1,6 +1,6 @@
 # Backend
 <h1>ERD</h1>
-<img width="80%" src="https://user-images.githubusercontent.com/67732143/230261484-68799f2f-dba6-4b0f-b279-26f66deea776.png"/>
+<img width="80%" src="https://user-images.githubusercontent.com/67732143/230284114-90128530-e8fe-4b38-9a2e-e6c31f144cea.png"/>
 
 <h1>TDD</h1>
 <h3>유저 API</h3>
@@ -8,16 +8,15 @@
 1. 회원가입
 
 - 속성 NULL 여부 테스트
-- 패스워드 암호화
-- 부모 패스워드 암호화
-- 패스워드 재확인
-- 중복 회원 검사
+- 패스워드 암호화 (only service test)
+- 부모 패스워드 암호화 (only service test)
+- 중복 아이디 검사 (only service test)
 </div>
 <div>
 2. 로그인
 
 - 아이디, 패스워드 조회
-- 패스워드 변경화
+- 패스워드 변경
 - 패스워드 오류
 - 부모 페이지 로그인 확인 / 오류
 </div>
