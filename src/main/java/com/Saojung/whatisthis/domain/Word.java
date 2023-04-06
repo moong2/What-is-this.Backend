@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Word {
     @Id
-    private Integer idx;
+    private Long idx;
     @NotNull
     private String word;
     @NotNull
@@ -25,7 +25,7 @@ public class Word {
     @JoinColumn(name = "word_id")
     private Member member;
 
-    public Word(Integer idx, @NotNull String word, @NotNull Integer level, @NotNull Integer success_level, Member member) {
+    public Word(Long idx, @NotNull String word, @NotNull Integer level, @NotNull Integer success_level, Member member) {
         this.idx = idx;
         this.word = word;
         this.level = level;
