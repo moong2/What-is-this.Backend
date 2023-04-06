@@ -11,7 +11,7 @@ import lombok.*;
 public class Analysis {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idx;
     @NotNull
     private Integer count;
     @NotNull
@@ -23,8 +23,8 @@ public class Analysis {
     @NotNull
     private double success_rate_3;
 
-    public Analysis(Long id, @NonNull Integer count, @NonNull Integer level, @NonNull double success_rate_1, @NonNull double success_rate_2, @NonNull double success_rate_3) {
-        this.id = id;
+    public Analysis(Long idx, @NonNull Integer count, @NonNull Integer level, @NonNull double success_rate_1, @NonNull double success_rate_2, @NonNull double success_rate_3) {
+        this.idx = idx;
         this.count = count;
         this.level = level;
         this.success_rate_1 = success_rate_1;
