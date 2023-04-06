@@ -1,11 +1,8 @@
 package com.Saojung.whatisthis.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 @Entity
 @Getter
@@ -13,7 +10,8 @@ import org.jetbrains.annotations.NotNull;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Analysis {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @NotNull
     private Integer count;
     @NotNull
@@ -25,7 +23,7 @@ public class Analysis {
     @NotNull
     private double success_rate_3;
 
-    public Analysis(String id, @NotNull Integer count, @NotNull Integer level, @NotNull double success_rate_1, @NotNull double success_rate_2, @NotNull double success_rate_3) {
+    public Analysis(Long id, @NonNull Integer count, @NonNull Integer level, @NonNull double success_rate_1, @NonNull double success_rate_2, @NonNull double success_rate_3) {
         this.id = id;
         this.count = count;
         this.level = level;

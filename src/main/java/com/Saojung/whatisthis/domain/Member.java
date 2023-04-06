@@ -1,11 +1,8 @@
 package com.Saojung.whatisthis.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 @Entity
 @Getter
@@ -13,6 +10,9 @@ import org.jetbrains.annotations.NotNull;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idx;
+    @NotNull
     private String id;
     @NotNull
     private String password;
@@ -23,13 +23,14 @@ public class Member {
     private String parent_password;
 
     @OneToOne
-    @JoinColumn(name = "analysis_id")
+    @JoinColumn(name = "analysis_idx")
     private Analysis analysis;
     @OneToOne
-    @JoinColumn(name = "amends_id")
+    @JoinColumn(name = "amends_idx")
     private Amends amends;
 
-    public Member(String id, @NotNull String password, @NotNull String name, Integer age, @NotNull String parent_password, Analysis analysis, Amends amends) {
+    public Member(Long idx, @NonNull String id, @NonNull String password, @NonNull String name, Integer age, @NonNull String parent_password, Analysis analysis, Amends amends) {
+        this.idx = idx;
         this.id = id;
         this.password = password;
         this.name = name;

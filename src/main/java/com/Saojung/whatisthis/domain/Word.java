@@ -1,11 +1,8 @@
 package com.Saojung.whatisthis.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 @Entity
 @Getter
@@ -13,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Word {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
     @NotNull
     private String word;
@@ -22,10 +20,10 @@ public class Word {
     private Integer success_level;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "word_id")
+    @JoinColumn(name = "word_idx")
     private Member member;
 
-    public Word(Long idx, @NotNull String word, @NotNull Integer level, @NotNull Integer success_level, Member member) {
+    public Word(Long idx, @NonNull String word, @NonNull Integer level, @NonNull Integer success_level, Member member) {
         this.idx = idx;
         this.word = word;
         this.level = level;
