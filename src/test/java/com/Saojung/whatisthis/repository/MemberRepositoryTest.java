@@ -63,4 +63,23 @@ class MemberRepositoryTest {
                     .build();
         });
     }
+
+    @Test
+    @DisplayName("아이디 조회")
+    public void 아이디_조회() {
+        //given
+        Member member = Member.builder()
+                .id("castlehi")
+                .password("password")
+                .name("박성하")
+                .age(24)
+                .build();
+
+        //when
+        Member save_member = memberRepository.save(member);
+        Member find_member = memberRepository.getReferenceById(String.valueOf(save_member.getIdx()));
+
+        //then
+        assertEquals(find_member.getId(), save_member.getId());
+    }
 }
