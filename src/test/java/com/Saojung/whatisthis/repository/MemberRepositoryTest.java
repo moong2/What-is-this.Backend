@@ -23,7 +23,7 @@ class MemberRepositoryTest {
                 .password("password")
                 .name("박성하")
                 .age(24)
-                .parent_password("p_password")
+                .parent_password("p_pasqsword")
                 .build();
 
         //when
@@ -73,6 +73,7 @@ class MemberRepositoryTest {
                 .password("password")
                 .name("박성하")
                 .age(24)
+                .parent_password("p_password")
                 .build();
 
         //when
