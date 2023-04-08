@@ -16,9 +16,10 @@
 2. 로그인
 
 - 아이디, 패스워드 조회
-- 패스워드 변경
-- 패스워드 오류
-- 부모 페이지 로그인 확인 / 오류
+- 아이디, 패스워드 동일 여부 검사 (only repository test)
+- 로그인 성공 / 실패 (only service test)
+- 부모 패스워드 동일 여부 검사 (only repository test)
+- 부모 페이지 로그인 성공 / 실패 (only service test)
 </div>
 <div>
 3. 회원 정보 조회
