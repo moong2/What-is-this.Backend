@@ -1,6 +1,6 @@
 # Backend
 <h1>ERD</h1>
-<img width="80%" src="https://user-images.githubusercontent.com/67732143/230285350-1c0e22a2-f16a-4893-8d55-83913954b091.png"/>
+<img width="80%" src="https://user-images.githubusercontent.com/67732143/230754452-1a81a424-7e29-465b-9399-bc11bc9cedd3.png"/>
 
 <h1>TDD</h1>
 <h3>유저 API</h3>
