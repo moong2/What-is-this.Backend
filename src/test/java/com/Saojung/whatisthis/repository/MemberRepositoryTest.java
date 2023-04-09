@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
@@ -21,15 +23,15 @@ class MemberRepositoryTest {
                 .id("castlehi")
                 .password("password")
                 .name("박성하")
-                .age(24)
-                .parent_password("p_pasqsword")
+                .birth(LocalDate.of(2000, 06, 17))
+                .parent_password("p_password")
                 .build();
 
         //when
         Member save_member = memberRepository.save(member);
 
         //then
-        assertEquals(member.getId(), save_member.getId());
+        assertEquals(memberRepository.findAll().size(), 1);
     }
 
     @Test
@@ -57,8 +59,8 @@ class MemberRepositoryTest {
             Member member = Member.builder()
                     .id("castlehi")
                     .password("password")
-                    .name("박성하")
-                    .age(24)
+                    .birth(LocalDate.of(2000, 06, 17))
+                    .parent_password("p_password")
                     .build();
         });
     }
@@ -71,7 +73,7 @@ class MemberRepositoryTest {
                 .id("castlehi")
                 .password("password")
                 .name("박성하")
-                .age(24)
+                .birth(LocalDate.of(2000, 06, 17))
                 .parent_password("p_password")
                 .build();
 
@@ -91,7 +93,7 @@ class MemberRepositoryTest {
                 .id("castlehi")
                 .password("password")
                 .name("박성하")
-                .age(24)
+                .birth(LocalDate.of(2000, 06, 17))
                 .parent_password("p_password")
                 .build();
 
@@ -113,7 +115,7 @@ class MemberRepositoryTest {
                 .id("castlehi")
                 .password("password")
                 .name("박성하")
-                .age(24)
+                .birth(LocalDate.of(2000, 06, 17))
                 .parent_password("p_password")
                 .build();
 
@@ -135,7 +137,7 @@ class MemberRepositoryTest {
                 .id("castlehi")
                 .password("password")
                 .name("박성하")
-                .age(24)
+                .birth(LocalDate.of(2000, 06, 17))
                 .parent_password("p_password")
                 .build();
 
@@ -157,7 +159,7 @@ class MemberRepositoryTest {
                 .id("castlehi")
                 .password("password")
                 .name("박성하")
-                .age(24)
+                .birth(LocalDate.of(2000, 06, 17))
                 .parent_password("p_password")
                 .build();
 
@@ -177,7 +179,7 @@ class MemberRepositoryTest {
                 .id("castlehi")
                 .password("password")
                 .name("박성하")
-                .age(24)
+                .birth(LocalDate.of(2000, 06, 17))
                 .parent_password("p_password")
                 .build();
 
@@ -197,7 +199,7 @@ class MemberRepositoryTest {
                 .id("castlehi")
                 .password("password")
                 .name("박성하")
-                .age(24)
+                .birth(LocalDate.of(2000, 06, 17))
                 .parent_password("p_password")
                 .build();
 
@@ -209,7 +211,7 @@ class MemberRepositoryTest {
         assertEquals(find_member.getId(), member.getId());
         assertEquals(find_member.getPassword(), member.getPassword());
         assertEquals(find_member.getName(), member.getName());
-        assertEquals(find_member.getAge(), member.getAge());
+        assertEquals(find_member.getBirth(), member.getBirth());
         assertEquals(find_member.getParent_password(), member.getParent_password());
     }
 
@@ -221,7 +223,7 @@ class MemberRepositoryTest {
                 .id("castlehi")
                 .password("password")
                 .name("박성하")
-                .age(24)
+                .birth(LocalDate.of(2000, 06, 17))
                 .parent_password("p_password")
                 .build();
 
@@ -232,7 +234,7 @@ class MemberRepositoryTest {
                 .id(member.getId())
                 .password("change_password")
                 .name(member.getName())
-                .age(save_member.getAge() + 1)
+                .birth(LocalDate.of(2000, 06, 17))
                 .parent_password(member.getParent_password())
                 .build();
         Member change_member = memberRepository.save(save_member);
@@ -240,6 +242,25 @@ class MemberRepositoryTest {
         //then
         assertEquals(change_member.getId(), member.getId());
         assertNotEquals(change_member.getPassword(), member.getPassword());
-        assertEquals(change_member.getAge(), member.getAge() + 1);
+    }
+
+    @Test
+    @DisplayName("회원 정보 삭제")
+    public void 회원_정보_삭제() {
+        //given
+        Member member = Member.builder()
+                .id("castlehi")
+                .password("password")
+                .name("박성하")
+                .birth(LocalDate.of(2000, 06, 17))
+                .parent_password("p_password")
+                .build();
+
+        //when
+        Member save_member = memberRepository.save(member);
+        memberRepository.deleteById(String.valueOf(save_member.getIdx()));
+
+        //then
+        assertEquals(memberRepository.findAll().size(), 0);
     }
 }
