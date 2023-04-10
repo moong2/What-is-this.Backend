@@ -3,7 +3,6 @@ package com.Saojung.whatisthis.repository;
 import com.Saojung.whatisthis.domain.Member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 
@@ -14,7 +13,11 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 class MemberRepositoryTest {
 
-    @Autowired private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
+
+    MemberRepositoryTest(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
 
     @Test
     @DisplayName("회원가입")
