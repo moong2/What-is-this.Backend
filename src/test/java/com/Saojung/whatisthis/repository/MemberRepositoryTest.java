@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 
 import java.time.LocalDate;
 
@@ -262,5 +263,27 @@ class MemberRepositoryTest {
 
         //then
         assertEquals(memberRepository.findAll().size(), 0);
+    }
+
+    @Test
+    @DisplayName("등록되지 않은 회원 조회")
+    public void 등록되지_않은_회원_조회() {
+        //given
+        Member member = Member.builder()
+                .id("castlehi")
+                .password("password")
+                .name("박성하")
+                .birth(LocalDate.of(2000, 06, 17))
+                .parent_password("p_password")
+                .build();
+
+        //when
+        Member save_member = memberRepository.save(member);
+        memberRepository.deleteById(String.valueOf(save_member.getIdx()));
+
+        //then
+        assertThrows(JpaObjectRetrievalFailureException.class, () -> {
+            memberRepository.getReferenceById(String.valueOf(save_member.getIdx()));
+        });
     }
 }
