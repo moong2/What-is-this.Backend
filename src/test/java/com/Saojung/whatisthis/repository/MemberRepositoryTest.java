@@ -3,6 +3,7 @@ package com.Saojung.whatisthis.repository;
 import com.Saojung.whatisthis.domain.Member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 
@@ -13,11 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 class MemberRepositoryTest {
 
-    private final MemberRepository memberRepository;
-
-    MemberRepositoryTest(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
-    }
+    @Autowired
+    private MemberRepository memberRepository;
 
     @Test
     @DisplayName("회원가입")
@@ -234,18 +232,18 @@ class MemberRepositoryTest {
         //when
         Member save_member = memberRepository.save(member);
 
-        save_member = Member.builder()
+        Member change_member = Member.builder()
                 .id(member.getId())
                 .password("change_password")
                 .name(member.getName())
                 .birth(LocalDate.of(2000, 06, 17))
                 .parent_password(member.getParent_password())
                 .build();
-        Member change_member = memberRepository.save(save_member);
+        Member save_change_member = memberRepository.save(change_member);
 
         //then
-        assertEquals(change_member.getId(), member.getId());
-        assertNotEquals(change_member.getPassword(), member.getPassword());
+        assertEquals(save_change_member.getId(), member.getId());
+        assertNotEquals(save_change_member.getPassword(), member.getPassword());
     }
 
     @Test
