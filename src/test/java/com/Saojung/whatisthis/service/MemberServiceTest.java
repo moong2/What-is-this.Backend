@@ -4,6 +4,7 @@ import com.Saojung.whatisthis.dto.AmendsDto;
 import com.Saojung.whatisthis.dto.AnalysisDto;
 import com.Saojung.whatisthis.dto.LoginDto;
 import com.Saojung.whatisthis.dto.MemberDto;
+import com.Saojung.whatisthis.exception.DuplicateMemberException;
 import com.Saojung.whatisthis.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -146,7 +147,7 @@ class MemberServiceTest {
         //when
         memberService.signUp(memberDto);
 
-        assertThrows(RuntimeException.class, () -> {
+        assertThrows(DuplicateMemberException.class, () -> {
             memberService.signUp(memberDto2);
         });
     }
