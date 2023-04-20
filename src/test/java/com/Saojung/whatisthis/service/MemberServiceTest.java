@@ -39,7 +39,7 @@ class MemberServiceTest {
     void 회원_가입() {
         //given
         MemberDto memberDto = new MemberDto(
-                "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password"
+                1L, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
         );
 
         //when
@@ -54,7 +54,7 @@ class MemberServiceTest {
     void 회원정보_가져오기() {
         //given
         MemberDto memberDto = new MemberDto(
-                "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password"
+                1L, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
         );
 
         //when
@@ -72,7 +72,7 @@ class MemberServiceTest {
     void 회원정보_업데이트() {
         //given
         MemberDto memberDto = new MemberDto(
-                "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password"
+                1L, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
         );
 
         //when
@@ -90,7 +90,7 @@ class MemberServiceTest {
     void 회원_탈퇴() {
         //given
         MemberDto memberDto = new MemberDto(
-                "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password"
+                1L, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
         );
 
         //when
@@ -106,7 +106,7 @@ class MemberServiceTest {
     void 패스워드_암호화() {
         //given
         MemberDto memberDto = new MemberDto(
-                "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password"
+                1L, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
         );
 
         //when
@@ -121,7 +121,7 @@ class MemberServiceTest {
     void 부모패스워드_암호화() {
         //given
         MemberDto memberDto = new MemberDto(
-                "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password"
+                1L, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
         );
 
         //when
@@ -136,7 +136,7 @@ class MemberServiceTest {
     void 중복아이디_회원가입_방지() {
         //given
         MemberDto memberDto = new MemberDto(
-                "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password"
+                1L, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
         );
 
         MemberDto memberDto2 = new MemberDto(
@@ -156,7 +156,7 @@ class MemberServiceTest {
     void 로그인_성공() {
         //given
         MemberDto memberDto = new MemberDto(
-                "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password"
+                1L, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
         );
 
         LoginDto givenDto = new LoginDto(
@@ -176,7 +176,7 @@ class MemberServiceTest {
     void 로그인_실패_아이디() {
         //given
         MemberDto memberDto = new MemberDto(
-                "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password"
+                1L, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
         );
 
         LoginDto givenDto = new LoginDto(
@@ -196,7 +196,7 @@ class MemberServiceTest {
     void 로그인_실패_패스워드() {
         //given
         MemberDto memberDto = new MemberDto(
-                "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password"
+                1L, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
         );
 
         LoginDto givenDto = new LoginDto(
@@ -217,7 +217,7 @@ class MemberServiceTest {
     void 부모로그인_성공() {
         //given
         MemberDto memberDto = new MemberDto(
-                "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password"
+                1L, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
         );
 
         LoginDto givenDto = new LoginDto(
@@ -239,7 +239,7 @@ class MemberServiceTest {
     void 부모로그인_실패() {
         //given
         MemberDto memberDto = new MemberDto(
-                "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password"
+                1L, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
         );
 
         LoginDto givenDto = new LoginDto(
