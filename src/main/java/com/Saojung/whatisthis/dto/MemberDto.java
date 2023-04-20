@@ -44,7 +44,7 @@ public class MemberDto {
         this.amends = amends;
     }
 
-    public MemberDto from(Member member) {
+    public static MemberDto from(Member member) {
         if (member == null) return null;
 
         return MemberDto.builder()
