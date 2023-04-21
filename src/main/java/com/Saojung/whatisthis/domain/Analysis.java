@@ -17,13 +17,13 @@ public class Analysis {
     @NotNull
     private Integer level;
     @NotNull
-    private double success_rate_1;
+    private Double success_rate_1;
     @NotNull
-    private double success_rate_2;
+    private Double success_rate_2;
     @NotNull
-    private double success_rate_3;
+    private Double success_rate_3;
 
-    public Analysis(Long idx, @NonNull Integer count, @NonNull Integer level, @NonNull double success_rate_1, @NonNull double success_rate_2, @NonNull double success_rate_3) {
+    public Analysis(Long idx, @NonNull Integer count, @NonNull Integer level, @NonNull Double success_rate_1, @NonNull Double success_rate_2, @NonNull Double success_rate_3) {
         this.idx = idx;
         this.count = count;
         this.level = level;
