@@ -1,38 +1,38 @@
 package com.Saojung.whatisthis.service;
 
-import com.Saojung.whatisthis.dto.AmendsDto;
-import com.Saojung.whatisthis.dto.AnalysisDto;
 import com.Saojung.whatisthis.dto.LoginDto;
 import com.Saojung.whatisthis.dto.MemberDto;
 import com.Saojung.whatisthis.exception.DuplicateMemberException;
+import com.Saojung.whatisthis.exception.NoMemberException;
 import com.Saojung.whatisthis.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.junit4.SpringRunner;
 import java.time.LocalDate;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class MemberServiceTest {
-
+    @Autowired
     private MemberService memberService;
 
-    @Mock
-    private final MemberRepository memberRepository;
+    private PasswordEncoder passwordEncoder;
 
-    MemberServiceTest(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
-    }
+    @Mock
+    private MemberRepository memberRepository;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        memberService = new MemberService(memberRepository);
+        this.passwordEncoder = new BCryptPasswordEncoder();
+        memberService = new MemberService(memberRepository, passwordEncoder);
     }
 
     @Test
@@ -65,7 +65,7 @@ class MemberServiceTest {
         assertEquals(memberDto.getId(), save_member.getId());
         assertEquals(memberDto.getName(), save_member.getName());
         assertEquals(memberDto.getBirth(), save_member.getBirth());
-        assertEquals(memberDto.getParent_password(), save_member.getParent_password());
+        assertEquals(memberDto.getParentPassword(), save_member.getParentPassword());
     }
 
     @Test
@@ -80,7 +80,7 @@ class MemberServiceTest {
         MemberDto save_member = memberService.signUp(memberDto);
 
         save_member.setName("하성박");
-        MemberDto change_member = memberService.signUp(save_member);
+        MemberDto change_member = memberService.update(save_member);
 
         //then
         assertNotEquals(change_member.getName(), save_member.getName());
@@ -129,7 +129,7 @@ class MemberServiceTest {
         MemberDto save_member = memberService.signUp(memberDto);
 
         //then
-        assertNotEquals(save_member.getParent_password(), memberDto.getParent_password());
+        assertNotEquals(save_member.getParentPassword(), memberDto.getParentPassword());
     }
 
     @Test
@@ -141,7 +141,7 @@ class MemberServiceTest {
         );
 
         MemberDto memberDto2 = new MemberDto(
-                "castlehi", "password", "하성박", LocalDate.of(2000, 06, 17), "p_password"
+                1L, "castlehi", "password", "하성박", LocalDate.of(2000, 06, 17), "p_password", null, null
         );
 
         //when
@@ -166,7 +166,7 @@ class MemberServiceTest {
 
         //when
         memberService.signUp(memberDto);
-        Optional<MemberDto> returnDto = memberService.login(givenDto);
+        MemberDto returnDto = memberService.login(givenDto);
 
         //then
         assertEquals(returnDto.getId(), memberDto.getId());
@@ -187,8 +187,8 @@ class MemberServiceTest {
         //when
         memberService.signUp(memberDto);
 
-        assertThrows(JpaObjectRetrievalFailureException.class, () -> {
-            Optional<MemberDto> returnDto = memberService.login(givenDto);
+        assertThrows(NoMemberException.class, () -> {
+            MemberDto returnDto = memberService.login(givenDto);
         });
     }
 
@@ -208,8 +208,8 @@ class MemberServiceTest {
         memberService.signUp(memberDto);
 
         //then
-        assertThrows(RuntimeException.class, () -> {
-            Optional<MemberDto> returnDto = memberService.login(givenDto);
+        assertThrows(NoMemberException.class, () -> {
+            MemberDto returnDto = memberService.login(givenDto);
         });
     }
 
@@ -226,13 +226,11 @@ class MemberServiceTest {
         );
 
         //when
-        memberService.signUp(memberDto);
-        Optional<AmendsDto> returnAmendsDto = memberService.parentLogin(givenDto);
-        Optional<AnalysisDto> returnAnalysisDto = memberService.parentLogin(givenDto);
+        MemberDto save_member = memberService.signUp(memberDto);
+        MemberDto returnDto = memberService.parentLogin(givenDto);
 
         //then
-        assertNotEquals(returnAmendsDto, null);
-        assertNotEquals(returnAnalysisDto, null);
+        assertEquals(returnDto.getIdx(), save_member.getIdx());
     }
 
     @Test
@@ -251,8 +249,8 @@ class MemberServiceTest {
         memberService.signUp(memberDto);
 
         //then
-        assertThrows(RuntimeException.class, () -> {
-            Optional<MemberDto> returnDto = memberService.parentLogin(parentLoginDto);
+        assertThrows(NoMemberException.class, () -> {
+            MemberDto returnDto = memberService.parentLogin(givenDto);
         });
     }
 }
