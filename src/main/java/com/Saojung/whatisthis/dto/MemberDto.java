@@ -4,10 +4,7 @@ import com.Saojung.whatisthis.domain.Amends;
 import com.Saojung.whatisthis.domain.Analysis;
 import com.Saojung.whatisthis.domain.Member;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -28,18 +25,18 @@ public class MemberDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birth;
     @NotNull
-    private String parent_password;
+    private String parentPassword;
 
     private Analysis analysis;
     private Amends amends;
 
-    public MemberDto(Long idx, String id, String password, String name, LocalDate birth, String parent_password, Analysis analysis, Amends amends) {
+    public MemberDto(Long idx, @NonNull String id, @NonNull String password, @NonNull String name, LocalDate birth, @NonNull String parentPassword, Analysis analysis, Amends amends) {
         this.idx = idx;
         this.id = id;
         this.password = password;
         this.name = name;
         this.birth = birth;
-        this.parent_password = parent_password;
+        this.parentPassword = parentPassword;
         this.analysis = analysis;
         this.amends = amends;
     }
@@ -53,7 +50,7 @@ public class MemberDto {
                 .password(member.getPassword())
                 .name(member.getName())
                 .birth(member.getBirth())
-                .parent_password(member.getParent_password())
+                .parentPassword(member.getParentPassword())
                 .analysis(member.getAnalysis())
                 .amends(member.getAmends())
                 .build();

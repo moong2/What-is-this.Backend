@@ -24,7 +24,7 @@ public class Member {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birth;
     @NotNull
-    private String parent_password;
+    private String parentPassword;
 
     @OneToOne
     @JoinColumn(name = "analysis_idx")
@@ -33,13 +33,13 @@ public class Member {
     @JoinColumn(name = "amends_idx")
     private Amends amends;
 
-    public Member(Long idx, @NonNull String id, @NonNull String password, @NonNull String name, LocalDate birth, @NonNull String parent_password, Analysis analysis, Amends amends) {
+    public Member(Long idx, @NonNull String id, @NonNull String password, @NonNull String name, LocalDate birth, @NonNull String parentPassword, Analysis analysis, Amends amends) {
         this.idx = idx;
         this.id = id;
         this.password = password;
         this.name = name;
         this.birth = birth;
-        this.parent_password = parent_password;
+        this.parentPassword = parentPassword;
         this.analysis = analysis;
         this.amends = amends;
     }
