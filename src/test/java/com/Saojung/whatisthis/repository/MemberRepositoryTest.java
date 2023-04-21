@@ -1,6 +1,7 @@
 package com.Saojung.whatisthis.repository;
 
 import com.Saojung.whatisthis.domain.Member;
+import com.Saojung.whatisthis.dto.MemberDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -232,14 +233,8 @@ class MemberRepositoryTest {
         //when
         Member save_member = memberRepository.save(member);
 
-        Member change_member = Member.builder()
-                .id(member.getId())
-                .password("change_password")
-                .name(member.getName())
-                .birth(LocalDate.of(2000, 06, 17))
-                .parent_password(member.getParent_password())
-                .build();
-        Member save_change_member = memberRepository.save(change_member);
+        memberRepository.update(save_member.getId(), "change_password", save_member.getName(), save_member.getBirth(), save_member.getParent_password(), save_member.getIdx());
+        Member save_change_member = memberRepository.getReferenceById(String.valueOf(save_member.getIdx()));
 
         //then
         assertEquals(save_change_member.getId(), member.getId());
