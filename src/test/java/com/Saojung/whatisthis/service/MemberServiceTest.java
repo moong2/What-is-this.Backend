@@ -1,5 +1,6 @@
 package com.Saojung.whatisthis.service;
 
+import com.Saojung.whatisthis.domain.Member;
 import com.Saojung.whatisthis.dto.LoginDto;
 import com.Saojung.whatisthis.dto.MemberDto;
 import com.Saojung.whatisthis.exception.DuplicateMemberException;
@@ -8,19 +9,27 @@ import com.Saojung.whatisthis.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.BDDMockito;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 
+@ExtendWith({MockitoExtension.class})
 class MemberServiceTest {
-    @Autowired
+    @InjectMocks
     private MemberService memberService;
 
     private PasswordEncoder passwordEncoder;
@@ -39,11 +48,25 @@ class MemberServiceTest {
     @DisplayName("Create 테스트")
     void 회원_가입() {
         //given
+        Member member = Member.builder()
+                .id("castlehi")
+                .password("password")
+                .name("박성하")
+                .birth(LocalDate.of(2000, 06, 17))
+                .parentPassword("p_password")
+                .build();
+
         MemberDto memberDto = new MemberDto(
                 1L, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
         );
 
         //when
+        List<Member> mockList = new ArrayList<>();
+        mockList.add(member);
+        
+        BDDMockito.given(memberRepository.save(any())).willReturn(member);
+        BDDMockito.given(memberRepository.findAll()).willReturn(mockList);
+        
         memberService.signUp(memberDto);
 
         //then
