@@ -16,12 +16,12 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Transactional
     public MemberDto signUp(MemberDto memberDto) {
         if (memberRepository.getReferenceById(memberDto.getId()) != null)
             throw new DuplicateMemberException("이미 사용 중인 ID입니다.");
@@ -36,16 +36,14 @@ public class MemberService {
                 .amends(memberDto.getAmends())
                 .build();
 
-        Member save_member = memberRepository.save(member);
-        System.out.println("save_member.getId() = " + save_member.getId());
-        return MemberDto.from(save_member);
-//        return MemberDto.from(memberRepository.save(member));
+        return MemberDto.from(memberRepository.save(member));
     }
 
     public List<MemberDto> getMembers() {
         ArrayList<MemberDto> members = new ArrayList<>();
 
         for (Member member : memberRepository.findAll()) {
+            System.out.println("member.getId() = " + member.getId());
             members.add(MemberDto.from(member));
         }
 
