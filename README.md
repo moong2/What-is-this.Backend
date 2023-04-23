@@ -11,6 +11,7 @@
 - 패스워드 암호화 (only service test)
 - 부모 패스워드 암호화 (only service test)
 - 중복 아이디 검사 (only service test)
+- 회원 정보 받고 결과 반환 (controller test)
 </div>
 <div>
 2. 로그인
@@ -20,6 +21,8 @@
 - 로그인 성공 / 실패 (only service test)
 - 부모 패스워드 동일 여부 검사 (only repository test)
 - 부모 페이지 로그인 성공 / 실패 (only service test)
+- 로그인 정보 받고 정보 반환 (controller test)
+- 부모 패스워드 관련 정보 받고 Amends, Analysis 반환 (controller test)
 </div>
 <div>
 3. 회원 정보 조회
@@ -28,6 +31,8 @@
 - 회원 정보 변경
 - 삭제
 - 빈 db 조회 예외 핸들링
+- 변경된 정보 받고 결과 반환 (controller test)
+- 삭제할 정보 받고 결과 반환 (controller test)
 </div>
 
 <h3>단어 학습 API</h3>
