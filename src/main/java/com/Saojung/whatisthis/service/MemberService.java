@@ -43,7 +43,6 @@ public class MemberService {
         ArrayList<MemberDto> members = new ArrayList<>();
 
         for (Member member : memberRepository.findAll()) {
-            System.out.println("member.getId() = " + member.getId());
             members.add(MemberDto.from(member));
         }
 
