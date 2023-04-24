@@ -1,7 +1,7 @@
 package com.Saojung.whatisthis.service;
 
 import com.Saojung.whatisthis.domain.Member;
-import com.Saojung.whatisthis.dto.LoginDto;
+import com.Saojung.whatisthis.vo.LoginVo;
 import com.Saojung.whatisthis.dto.MemberDto;
 import com.Saojung.whatisthis.exception.DuplicateMemberException;
 import com.Saojung.whatisthis.exception.NoMemberException;
@@ -15,11 +15,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.junit4.SpringRunner;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -271,8 +269,8 @@ class MemberServiceTest {
                 1L, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
         );
 
-        LoginDto givenDto = new LoginDto(
-                "castlehi", "wrong", null
+        LoginVo givenDto = new LoginVo(
+                "castlehi", "password", null
         );
 
         //when
@@ -306,8 +304,8 @@ class MemberServiceTest {
                 1L, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
         );
 
-        LoginDto givenDto = new LoginDto(
-                "castlehi", "wrong", null
+        LoginVo givenDto = new LoginVo(
+                "wrong", "password", null
         );
 
         //when
@@ -341,7 +339,7 @@ class MemberServiceTest {
                 1L, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
         );
 
-        LoginDto givenDto = new LoginDto(
+        LoginVo givenDto = new LoginVo(
                 "castlehi", "wrong", null
         );
 
@@ -375,7 +373,7 @@ class MemberServiceTest {
                 1L, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
         );
 
-        LoginDto givenDto = new LoginDto(
+        LoginVo givenDto = new LoginVo(
                 "castlehi", "password", "p_password"
         );
 
@@ -409,7 +407,7 @@ class MemberServiceTest {
                 1L, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
         );
 
-        LoginDto givenDto = new LoginDto(
+        LoginVo givenDto = new LoginVo(
                 "castlehi", "password", "wrong"
         );
 

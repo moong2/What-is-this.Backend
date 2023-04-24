@@ -1,13 +1,12 @@
 package com.Saojung.whatisthis.service;
 
 import com.Saojung.whatisthis.domain.Member;
-import com.Saojung.whatisthis.dto.LoginDto;
+import com.Saojung.whatisthis.vo.LoginVo;
 import com.Saojung.whatisthis.dto.MemberDto;
 import com.Saojung.whatisthis.exception.DuplicateMemberException;
 import com.Saojung.whatisthis.exception.NoMemberException;
 import com.Saojung.whatisthis.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,17 +25,21 @@ public class MemberService {
         if (memberRepository.getReferenceById(memberDto.getId()) != null)
             throw new DuplicateMemberException("이미 사용 중인 ID입니다.");
 
-        Member member = Member.builder()
-                .id(memberDto.getId())
-                .password(passwordEncoder.encode(memberDto.getPassword()))
-                .name(memberDto.getName())
-                .birth(memberDto.getBirth())
-                .parentPassword(passwordEncoder.encode(memberDto.getParentPassword()))
-                .analysis(memberDto.getAnalysis())
-                .amends(memberDto.getAmends())
-                .build();
+        try {
+            Member member = Member.builder()
+                    .id(memberDto.getId())
+                    .password(passwordEncoder.encode(memberDto.getPassword()))
+                    .name(memberDto.getName())
+                    .birth(memberDto.getBirth())
+                    .parentPassword(passwordEncoder.encode(memberDto.getParentPassword()))
+                    .analysis(memberDto.getAnalysis())
+                    .amends(memberDto.getAmends())
+                    .build();
 
-        return MemberDto.from(memberRepository.save(member));
+            return MemberDto.from(memberRepository.save(member));
+        } catch (Exception e) {
+            throw new NullPointerException("필수 정보를 기입해주세요.");
+        }
     }
 
     public List<MemberDto> getMembers() {
@@ -65,7 +68,7 @@ public class MemberService {
         memberRepository.deleteById(String.valueOf(memberDto.getIdx()));
     }
 
-    public MemberDto login(LoginDto loginDto) {
+    public MemberDto login(LoginVo loginDto) {
         Optional<Member> login_member = memberRepository.findByIdAndPassword(loginDto.getId(), loginDto.getPassword());
 
         if (login_member.equals(Optional.empty()))
@@ -74,7 +77,7 @@ public class MemberService {
         return MemberDto.from(login_member.get());
     }
 
-    public MemberDto parentLogin(LoginDto loginDto) {
+    public MemberDto parentLogin(LoginVo loginDto) {
         Optional<Member> login_member = memberRepository.findByIdAndParentPassword(loginDto.getId(), loginDto.getParentPassword());
 
         if (login_member.equals(Optional.empty()))
