@@ -49,7 +49,7 @@ class MemberServiceTest {
         //given
         Member member = Member.builder()
                 .idx(1L)
-                .id("castlehi")
+                .userId("castlehi")
                 .password("password")
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
@@ -65,7 +65,7 @@ class MemberServiceTest {
         mockList.add(member);
         
         BDDMockito.given(memberRepository.save(any())).willReturn(member);
-        BDDMockito.given(memberRepository.getReferenceById(member.getId())).willReturn(null);
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(null);
         BDDMockito.given(memberRepository.findAll()).willReturn(mockList);
         
         memberService.signUp(memberDto);
@@ -80,7 +80,7 @@ class MemberServiceTest {
         //given
         Member member = Member.builder()
                 .idx(1L)
-                .id("castlehi")
+                .userId("castlehi")
                 .password("password")
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
@@ -93,11 +93,12 @@ class MemberServiceTest {
 
         //when
         BDDMockito.given(memberRepository.save(any())).willReturn(member);
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(null);
 
         MemberDto save_member = memberService.signUp(memberDto);
 
         //then
-        assertEquals(memberDto.getId(), save_member.getId());
+        assertEquals(memberDto.getUserId(), save_member.getUserId());
         assertEquals(memberDto.getName(), save_member.getName());
         assertEquals(memberDto.getBirth(), save_member.getBirth());
         assertEquals(memberDto.getParentPassword(), save_member.getParentPassword());
@@ -109,11 +110,20 @@ class MemberServiceTest {
         //given
         Member member = Member.builder()
                 .idx(1L)
-                .id("castlehi")
-                .password("password")
+                .userId("castlehi")
+                .password(passwordEncoder.encode("password"))
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
-                .parentPassword("p_password")
+                .parentPassword(passwordEncoder.encode("p_password"))
+                .build();
+
+        Member member2 = Member.builder()
+                .idx(1L)
+                .userId("castlehi")
+                .password(passwordEncoder.encode("password"))
+                .name("하성박")
+                .birth(LocalDate.of(2000, 06, 17))
+                .parentPassword(passwordEncoder.encode("p_password"))
                 .build();
 
         MemberDto memberDto = new MemberDto(
@@ -122,16 +132,18 @@ class MemberServiceTest {
 
         //when
         BDDMockito.given(memberRepository.save(any())).willReturn(member);
-        BDDMockito.given(memberRepository.getReferenceById(member.getId())).willReturn(null);
-        BDDMockito.given(memberRepository.getReferenceById(String.valueOf(memberDto.getIdx()))).willReturn(member);
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(null);
 
         MemberDto save_member = memberService.signUp(memberDto);
 
         save_member.setName("하성박");
+
+        BDDMockito.given(memberRepository.findById(String.valueOf(memberDto.getIdx()))).willReturn(Optional.of(member));
+        BDDMockito.given(memberRepository.save(any())).willReturn(member2);
         MemberDto change_member = memberService.update(save_member);
 
         //then
-        assertNotEquals(change_member.getName(), save_member.getName());
+        assertEquals(change_member.getName(), save_member.getName());
     }
 
     @Test
@@ -140,7 +152,7 @@ class MemberServiceTest {
         //given
         Member member = Member.builder()
                 .idx(1L)
-                .id("castlehi")
+                .userId("castlehi")
                 .password("password")
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
@@ -153,10 +165,10 @@ class MemberServiceTest {
 
         //when
         BDDMockito.given(memberRepository.save(any())).willReturn(member);
-        BDDMockito.given(memberRepository.getReferenceById(member.getId())).willReturn(null);
-        BDDMockito.given(memberRepository.getReferenceById(String.valueOf(memberDto.getIdx()))).willReturn(member);
-
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(null);
         memberService.signUp(memberDto);
+
+        BDDMockito.given(memberRepository.findById(String.valueOf(memberDto.getIdx()))).willReturn(Optional.of(member));
         memberService.withdraw(memberDto);
 
         //then
@@ -169,7 +181,7 @@ class MemberServiceTest {
         //given
         Member member = Member.builder()
                 .idx(1L)
-                .id("castlehi")
+                .userId("castlehi")
                 .password(passwordEncoder.encode("password"))
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
@@ -182,7 +194,7 @@ class MemberServiceTest {
 
         //when
         BDDMockito.given(memberRepository.save(any())).willReturn(member);
-        BDDMockito.given(memberRepository.getReferenceById(member.getId())).willReturn(null);
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(null);
 
         MemberDto save_member = memberService.signUp(memberDto);
 
@@ -196,7 +208,7 @@ class MemberServiceTest {
         //given
         Member member = Member.builder()
                 .idx(1L)
-                .id("castlehi")
+                .userId("castlehi")
                 .password(passwordEncoder.encode("password"))
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
@@ -209,7 +221,7 @@ class MemberServiceTest {
 
         //when
         BDDMockito.given(memberRepository.save(any())).willReturn(member);
-        BDDMockito.given(memberRepository.getReferenceById(member.getId())).willReturn(null);
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(null);
 
         MemberDto save_member = memberService.signUp(memberDto);
 
@@ -223,7 +235,7 @@ class MemberServiceTest {
         //given
         Member member = Member.builder()
                 .idx(1L)
-                .id("castlehi")
+                .userId("castlehi")
                 .password(passwordEncoder.encode("password"))
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
@@ -240,11 +252,11 @@ class MemberServiceTest {
 
         //when
         BDDMockito.given(memberRepository.save(any())).willReturn(member);
-        BDDMockito.given(memberRepository.getReferenceById(member.getId())).willReturn(null);
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(null);
 
         memberService.signUp(memberDto);
 
-        BDDMockito.given(memberRepository.save(any())).willThrow(DuplicateMemberException.class);
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(Optional.of(member));
 
         //then
         assertThrows(DuplicateMemberException.class, () -> {
@@ -258,7 +270,7 @@ class MemberServiceTest {
         //given
         Member member = Member.builder()
                 .idx(1L)
-                .id("castlehi")
+                .userId("castlehi")
                 .password(passwordEncoder.encode("password"))
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
@@ -275,16 +287,16 @@ class MemberServiceTest {
 
         //when
         BDDMockito.given(memberRepository.save(any())).willReturn(member);
-        BDDMockito.given(memberRepository.getReferenceById(member.getId())).willReturn(null);
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(null);
 
         memberService.signUp(memberDto);
 
-        BDDMockito.given(memberRepository.findByIdAndPassword(givenDto.getId(), givenDto.getPassword())).willReturn(Optional.of(member));
+        BDDMockito.given(memberRepository.findByUserIdAndPassword(givenDto.getUserId(), givenDto.getPassword())).willReturn(Optional.of(member));
 
         MemberDto returnDto = memberService.login(givenDto);
 
         //then
-        assertEquals(returnDto.getId(), memberDto.getId());
+        assertEquals(returnDto.getUserId(), memberDto.getUserId());
     }
 
     @Test
@@ -293,7 +305,7 @@ class MemberServiceTest {
         //given
         Member member = Member.builder()
                 .idx(1L)
-                .id("castlehi")
+                .userId("castlehi")
                 .password(passwordEncoder.encode("password"))
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
@@ -310,12 +322,12 @@ class MemberServiceTest {
 
         //when
         BDDMockito.given(memberRepository.save(any())).willReturn(member);
-        BDDMockito.given(memberRepository.getReferenceById(member.getId())).willReturn(null);
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(null);
 
         memberService.signUp(memberDto);
 
         //then
-        BDDMockito.given(memberRepository.findByIdAndPassword(givenDto.getId(), givenDto.getPassword())).willReturn(Optional.empty());
+        BDDMockito.given(memberRepository.findByUserIdAndPassword(givenDto.getUserId(), givenDto.getPassword())).willReturn(Optional.empty());
 
         assertThrows(NoMemberException.class, () -> {
             MemberDto returnDto = memberService.login(givenDto);
@@ -328,7 +340,7 @@ class MemberServiceTest {
         //given
         Member member = Member.builder()
                 .idx(1L)
-                .id("castlehi")
+                .userId("castlehi")
                 .password(passwordEncoder.encode("password"))
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
@@ -345,12 +357,12 @@ class MemberServiceTest {
 
         //when
         BDDMockito.given(memberRepository.save(any())).willReturn(member);
-        BDDMockito.given(memberRepository.getReferenceById(member.getId())).willReturn(null);
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(null);
 
         memberService.signUp(memberDto);
 
         //then
-        BDDMockito.given(memberRepository.findByIdAndPassword(givenDto.getId(), givenDto.getPassword())).willReturn(Optional.empty());
+        BDDMockito.given(memberRepository.findByUserIdAndPassword(givenDto.getUserId(), givenDto.getPassword())).willReturn(Optional.empty());
         assertThrows(NoMemberException.class, () -> {
             MemberDto returnDto = memberService.login(givenDto);
         });
@@ -362,7 +374,7 @@ class MemberServiceTest {
         //given
         Member member = Member.builder()
                 .idx(1L)
-                .id("castlehi")
+                .userId("castlehi")
                 .password(passwordEncoder.encode("password"))
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
@@ -379,11 +391,11 @@ class MemberServiceTest {
 
         //when
         BDDMockito.given(memberRepository.save(any())).willReturn(member);
-        BDDMockito.given(memberRepository.getReferenceById(member.getId())).willReturn(null);
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(null);
 
         MemberDto save_member = memberService.signUp(memberDto);
 
-        BDDMockito.given(memberRepository.findByIdAndParentPassword(givenDto.getId(), givenDto.getParentPassword())).willReturn(Optional.of(member));
+        BDDMockito.given(memberRepository.findByUserIdAndParentPassword(givenDto.getUserId(), givenDto.getParentPassword())).willReturn(Optional.of(member));
         MemberDto returnDto = memberService.parentLogin(givenDto);
 
         //then
@@ -396,7 +408,7 @@ class MemberServiceTest {
         //given
         Member member = Member.builder()
                 .idx(1L)
-                .id("castlehi")
+                .userId("castlehi")
                 .password(passwordEncoder.encode("password"))
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
@@ -413,12 +425,12 @@ class MemberServiceTest {
 
         //when
         BDDMockito.given(memberRepository.save(any())).willReturn(member);
-        BDDMockito.given(memberRepository.getReferenceById(member.getId())).willReturn(null);
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(null);
 
         memberService.signUp(memberDto);
 
         //then
-        BDDMockito.given(memberRepository.findByIdAndParentPassword(givenDto.getId(), givenDto.getParentPassword())).willReturn(Optional.empty());
+        BDDMockito.given(memberRepository.findByUserIdAndParentPassword(givenDto.getUserId(), givenDto.getParentPassword())).willReturn(Optional.empty());
 
         assertThrows(NoMemberException.class, () -> {
             MemberDto returnDto = memberService.parentLogin(givenDto);

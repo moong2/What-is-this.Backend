@@ -16,7 +16,7 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
     @NotNull
-    private String id;
+    private String userId;
     @NotNull
     private String password;
     @NotNull
@@ -33,9 +33,9 @@ public class Member {
     @JoinColumn(name = "amends_idx")
     private Amends amends;
 
-    public Member(Long idx, @NonNull String id, @NonNull String password, @NonNull String name, LocalDate birth, @NonNull String parentPassword, Analysis analysis, Amends amends) {
+    public Member(Long idx, @NonNull String userId, @NonNull String password, @NonNull String name, LocalDate birth, @NonNull String parentPassword, Analysis analysis, Amends amends) {
         this.idx = idx;
-        this.id = id;
+        this.userId = userId;
         this.password = password;
         this.name = name;
         this.birth = birth;

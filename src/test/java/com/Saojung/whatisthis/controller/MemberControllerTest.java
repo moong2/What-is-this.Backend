@@ -84,7 +84,7 @@ class MemberControllerTest {
 
         LinkedMultiValueMap<String, String> login_info = new LinkedMultiValueMap<>();
         login_info.add("idx", String.valueOf(memberVo.getIdx()));
-        login_info.add("id", String.valueOf(memberVo.getId()));
+        login_info.add("id", String.valueOf(memberVo.getUserId()));
         login_info.add("password", String.valueOf(memberVo.getPassword()));
         login_info.add("name", String.valueOf(memberVo.getName()));
         login_info.add("birth", String.valueOf(memberVo.getBirth()));
@@ -144,7 +144,7 @@ class MemberControllerTest {
 
         LinkedMultiValueMap<String, String> login_info = new LinkedMultiValueMap<>();
         login_info.add("idx", String.valueOf(resultDto.getIdx()));
-        login_info.add("id", String.valueOf(resultDto.getId()));
+        login_info.add("id", String.valueOf(resultDto.getUserId()));
         login_info.add("password", String.valueOf(resultDto.getPassword()));
         login_info.add("name", String.valueOf(resultDto.getName()));
         login_info.add("birth", String.valueOf(resultDto.getBirth()));

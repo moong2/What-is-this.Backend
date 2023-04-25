@@ -17,7 +17,7 @@ public class MemberDto {
     @NotNull
     private Long idx;
     @NotNull
-    private String id;
+    private String userId;
     @NotNull
     private String password;
     @NotNull
@@ -30,9 +30,9 @@ public class MemberDto {
     private Analysis analysis;
     private Amends amends;
 
-    public MemberDto(Long idx, @NonNull String id, @NonNull String password, @NonNull String name, LocalDate birth, @NonNull String parentPassword, Analysis analysis, Amends amends) {
+    public MemberDto(Long idx, @NonNull String userId, @NonNull String password, @NonNull String name, LocalDate birth, @NonNull String parentPassword, Analysis analysis, Amends amends) {
         this.idx = idx;
-        this.id = id;
+        this.userId = userId;
         this.password = password;
         this.name = name;
         this.birth = birth;
@@ -46,7 +46,7 @@ public class MemberDto {
 
         return MemberDto.builder()
                 .idx(member.getIdx())
-                .id(member.getId())
+                .userId(member.getUserId())
                 .password(member.getPassword())
                 .name(member.getName())
                 .birth(member.getBirth())

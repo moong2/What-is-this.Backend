@@ -24,7 +24,7 @@ class MemberRepositoryTest {
     public void 회원가입() {
         //given
         Member member = Member.builder()
-                .id("castlehi")
+                .userId("castlehi")
                 .password("password")
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
@@ -43,7 +43,7 @@ class MemberRepositoryTest {
     public void Null_확인() {
         //given
         Member member = Member.builder()
-                .id("castlehi")
+                .userId("castlehi")
                 .password("password")
                 .name("박성하")
                 .parentPassword("p_password")
@@ -53,7 +53,7 @@ class MemberRepositoryTest {
         Member save_member = memberRepository.save(member);
 
         //then
-        assertEquals(member.getId(), save_member.getId());
+        assertEquals(member.getUserId(), save_member.getUserId());
     }
 
     @Test
@@ -61,7 +61,7 @@ class MemberRepositoryTest {
     public void NotNull_확인() {
         assertThrows(NullPointerException.class, () -> {
             Member member = Member.builder()
-                    .id("castlehi")
+                    .userId("castlehi")
                     .password("password")
                     .birth(LocalDate.of(2000, 06, 17))
                     .parentPassword("p_password")
@@ -74,7 +74,7 @@ class MemberRepositoryTest {
     public void 아이디_조회() {
         //given
         Member member = Member.builder()
-                .id("castlehi")
+                .userId("castlehi")
                 .password("password")
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
@@ -86,7 +86,7 @@ class MemberRepositoryTest {
         Member find_member = memberRepository.getReferenceById(String.valueOf(save_member.getIdx()));
 
         //then
-        assertEquals(find_member.getId(), save_member.getId());
+        assertEquals(find_member.getUserId(), save_member.getUserId());
     }
 
     @Test
@@ -94,7 +94,7 @@ class MemberRepositoryTest {
     public void 로그인_성공() {
         //given
         Member member = Member.builder()
-                .id("castlehi")
+                .userId("castlehi")
                 .password("password")
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
@@ -105,7 +105,7 @@ class MemberRepositoryTest {
         String id = "castlehi";
         String pw = "password";
         Member save_member = memberRepository.save(member);
-        Optional<Member> find_member = memberRepository.findByIdAndPassword(id, pw);
+        Optional<Member> find_member = memberRepository.findByUserIdAndPassword(id, pw);
 
         //then
         assertEquals(save_member.getIdx(), find_member.get().getIdx());
@@ -116,7 +116,7 @@ class MemberRepositoryTest {
     public void 로그인_실패_id() {
         //given
         Member member = Member.builder()
-                .id("castlehi")
+                .userId("castlehi")
                 .password("password")
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
@@ -127,7 +127,7 @@ class MemberRepositoryTest {
         String id = "wrong";
         String pw = "password";
         Member save_member = memberRepository.save(member);
-        Optional<Member> find_member = memberRepository.findByIdAndPassword(id, pw);
+        Optional<Member> find_member = memberRepository.findByUserIdAndPassword(id, pw);
 
         //then
         assertEquals(find_member, Optional.empty());
@@ -138,7 +138,7 @@ class MemberRepositoryTest {
     public void 로그인_실패_pw() {
         //given
         Member member = Member.builder()
-                .id("castlehi")
+                .userId("castlehi")
                 .password("password")
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
@@ -149,7 +149,7 @@ class MemberRepositoryTest {
         String id = "castlehi";
         String pw = "wrong";
         Member save_member = memberRepository.save(member);
-        Optional<Member> find_member = memberRepository.findByIdAndPassword(id, pw);
+        Optional<Member> find_member = memberRepository.findByUserIdAndPassword(id, pw);
 
         //then
         assertEquals(find_member, Optional.empty());
@@ -160,7 +160,7 @@ class MemberRepositoryTest {
     public void 부모페이지_로그인_성공_pw() {
         //given
         Member member = Member.builder()
-                .id("castlehi")
+                .userId("castlehi")
                 .password("password")
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
@@ -171,7 +171,7 @@ class MemberRepositoryTest {
         String id = "castlehi";
         String p_pw = "p_password";
         Member save_member = memberRepository.save(member);
-        Optional<Member> find_member = memberRepository.findByIdAndParentPassword(id, p_pw);
+        Optional<Member> find_member = memberRepository.findByUserIdAndParentPassword(id, p_pw);
 
         //then
         assertEquals(find_member.get().getIdx(), save_member.getIdx());
@@ -182,7 +182,7 @@ class MemberRepositoryTest {
     public void 부모페이지_로그인_실패_pw() {
         //given
         Member member = Member.builder()
-                .id("castlehi")
+                .userId("castlehi")
                 .password("password")
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
@@ -193,7 +193,7 @@ class MemberRepositoryTest {
         String id = "castlehi";
         String p_pw = "wrong";
         Member save_member = memberRepository.save(member);
-        Optional<Member> find_member = memberRepository.findByIdAndParentPassword(id, p_pw);
+        Optional<Member> find_member = memberRepository.findByUserIdAndParentPassword(id, p_pw);
 
         //then
         assertEquals(find_member, Optional.empty());
@@ -204,7 +204,7 @@ class MemberRepositoryTest {
     public void 회원_정보_조회() {
         //given
         Member member = Member.builder()
-                .id("castlehi")
+                .userId("castlehi")
                 .password("password")
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
@@ -216,7 +216,7 @@ class MemberRepositoryTest {
         Member find_member = memberRepository.getReferenceById(String.valueOf(save_member.getIdx()));
 
         //then
-        assertEquals(find_member.getId(), member.getId());
+        assertEquals(find_member.getUserId(), member.getUserId());
         assertEquals(find_member.getPassword(), member.getPassword());
         assertEquals(find_member.getName(), member.getName());
         assertEquals(find_member.getBirth(), member.getBirth());
@@ -228,7 +228,7 @@ class MemberRepositoryTest {
     public void 회원_정보_변경() {
         //given
         Member member = Member.builder()
-                .id("castlehi")
+                .userId("castlehi")
                 .password("password")
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
@@ -238,11 +238,11 @@ class MemberRepositoryTest {
         //when
         Member save_member = memberRepository.save(member);
 
-        memberRepository.update(save_member.getId(), "change_password", save_member.getName(), save_member.getBirth(), save_member.getParentPassword(), save_member.getIdx());
+        memberRepository.update(save_member.getUserId(), "change_password", save_member.getName(), save_member.getBirth(), save_member.getParentPassword(), save_member.getIdx());
         Member save_change_member = memberRepository.getReferenceById(String.valueOf(save_member.getIdx()));
 
         //then
-        assertEquals(save_change_member.getId(), member.getId());
+        assertEquals(save_change_member.getUserId(), member.getUserId());
         assertNotEquals(save_change_member.getPassword(), member.getPassword());
     }
 
@@ -251,7 +251,7 @@ class MemberRepositoryTest {
     public void 회원_정보_삭제() {
         //given
         Member member = Member.builder()
-                .id("castlehi")
+                .userId("castlehi")
                 .password("password")
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
@@ -271,7 +271,7 @@ class MemberRepositoryTest {
     public void 등록되지_않은_회원_조회() {
         //given
         Member member = Member.builder()
-                .id("castlehi")
+                .userId("castlehi")
                 .password("password")
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))

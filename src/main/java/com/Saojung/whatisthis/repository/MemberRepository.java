@@ -16,13 +16,13 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface MemberRepository extends JpaRepository<Member, String> {
 
-    Optional<Member> findById(String id);
+    Optional<Member> findByUserId(String userId);
 
-    Optional<Member> findByIdAndPassword(String id, String password);
+    Optional<Member> findByUserIdAndPassword(String id, String password);
 
-    Optional<Member> findByIdAndParentPassword(String id, String parentPassword);
+    Optional<Member> findByUserIdAndParentPassword(String id, String parentPassword);
 
     @Modifying(clearAutomatically = true)
-    @Query("update Member m set m.id = :id, m.password = :password, m.name = :name, m.birth = :birth, m.parentPassword = :parentPassword where m.idx = :idx")
-    void update(@Param("id") String id, @Param("password") String password, @Param("name") String name, @Param("birth") LocalDate birth, @Param("parentPassword") String parentPassword, @Param("idx") Long idx);
+    @Query("update Member m set m.userId = :userId, m.password = :password, m.name = :name, m.birth = :birth, m.parentPassword = :parentPassword where m.idx = :idx")
+    void update(@Param("userId") String userId, @Param("password") String password, @Param("name") String name, @Param("birth") LocalDate birth, @Param("parentPassword") String parentPassword, @Param("idx") Long idx);
 }

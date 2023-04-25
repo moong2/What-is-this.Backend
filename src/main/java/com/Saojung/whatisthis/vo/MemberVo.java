@@ -16,7 +16,7 @@ public class MemberVo {
     @NotNull
     private Long idx;
     @NotNull
-    private String id;
+    private String userId;
     @NotNull
     private String password;
     @NotNull
@@ -26,9 +26,9 @@ public class MemberVo {
     @NotNull
     private String parentPassword;
 
-    public MemberVo(Long idx, @NonNull String id, @NonNull String password, @NonNull String name, LocalDate birth, @NonNull String parentPassword) {
+    public MemberVo(Long idx, @NonNull String userId, @NonNull String password, @NonNull String name, LocalDate birth, @NonNull String parentPassword) {
         this.idx = idx;
-        this.id = id;
+        this.userId = userId;
         this.password = password;
         this.name = name;
         this.birth = birth;

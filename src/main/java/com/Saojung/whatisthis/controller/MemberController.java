@@ -19,10 +19,21 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/join")
-    public String signUp(@RequestBody MemberDto memberDto) {
+    @PostMapping("/signup")
+    public String signUp(@RequestBody MemberVo memberVo) {
         try {
+            MemberDto memberDto = MemberDto.builder()
+                    .userId(memberVo.getUserId())
+                    .password(memberVo.getPassword())
+                    .name(memberVo.getName())
+                    .birth(memberVo.getBirth())
+                    .parentPassword(memberVo.getParentPassword())
+                    .amends(null)
+                    .analysis(null)
+                    .build();
+
             MemberDto resultDto = memberService.signUp(memberDto);
+
             return resultDto.getName() + "님의 회원가입이 완료되었습니다.";
         } catch (Exception e) {
             return e.getMessage();
@@ -34,7 +45,7 @@ public class MemberController {
         try {
             MemberDto member = memberService.login(loginVo);
 
-            MemberVo memberVo = new MemberVo(member.getIdx(), member.getId(), member.getPassword(), member.getName(), member.getBirth(), member.getParentPassword());
+            MemberVo memberVo = new MemberVo(member.getIdx(), member.getUserId(), member.getPassword(), member.getName(), member.getBirth(), member.getParentPassword());
 
             return new ResponseEntity<>(memberVo, HttpStatus.OK);
         } catch (Exception e) {
