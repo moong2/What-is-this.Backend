@@ -105,10 +105,10 @@ class MemberRepositoryTest {
         String id = "castlehi";
         String pw = "password";
         Member save_member = memberRepository.save(member);
-        Optional<Member> find_member = memberRepository.findByUserIdAndPassword(id, pw);
+        Optional<Member> find_member = memberRepository.findByUserId(id);
 
         //then
-        assertEquals(save_member.getIdx(), find_member.get().getIdx());
+        assertEquals(pw, find_member.get().getPassword());
     }
 
     @Test
@@ -127,7 +127,7 @@ class MemberRepositoryTest {
         String id = "wrong";
         String pw = "password";
         Member save_member = memberRepository.save(member);
-        Optional<Member> find_member = memberRepository.findByUserIdAndPassword(id, pw);
+        Optional<Member> find_member = memberRepository.findByUserId(id);
 
         //then
         assertEquals(find_member, Optional.empty());
@@ -149,10 +149,10 @@ class MemberRepositoryTest {
         String id = "castlehi";
         String pw = "wrong";
         Member save_member = memberRepository.save(member);
-        Optional<Member> find_member = memberRepository.findByUserIdAndPassword(id, pw);
+        Optional<Member> find_member = memberRepository.findByUserId(id);
 
         //then
-        assertEquals(find_member, Optional.empty());
+        assertNotEquals(find_member.get().getPassword(), pw);
     }
 
     @Test
@@ -171,10 +171,10 @@ class MemberRepositoryTest {
         String id = "castlehi";
         String p_pw = "p_password";
         Member save_member = memberRepository.save(member);
-        Optional<Member> find_member = memberRepository.findByUserIdAndParentPassword(id, p_pw);
+        Optional<Member> find_member = memberRepository.findByUserId(id);
 
         //then
-        assertEquals(find_member.get().getIdx(), save_member.getIdx());
+        assertEquals(find_member.get().getParentPassword(), p_pw);
     }
 
     @Test
@@ -193,10 +193,10 @@ class MemberRepositoryTest {
         String id = "castlehi";
         String p_pw = "wrong";
         Member save_member = memberRepository.save(member);
-        Optional<Member> find_member = memberRepository.findByUserIdAndParentPassword(id, p_pw);
+        Optional<Member> find_member = memberRepository.findByUserId(id);
 
         //then
-        assertEquals(find_member, Optional.empty());
+        assertNotEquals(find_member.get().getParentPassword(), p_pw);
     }
 
     @Test

@@ -291,7 +291,7 @@ class MemberServiceTest {
 
         memberService.signUp(memberDto);
 
-        BDDMockito.given(memberRepository.findByUserIdAndPassword(givenDto.getUserId(), givenDto.getPassword())).willReturn(Optional.of(member));
+        BDDMockito.given(memberRepository.findByUserId(givenDto.getUserId())).willReturn(Optional.of(member));
 
         MemberDto returnDto = memberService.login(givenDto);
 
@@ -326,8 +326,9 @@ class MemberServiceTest {
 
         memberService.signUp(memberDto);
 
+        BDDMockito.given(memberRepository.findByUserId(givenDto.getUserId())).willReturn(Optional.empty());
+
         //then
-        BDDMockito.given(memberRepository.findByUserIdAndPassword(givenDto.getUserId(), givenDto.getPassword())).willReturn(Optional.empty());
 
         assertThrows(NoMemberException.class, () -> {
             MemberDto returnDto = memberService.login(givenDto);
@@ -361,8 +362,9 @@ class MemberServiceTest {
 
         memberService.signUp(memberDto);
 
+        BDDMockito.given(memberRepository.findByUserId(givenDto.getUserId())).willReturn(Optional.of(member));
+
         //then
-        BDDMockito.given(memberRepository.findByUserIdAndPassword(givenDto.getUserId(), givenDto.getPassword())).willReturn(Optional.empty());
         assertThrows(NoMemberException.class, () -> {
             MemberDto returnDto = memberService.login(givenDto);
         });
@@ -395,7 +397,7 @@ class MemberServiceTest {
 
         MemberDto save_member = memberService.signUp(memberDto);
 
-        BDDMockito.given(memberRepository.findByUserIdAndParentPassword(givenDto.getUserId(), givenDto.getParentPassword())).willReturn(Optional.of(member));
+        BDDMockito.given(memberRepository.findByUserId(givenDto.getUserId())).willReturn(Optional.of(member));
         MemberDto returnDto = memberService.parentLogin(givenDto);
 
         //then
@@ -429,9 +431,9 @@ class MemberServiceTest {
 
         memberService.signUp(memberDto);
 
-        //then
-        BDDMockito.given(memberRepository.findByUserIdAndParentPassword(givenDto.getUserId(), givenDto.getParentPassword())).willReturn(Optional.empty());
+        BDDMockito.given(memberRepository.findByUserId(givenDto.getUserId())).willReturn(Optional.empty());
 
+        //then
         assertThrows(NoMemberException.class, () -> {
             MemberDto returnDto = memberService.parentLogin(givenDto);
         });
