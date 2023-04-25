@@ -22,7 +22,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     public MemberDto signUp(MemberDto memberDto) {
-        if (memberRepository.findByUserId(memberDto.getUserId()) != null)
+        if (memberRepository.findByUserId(memberDto.getUserId()).orElse(null) != null)
             throw new DuplicateMemberException("이미 사용 중인 ID입니다.");
 
         try {
@@ -53,10 +53,8 @@ public class MemberService {
     }
 
     public MemberDto update(MemberDto memberDto) {
-        if (memberRepository.findById(String.valueOf(memberDto.getIdx())).equals(Optional.empty()))
+        if (memberRepository.findById(String.valueOf(memberDto.getIdx())).orElse(null) == null)
             throw new NoMemberException("존재하지 않는 회원입니다.");
-
-//        memberRepository.update(memberDto.getUserId(), passwordEncoder.encode(memberDto.getPassword()), memberDto.getName(), memberDto.getBirth(), passwordEncoder.encode(memberDto.getParentPassword()), memberDto.getIdx());
 
         try {
             Member member = Member.builder()
@@ -76,7 +74,7 @@ public class MemberService {
     }
 
     public void withdraw(MemberDto memberDto) {
-        if (memberRepository.findById(String.valueOf(memberDto.getIdx())) == null)
+        if (memberRepository.findById(String.valueOf(memberDto.getIdx())).orElse(null) == null)
             throw new NoMemberException("존재하지 않는 회원입니다.");
 
         memberRepository.deleteById(String.valueOf(memberDto.getIdx()));
