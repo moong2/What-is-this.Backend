@@ -63,9 +63,9 @@ class MemberServiceTest {
         //when
         List<Member> mockList = new ArrayList<>();
         mockList.add(member);
-        
+
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(Optional.empty());
         BDDMockito.given(memberRepository.save(any())).willReturn(member);
-        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(null);
         BDDMockito.given(memberRepository.findAll()).willReturn(mockList);
         
         memberService.signUp(memberDto);
@@ -93,7 +93,7 @@ class MemberServiceTest {
 
         //when
         BDDMockito.given(memberRepository.save(any())).willReturn(member);
-        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(null);
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(Optional.empty());
 
         MemberDto save_member = memberService.signUp(memberDto);
 
@@ -132,7 +132,7 @@ class MemberServiceTest {
 
         //when
         BDDMockito.given(memberRepository.save(any())).willReturn(member);
-        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(null);
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(Optional.empty());
 
         MemberDto save_member = memberService.signUp(memberDto);
 
@@ -165,7 +165,7 @@ class MemberServiceTest {
 
         //when
         BDDMockito.given(memberRepository.save(any())).willReturn(member);
-        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(null);
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(Optional.empty());
         memberService.signUp(memberDto);
 
         BDDMockito.given(memberRepository.findById(String.valueOf(memberDto.getIdx()))).willReturn(Optional.of(member));
@@ -194,7 +194,7 @@ class MemberServiceTest {
 
         //when
         BDDMockito.given(memberRepository.save(any())).willReturn(member);
-        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(null);
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(Optional.empty());
 
         MemberDto save_member = memberService.signUp(memberDto);
 
@@ -221,7 +221,7 @@ class MemberServiceTest {
 
         //when
         BDDMockito.given(memberRepository.save(any())).willReturn(member);
-        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(null);
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(Optional.empty());
 
         MemberDto save_member = memberService.signUp(memberDto);
 
@@ -252,7 +252,7 @@ class MemberServiceTest {
 
         //when
         BDDMockito.given(memberRepository.save(any())).willReturn(member);
-        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(null);
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(Optional.empty());
 
         memberService.signUp(memberDto);
 
@@ -287,7 +287,7 @@ class MemberServiceTest {
 
         //when
         BDDMockito.given(memberRepository.save(any())).willReturn(member);
-        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(null);
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(Optional.empty());
 
         memberService.signUp(memberDto);
 
@@ -322,7 +322,7 @@ class MemberServiceTest {
 
         //when
         BDDMockito.given(memberRepository.save(any())).willReturn(member);
-        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(null);
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(Optional.empty());
 
         memberService.signUp(memberDto);
 
@@ -357,7 +357,7 @@ class MemberServiceTest {
 
         //when
         BDDMockito.given(memberRepository.save(any())).willReturn(member);
-        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(null);
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(Optional.empty());
 
         memberService.signUp(memberDto);
 
@@ -391,7 +391,7 @@ class MemberServiceTest {
 
         //when
         BDDMockito.given(memberRepository.save(any())).willReturn(member);
-        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(null);
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(Optional.empty());
 
         MemberDto save_member = memberService.signUp(memberDto);
 
@@ -425,7 +425,7 @@ class MemberServiceTest {
 
         //when
         BDDMockito.given(memberRepository.save(any())).willReturn(member);
-        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(null);
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(Optional.empty());
 
         memberService.signUp(memberDto);
 
