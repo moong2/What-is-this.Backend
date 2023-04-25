@@ -80,21 +80,19 @@ public class MemberService {
         memberRepository.deleteById(String.valueOf(memberDto.getIdx()));
     }
 
-    public MemberDto login(LoginVo loginDto) {
-        Optional<Member> login_member = memberRepository.findByUserIdAndPassword(loginDto.getUserId(), loginDto.getPassword());
-
-        if (login_member.equals(Optional.empty()))
-            throw new NoMemberException("존재하지 않는 회원입니다");
-
-        return MemberDto.from(login_member.get());
-    }
-
-    public MemberDto parentLogin(LoginVo loginDto) {
-        Optional<Member> login_member = memberRepository.findByUserIdAndParentPassword(loginDto.getUserId(), loginDto.getParentPassword());
-
-        if (login_member.equals(Optional.empty()))
+    public MemberDto login(LoginVo loginVo) {
+        Optional<Member> byUserId = memberRepository.findByUserId(loginVo.getUserId());
+        if (byUserId.orElse(null) == null || !passwordEncoder.matches(loginVo.getPassword(), byUserId.get().getPassword()))
             throw new NoMemberException("존재하지 않는 회원입니다.");
 
-        return MemberDto.from(login_member.get());
+        return MemberDto.from(byUserId.get());
+    }
+
+    public MemberDto parentLogin(LoginVo loginVo) {
+        Optional<Member> byUserId = memberRepository.findByUserId(loginVo.getUserId());
+        if (byUserId.orElse(null) == null || !passwordEncoder.matches(loginVo.getParentPassword(), byUserId.get().getParentPassword()))
+            throw new NoMemberException("존재하지 않는 회원입니다.");
+
+        return MemberDto.from(byUserId.get());
     }
 }

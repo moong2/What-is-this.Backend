@@ -18,10 +18,6 @@ public interface MemberRepository extends JpaRepository<Member, String> {
 
     Optional<Member> findByUserId(String userId);
 
-    Optional<Member> findByUserIdAndPassword(String id, String password);
-
-    Optional<Member> findByUserIdAndParentPassword(String id, String parentPassword);
-
     @Modifying(clearAutomatically = true)
     @Query("update Member m set m.userId = :userId, m.password = :password, m.name = :name, m.birth = :birth, m.parentPassword = :parentPassword where m.idx = :idx")
     void update(@Param("userId") String userId, @Param("password") String password, @Param("name") String name, @Param("birth") LocalDate birth, @Param("parentPassword") String parentPassword, @Param("idx") Long idx);
