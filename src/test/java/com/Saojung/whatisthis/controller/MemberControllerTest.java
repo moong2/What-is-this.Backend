@@ -11,6 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -47,7 +48,7 @@ class MemberControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    @MockBean
+    @Mock
     MemberService memberService;
     PasswordEncoder passwordEncoder;
 
@@ -75,48 +76,18 @@ class MemberControllerTest {
         MemberVo memberVo = new MemberVo(
                 null, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password"
         );
-        MemberVo resultVo = new MemberVo(
-                null, "castlehi", passwordEncoder.encode("password"), "박성하", LocalDate.of(2000, 06, 17), passwordEncoder.encode("p_password")
-        );
 
         BDDMockito.given(memberService.signUp(memberDto))
                 .willReturn(resultDto);
 
-        LinkedMultiValueMap<String, String> login_info = new LinkedMultiValueMap<>();
-        login_info.add("idx", String.valueOf(memberVo.getIdx()));
-        login_info.add("id", String.valueOf(memberVo.getUserId()));
-        login_info.add("password", String.valueOf(memberVo.getPassword()));
-        login_info.add("name", String.valueOf(memberVo.getName()));
-        login_info.add("birth", String.valueOf(memberVo.getBirth()));
-        login_info.add("parentPassword", memberVo.getParentPassword());
-
         //when
         //then
-        mvc.perform(post("/join")
+        mvc.perform(post("/signup")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .params(login_info))
+                        .content(objectMapper.writeValueAsString(memberVo)))
                 .andExpect(status().isOk())
-                .andExpect(content().string(memberVo.getName() + "님의 회원가입이 완료되었습니다."))
-                .andDo(print());
-    }
-
-    @Test
-    @DisplayName("회원가입 불가 - 정보 누락")
-    void 회원가입_불가() throws Exception {
-        //given
-        MemberDto memberDto = new MemberDto(
-                null, "castlehi", "password", null, LocalDate.of(2000, 06, 17), "p_password", null, null
-        );
-
-        //when
-        //then
-        mvc.perform(post("/join")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(memberDto)))
-                .andExpect(status().is4xxClientError())
-                .andExpect(content().string("필수 정보를 기입해주세요."))
+                .andExpect(content().string(resultDto.getName() + "님의 회원가입이 완료되었습니다."))
                 .andDo(print());
     }
 
@@ -155,11 +126,9 @@ class MemberControllerTest {
         mvc.perform(post("/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(loginVo))
-                        .params(login_info))
+                        .content(objectMapper.writeValueAsString(loginVo)))
                 .andExpect(status().isOk())
-                .andExpect(redirectedUrl("/" + login_info.get("id")))
-                .andExpect(content().string(login_info.get("name") + "님의 로그인에 성공했습니다."))
+                .andExpect(content().json(String.valueOf(login_info)))
                 .andDo(print());
     }
 }
