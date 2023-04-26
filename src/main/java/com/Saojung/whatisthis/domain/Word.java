@@ -17,17 +17,17 @@ public class Word {
     @NotNull
     private Integer level;
     @NotNull
-    private Integer success_level;
+    private Integer successLevel;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "word_idx")
     private Member member;
 
-    public Word(Long idx, @NonNull String word, @NonNull Integer level, @NonNull Integer success_level, Member member) {
+    public Word(Long idx, @NonNull String word, @NonNull Integer level, @NonNull Integer successLevel, Member member) {
         this.idx = idx;
         this.word = word;
         this.level = level;
-        this.success_level = success_level;
+        this.successLevel = successLevel;
         this.member = member;
     }
 }
