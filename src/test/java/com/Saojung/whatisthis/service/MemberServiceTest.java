@@ -169,7 +169,7 @@ class MemberServiceTest {
         memberService.signUp(memberDto);
 
         BDDMockito.given(memberRepository.findById(String.valueOf(memberDto.getIdx()))).willReturn(Optional.of(member));
-        memberService.withdraw(memberDto);
+        memberService.withdraw(memberDto.getIdx());
 
         //then
         assertEquals(memberService.getMembers().size(), 0);
