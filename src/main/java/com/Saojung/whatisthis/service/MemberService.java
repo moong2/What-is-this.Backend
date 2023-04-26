@@ -53,7 +53,7 @@ public class MemberService {
     }
 
     public MemberDto update(MemberDto memberDto) {
-        if (memberRepository.findById(String.valueOf(memberDto.getIdx())).orElse(null) == null)
+        if (memberRepository.findById(memberDto.getIdx()).orElse(null) == null)
             throw new NoMemberException("존재하지 않는 회원입니다.");
 
         try {
@@ -74,10 +74,10 @@ public class MemberService {
     }
 
     public void withdraw(Long idx) {
-        if (memberRepository.findById(String.valueOf(idx)).orElse(null) == null)
+        if (memberRepository.findById(idx).orElse(null) == null)
             throw new NoMemberException("존재하지 않는 회원입니다.");
 
-        memberRepository.deleteById(String.valueOf(idx));
+        memberRepository.deleteById(idx);
     }
 
     public MemberDto login(LoginVo loginVo) {
