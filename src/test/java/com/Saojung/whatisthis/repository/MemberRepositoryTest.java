@@ -83,7 +83,7 @@ class MemberRepositoryTest {
 
         //when
         Member save_member = memberRepository.save(member);
-        Member find_member = memberRepository.getReferenceById(String.valueOf(save_member.getIdx()));
+        Member find_member = memberRepository.getReferenceById(save_member.getIdx());
 
         //then
         assertEquals(find_member.getUserId(), save_member.getUserId());
@@ -213,7 +213,7 @@ class MemberRepositoryTest {
 
         //when
         Member save_member = memberRepository.save(member);
-        Member find_member = memberRepository.getReferenceById(String.valueOf(save_member.getIdx()));
+        Member find_member = memberRepository.getReferenceById(save_member.getIdx());
 
         //then
         assertEquals(find_member.getUserId(), member.getUserId());
@@ -239,7 +239,7 @@ class MemberRepositoryTest {
         Member save_member = memberRepository.save(member);
 
         memberRepository.update(save_member.getUserId(), "change_password", save_member.getName(), save_member.getBirth(), save_member.getParentPassword(), save_member.getIdx());
-        Member save_change_member = memberRepository.getReferenceById(String.valueOf(save_member.getIdx()));
+        Member save_change_member = memberRepository.getReferenceById(save_member.getIdx());
 
         //then
         assertEquals(save_change_member.getUserId(), member.getUserId());
@@ -260,7 +260,7 @@ class MemberRepositoryTest {
 
         //when
         Member save_member = memberRepository.save(member);
-        memberRepository.deleteById(String.valueOf(save_member.getIdx()));
+        memberRepository.deleteById(save_member.getIdx());
 
         //then
         assertEquals(memberRepository.findAll().size(), 0);
@@ -280,11 +280,11 @@ class MemberRepositoryTest {
 
         //when
         Member save_member = memberRepository.save(member);
-        memberRepository.deleteById(String.valueOf(save_member.getIdx()));
+        memberRepository.deleteById(save_member.getIdx());
 
         //then
         assertThrows(JpaObjectRetrievalFailureException.class, () -> {
-            memberRepository.getReferenceById(String.valueOf(save_member.getIdx()));
+            memberRepository.getReferenceById(save_member.getIdx());
         });
     }
 }

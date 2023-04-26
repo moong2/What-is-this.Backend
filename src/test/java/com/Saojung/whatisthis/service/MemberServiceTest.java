@@ -138,7 +138,7 @@ class MemberServiceTest {
 
         save_member.setName("하성박");
 
-        BDDMockito.given(memberRepository.findById(String.valueOf(memberDto.getIdx()))).willReturn(Optional.of(member));
+        BDDMockito.given(memberRepository.findById(memberDto.getIdx())).willReturn(Optional.of(member));
         BDDMockito.given(memberRepository.save(any())).willReturn(member2);
         MemberDto change_member = memberService.update(save_member);
 
@@ -168,7 +168,7 @@ class MemberServiceTest {
         BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(Optional.empty());
         memberService.signUp(memberDto);
 
-        BDDMockito.given(memberRepository.findById(String.valueOf(memberDto.getIdx()))).willReturn(Optional.of(member));
+        BDDMockito.given(memberRepository.findById(memberDto.getIdx())).willReturn(Optional.of(member));
         memberService.withdraw(memberDto.getIdx());
 
         //then
