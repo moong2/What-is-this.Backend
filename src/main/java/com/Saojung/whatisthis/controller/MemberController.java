@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -48,6 +49,17 @@ public class MemberController {
             return new ResponseEntity<>(memberVo, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/withdraw")
+    public String withDraw(@RequestParam Long idx) {
+        try {
+            memberService.withdraw(idx);
+
+            return "회원탈퇴가 완료되었습니다.";
+        } catch (Exception e) {
+            return e.getMessage();
         }
     }
 }
