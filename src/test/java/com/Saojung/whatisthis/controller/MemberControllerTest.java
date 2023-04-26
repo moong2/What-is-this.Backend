@@ -1,14 +1,13 @@
 package com.Saojung.whatisthis.controller;
 
 import com.Saojung.whatisthis.dto.MemberDto;
+import com.Saojung.whatisthis.repository.MemberRepository;
 import com.Saojung.whatisthis.service.MemberService;
 import com.Saojung.whatisthis.vo.LoginVo;
 import com.Saojung.whatisthis.vo.MemberVo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
 import org.mockito.Mock;
@@ -17,20 +16,27 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.json.JacksonTester;
+import org.springframework.boot.test.json.JsonContent;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -48,7 +54,7 @@ class MemberControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    @Mock
+    @Autowired
     MemberService memberService;
     PasswordEncoder passwordEncoder;
 
@@ -60,6 +66,11 @@ class MemberControllerTest {
                 .addFilters(new CharacterEncodingFilter("UTF-8", true))
                 .alwaysDo(print())
                 .build();
+
+        List<MemberDto> members = memberService.getMembers();
+        for (MemberDto member : members) {
+            memberService.withdraw(member.getIdx());
+        }
     }
 
     @Test
@@ -76,9 +87,6 @@ class MemberControllerTest {
         MemberVo memberVo = new MemberVo(
                 null, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password"
         );
-
-        BDDMockito.given(memberService.signUp(memberDto))
-                .willReturn(resultDto);
 
         //when
         //then
@@ -99,27 +107,11 @@ class MemberControllerTest {
                 null, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
         );
 
-        MemberDto resultDto = new MemberDto(
-                1L, "castlehi", passwordEncoder.encode("password"), "박성하", LocalDate.of(2000, 06, 17), passwordEncoder.encode("p_password"), null, null
-        );
-
-        BDDMockito.given(memberService.signUp(memberDto))
-                .willReturn(resultDto);
-
         LoginVo loginVo = new LoginVo(
                 "castlehi", "password", null
         );
 
-        BDDMockito.given(memberService.login(loginVo))
-                .willReturn(resultDto);
-
-        LinkedMultiValueMap<String, String> login_info = new LinkedMultiValueMap<>();
-        login_info.add("idx", String.valueOf(resultDto.getIdx()));
-        login_info.add("id", String.valueOf(resultDto.getUserId()));
-        login_info.add("password", String.valueOf(resultDto.getPassword()));
-        login_info.add("name", String.valueOf(resultDto.getName()));
-        login_info.add("birth", String.valueOf(resultDto.getBirth()));
-        login_info.add("parentPassword", resultDto.getParentPassword());
+        MemberDto resultDto = memberService.signUp(memberDto);
 
         //when
         //then
@@ -128,7 +120,78 @@ class MemberControllerTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginVo)))
                 .andExpect(status().isOk())
-                .andExpect(content().json(String.valueOf(login_info)))
+                .andExpect(jsonPath("$.idx", notNullValue()))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("로그인 실패")
+    void 로그인_실패() throws Exception{
+        //given
+        MemberDto memberDto = new MemberDto(
+                null, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
+        );
+
+        LoginVo loginVo = new LoginVo(
+                "castlehi", "wrong", null
+        );
+
+        MemberDto resultDto = memberService.signUp(memberDto);
+
+        //when
+        //then
+        mvc.perform(post("/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(loginVo)))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("회원 탈퇴")
+    void 회원탈퇴() throws Exception {
+        //given
+        MemberDto memberDto = new MemberDto(
+                null, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
+        );
+
+        LoginVo loginVo = new LoginVo(
+                "castlehi", "password", "p_password"
+        );
+
+        MemberDto resultDto = memberService.signUp(memberDto);
+
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("idx", String.valueOf(resultDto.getIdx()));
+
+        //when
+        //then
+        mvc.perform(post("/withdraw")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .params(map))
+                .andExpect(status().isOk())
+                .andExpect(content().string("회원탈퇴가 완료되었습니다."))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("회원 탈퇴 실패")
+    void 회원탈퇴_실패() throws Exception{
+        //given
+
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("idx", String.valueOf(1L));
+
+        //when
+        //then
+        mvc.perform(post("/withdraw")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .params(map))
+                .andExpect(status().isOk())
+                .andExpect(content().string("존재하지 않는 회원입니다."))
                 .andDo(print());
     }
 }
