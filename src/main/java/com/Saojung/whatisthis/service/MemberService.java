@@ -73,11 +73,11 @@ public class MemberService {
         }
     }
 
-    public void withdraw(MemberDto memberDto) {
-        if (memberRepository.findById(String.valueOf(memberDto.getIdx())).orElse(null) == null)
+    public void withdraw(Long idx) {
+        if (memberRepository.findById(String.valueOf(idx)).orElse(null) == null)
             throw new NoMemberException("존재하지 않는 회원입니다.");
 
-        memberRepository.deleteById(String.valueOf(memberDto.getIdx()));
+        memberRepository.deleteById(String.valueOf(idx));
     }
 
     public MemberDto login(LoginVo loginVo) {
