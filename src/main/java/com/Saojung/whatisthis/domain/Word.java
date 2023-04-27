@@ -3,6 +3,10 @@ package com.Saojung.whatisthis.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -18,16 +22,20 @@ public class Word {
     private Integer level;
     @NotNull
     private Integer successLevel;
+    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime date;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "word_idx")
     private Member member;
 
-    public Word(Long idx, @NonNull String word, @NonNull Integer level, @NonNull Integer successLevel, Member member) {
+    public Word(Long idx, @NonNull String word, @NonNull Integer level, @NonNull Integer successLevel, @NonNull LocalDateTime date, Member member) {
         this.idx = idx;
         this.word = word;
         this.level = level;
         this.successLevel = successLevel;
+        this.date = date;
         this.member = member;
     }
 }
