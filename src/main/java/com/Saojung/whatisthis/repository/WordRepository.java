@@ -9,15 +9,24 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 @Transactional(readOnly = true)
 public interface WordRepository extends JpaRepository<Word, Long> {
 
-    Optional<Word> findByMember_Idx(Long idx);
+    List<Word> findAllByMember_Idx(Long idx);
 
-    Optional<Word> findByMember_IdxAndLevelAndSuccessLevel(Long idx, Integer level, Integer sLevel);
+    List<Word> findAllByMember_IdxAndLevelAndSuccessLevel(Long idx, Integer level, Integer sLevel);
+
+    List<Word> findAllByMember_IdxOrderByDate(Long idx);
+
+    List<Word> findAllByMember_IdxAndDateAfter(Long idx, LocalDateTime date);
+
+    List<Word> findAllByMember_IdxAndLevelAndSuccessLevelAndDateAfter(Long idx, Integer level, Integer sLevel, LocalDateTime time);
 
     @Modifying(clearAutomatically = true)
     @Query("update Word w set w.word = :word, w.level = :level, w.successLevel = :successLevel where w.idx = :idx")
