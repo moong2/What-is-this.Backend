@@ -1,5 +1,6 @@
 package com.Saojung.whatisthis.controller;
 
+import com.Saojung.whatisthis.domain.Member;
 import com.Saojung.whatisthis.dto.MemberDto;
 import com.Saojung.whatisthis.repository.MemberRepository;
 import com.Saojung.whatisthis.service.MemberService;
@@ -77,9 +78,6 @@ class MemberControllerTest {
     @DisplayName("회원가입 완료")
     void 회원가입_완료() throws Exception {
         //given
-        MemberDto memberDto = new MemberDto(
-                null, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
-        );
         MemberDto resultDto = new MemberDto(
                 1L, "castlehi", passwordEncoder.encode("password"), "박성하", LocalDate.of(2000, 06, 17), passwordEncoder.encode("p_password"), null, null
         );
@@ -96,6 +94,34 @@ class MemberControllerTest {
                         .content(objectMapper.writeValueAsString(memberVo)))
                 .andExpect(status().isOk())
                 .andExpect(content().string(resultDto.getName() + "님의 회원가입이 완료되었습니다."))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("회원가입_실패")
+    void 회원가입_실패() throws Exception {
+        //given
+        MemberDto memberDto = new MemberDto(
+                null, "castlehi", passwordEncoder.encode("password"), "박성하", LocalDate.of(2000, 06, 17), passwordEncoder.encode("p_password"), null, null
+        );
+
+        MemberDto resultDto = new MemberDto(
+                1L, "castlehi", passwordEncoder.encode("password"), "박성하", LocalDate.of(2000, 06, 17), passwordEncoder.encode("p_password"), null, null
+        );
+
+        MemberVo memberVo = new MemberVo(
+                null, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password"
+        );
+
+        memberService.signUp(memberDto);
+
+        //when
+        //then
+        mvc.perform(post("/signup")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(memberVo)))
+                .andExpect(status().isBadRequest())
                 .andDo(print());
     }
 
