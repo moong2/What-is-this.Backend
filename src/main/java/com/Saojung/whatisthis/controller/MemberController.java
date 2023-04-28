@@ -1,6 +1,7 @@
 package com.Saojung.whatisthis.controller;
 
 import com.Saojung.whatisthis.dto.MemberDto;
+import com.Saojung.whatisthis.exception.CannotJoinException;
 import com.Saojung.whatisthis.service.MemberService;
 import com.Saojung.whatisthis.vo.LoginVo;
 import com.Saojung.whatisthis.vo.MemberVo;
@@ -35,7 +36,7 @@ public class MemberController {
 
             return resultDto.getName() + "님의 회원가입이 완료되었습니다.";
         } catch (Exception e) {
-            return e.getMessage();
+            throw new CannotJoinException(e.getMessage());
         }
     }
 
