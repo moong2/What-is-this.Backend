@@ -216,7 +216,7 @@ class MemberControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .params(map))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().string("존재하지 않는 회원입니다."))
                 .andDo(print());
     }
