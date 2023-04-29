@@ -1,6 +1,7 @@
 package com.Saojung.whatisthis.dto;
 
 import com.Saojung.whatisthis.domain.Member;
+import com.Saojung.whatisthis.domain.Word;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,5 +38,18 @@ public class WordDto {
         this.successLevel = successLevel;
         this.date = date;
         this.member = member;
+    }
+
+    public static WordDto from(Word word) {
+        if (word == null) return null;
+
+        return WordDto.builder()
+                .idx(word.getIdx())
+                .word(word.getWord())
+                .level(word.getLevel())
+                .successLevel(word.getSuccessLevel())
+                .date(word.getDate())
+                .member(word.getMember())
+                .build();
     }
 }
