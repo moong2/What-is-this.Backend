@@ -20,7 +20,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/signup")
-    public String signUp(@RequestBody MemberVo memberVo) {
+    public ResponseEntity signUp(@RequestBody MemberVo memberVo) {
         try {
             MemberDto memberDto = MemberDto.builder()
                     .userId(memberVo.getUserId())
@@ -34,9 +34,9 @@ public class MemberController {
 
             MemberDto resultDto = memberService.signUp(memberDto);
 
-            return resultDto.getName() + "님의 회원가입이 완료되었습니다.";
+            return new ResponseEntity<>(resultDto.getName() + "님의 회원가입이 완료되었습니다.", HttpStatus.OK);
         } catch (Exception e) {
-            throw new CannotJoinException(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -54,13 +54,13 @@ public class MemberController {
     }
 
     @PostMapping("/withdraw")
-    public String withDraw(@RequestParam Long idx) {
+    public ResponseEntity withDraw(@RequestParam Long idx) {
         try {
             memberService.withdraw(idx);
 
-            return "회원탈퇴가 완료되었습니다.";
+            return new ResponseEntity<>("회원탈퇴가 완료되었습니다.", HttpStatus.OK);
         } catch (Exception e) {
-            return e.getMessage();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }
