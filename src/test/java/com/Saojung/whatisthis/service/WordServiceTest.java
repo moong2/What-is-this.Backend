@@ -4,6 +4,7 @@ import com.Saojung.whatisthis.domain.Member;
 import com.Saojung.whatisthis.domain.Word;
 import com.Saojung.whatisthis.dto.MemberDto;
 import com.Saojung.whatisthis.dto.WordDto;
+import com.Saojung.whatisthis.exception.DateException;
 import com.Saojung.whatisthis.exception.LevelException;
 import com.Saojung.whatisthis.repository.MemberRepository;
 import com.Saojung.whatisthis.repository.WordRepository;
@@ -56,14 +57,6 @@ class WordServiceTest {
                 .parentPassword("p_password")
                 .build();
 
-        Word word = Word.builder()
-                .word("사과")
-                .level(2)
-                .successLevel(1)
-                .date(LocalDateTime.of(2023, 04, 28, 13, 52, 00))
-                .member(member)
-                .build();
-
         Word returnWord = Word.builder()
                 .idx(1L)
                 .word("사과")
@@ -98,14 +91,6 @@ class WordServiceTest {
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
                 .parentPassword("p_password")
-                .build();
-
-        Word word = Word.builder()
-                .word("사과")
-                .level(2)
-                .successLevel(1)
-                .date(LocalDateTime.of(2023, 04, 28, 13, 52, 00))
-                .member(member)
                 .build();
 
         Word returnWord = Word.builder()
@@ -146,14 +131,6 @@ class WordServiceTest {
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
                 .parentPassword("p_password")
-                .build();
-
-        Word word = Word.builder()
-                .word("사과")
-                .level(2)
-                .successLevel(1)
-                .date(LocalDateTime.of(2023, 04, 28, 13, 52, 00))
-                .member(member)
                 .build();
 
         Word returnWord = Word.builder()
@@ -208,23 +185,6 @@ class WordServiceTest {
                 .parentPassword("p_password")
                 .build();
 
-        Word word = Word.builder()
-                .word("사과")
-                .level(-1)
-                .successLevel(-5)
-                .date(LocalDateTime.of(2023, 04, 28, 13, 52, 00))
-                .member(member)
-                .build();
-
-        Word returnWord = Word.builder()
-                .idx(1L)
-                .word("사과")
-                .level(-1)
-                .successLevel(-5)
-                .date(LocalDateTime.of(2023, 04, 28, 13, 52, 00))
-                .member(member)
-                .build();
-
         WordDto wordDto = new WordDto(
                 null, "사과", -1, -5, LocalDateTime.of(2023, 04, 28, 13, 52 ,00), member
         );
@@ -249,23 +209,6 @@ class WordServiceTest {
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
                 .parentPassword("p_password")
-                .build();
-
-        Word word = Word.builder()
-                .word("사과")
-                .level(4)
-                .successLevel(1)
-                .date(LocalDateTime.of(2023, 04, 28, 13, 52, 00))
-                .member(member)
-                .build();
-
-        Word returnWord = Word.builder()
-                .idx(1L)
-                .word("사과")
-                .level(4)
-                .successLevel(1)
-                .date(LocalDateTime.of(2023, 04, 28, 13, 52, 00))
-                .member(member)
                 .build();
 
         WordDto wordDto = new WordDto(
@@ -294,23 +237,6 @@ class WordServiceTest {
                 .parentPassword("p_password")
                 .build();
 
-        Word word = Word.builder()
-                .word("사과")
-                .level(2)
-                .successLevel(3)
-                .date(LocalDateTime.of(2023, 04, 28, 13, 52, 00))
-                .member(member)
-                .build();
-
-        Word returnWord = Word.builder()
-                .idx(1L)
-                .word("사과")
-                .level(2)
-                .successLevel(3)
-                .date(LocalDateTime.of(2023, 04, 28, 13, 52, 00))
-                .member(member)
-                .build();
-
         WordDto wordDto = new WordDto(
                 null, "사과", -1, -5, LocalDateTime.of(2023, 04, 28, 13, 52 ,00), member
         );
@@ -335,14 +261,6 @@ class WordServiceTest {
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
                 .parentPassword("p_password")
-                .build();
-
-        Word word = Word.builder()
-                .word("사과")
-                .level(2)
-                .successLevel(1)
-                .date(LocalDateTime.of(2023, 04, 28, 13, 52, 00))
-                .member(member)
                 .build();
 
         Word returnWord = Word.builder()
@@ -374,5 +292,85 @@ class WordServiceTest {
 
         //then
         assertEquals(wordService.getAllWords(member.getIdx()).size(), 0);
+    }
+
+    @Test
+    @DisplayName("레벨 조회 에러 테스트")
+    void 레벨_조회_에러() {
+        //given
+        Member member = Member.builder()
+                .idx(1L)
+                .userId("castlehi")
+                .password("password")
+                .name("박성하")
+                .birth(LocalDate.of(2000, 06, 17))
+                .parentPassword("p_password")
+                .build();
+
+        Word returnWord = Word.builder()
+                .idx(1L)
+                .word("사과")
+                .level(2)
+                .successLevel(1)
+                .date(LocalDateTime.of(2023, 04, 28, 13, 52, 00))
+                .member(member)
+                .build();
+
+        WordDto wordDto = new WordDto(
+                null, "사과", 2, 1, LocalDateTime.of(2023, 04, 28, 13, 52 ,00), member
+        );
+
+        BDDMockito.given(memberRepository.findById(member.getIdx())).willReturn(Optional.of(member));
+        BDDMockito.given(wordRepository.save(any())).willReturn(returnWord);
+
+        WordDto returnDto = wordService.create(wordDto);
+
+        BDDMockito.given(memberRepository.findById(member.getIdx())).willReturn(Optional.of(member));
+
+        //when
+        //then
+        assertThrows(LevelException.class, () -> {
+            wordService.getWordsMatchLevels(1L, 2, 3);
+        });
+    }
+
+    @Test
+    @DisplayName("날짜 조회 에러 테스트")
+    void 날짜_조회_에러() {
+        //given
+        Member member = Member.builder()
+                .idx(1L)
+                .userId("castlehi")
+                .password("password")
+                .name("박성하")
+                .birth(LocalDate.of(2000, 06, 17))
+                .parentPassword("p_password")
+                .build();
+
+        Word returnWord = Word.builder()
+                .idx(1L)
+                .word("사과")
+                .level(2)
+                .successLevel(1)
+                .date(LocalDateTime.of(2023, 04, 28, 13, 52, 00))
+                .member(member)
+                .build();
+
+        WordDto wordDto = new WordDto(
+                null, "사과", 2, 1, LocalDateTime.of(2023, 04, 28, 13, 52 ,00), member
+        );
+
+        BDDMockito.given(memberRepository.findById(member.getIdx())).willReturn(Optional.of(member));
+        BDDMockito.given(wordRepository.save(any())).willReturn(returnWord);
+
+        WordDto returnDto = wordService.create(wordDto);
+
+        BDDMockito.given(memberRepository.findById(member.getIdx())).willReturn(Optional.of(member));
+
+        //when
+        //then
+        assertThrows(DateException.class, () -> {
+            wordService.getWordsAfterDate(1L, LocalDateTime.now().plusMonths(2));
+        });
     }
 }
