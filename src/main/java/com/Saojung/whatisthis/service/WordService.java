@@ -2,6 +2,7 @@ package com.Saojung.whatisthis.service;
 
 import com.Saojung.whatisthis.domain.Word;
 import com.Saojung.whatisthis.dto.WordDto;
+import com.Saojung.whatisthis.exception.DateException;
 import com.Saojung.whatisthis.exception.LevelException;
 import com.Saojung.whatisthis.exception.NoMemberException;
 import com.Saojung.whatisthis.exception.NoWordException;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -87,6 +89,73 @@ public class WordService {
             throw new NoMemberException("학습한 회원이 존재하지 않습니다.");
 
         List<Word> findWords = wordRepository.findAllByMember_Idx(memberIdx);
+
+        List<WordDto> returnWords = new ArrayList<>();
+        for (Word findWord : findWords) {
+            returnWords.add(WordDto.from(findWord));
+        }
+
+        return returnWords;
+    }
+
+    public List<WordDto> getWordsMatchLevels(Long memberIdx, Integer level, Integer sLevel) {
+        if (memberRepository.findById(memberIdx).orElse(null) == null)
+            throw new NoMemberException("학습한 회원이 존재하지 않습니다.");
+
+        if (level < sLevel)
+            throw new LevelException("레벨 기준이 잘못되었습니다.");
+
+        List<Word> findWords = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(memberIdx, level, sLevel);
+
+        List<WordDto> returnWords = new ArrayList<>();
+        for (Word findWord : findWords) {
+            returnWords.add(WordDto.from(findWord));
+        }
+
+        return returnWords;
+    }
+
+    public List<WordDto> getWordsByDate(Long memberIdx) {
+        if (memberRepository.findById(memberIdx).orElse(null) == null)
+            throw new NoMemberException("학습한 회원이 존재하지 않습니다.");
+
+        List<Word> findWords = wordRepository.findAllByMember_IdxOrderByDate(memberIdx);
+
+        List<WordDto> returnWords = new ArrayList<>();
+        for (Word findWord : findWords) {
+            returnWords.add(WordDto.from(findWord));
+        }
+
+        return returnWords;
+    }
+
+    public List<WordDto> getWordsAfterDate(Long memberIdx, LocalDateTime date) {
+        if (memberRepository.findById(memberIdx).orElse(null) == null)
+            throw new NoMemberException("학습한 회원이 존재하지 않습니다.");
+
+        if (date.isAfter(LocalDateTime.now()))
+            throw new DateException("기준 날짜가 잘못되었습니다.");
+
+        List<Word> findWords = wordRepository.findAllByMember_IdxAndDateAfter(memberIdx, date);
+
+        List<WordDto> returnWords = new ArrayList<>();
+        for (Word findWord : findWords) {
+            returnWords.add(WordDto.from(findWord));
+        }
+
+        return returnWords;
+    }
+
+    public List<WordDto> getWordsMatchLevelsAfterDate(Long memberIdx, Integer level, Integer sLevel, LocalDateTime date) {
+        if (memberRepository.findById(memberIdx).orElse(null) == null)
+            throw new NoMemberException("학습한 회원이 존재하지 않습니다.");
+
+        if (date.isAfter(LocalDateTime.now()))
+            throw new DateException("기준 날짜가 잘못되었습니다.");
+        if (level < sLevel)
+            throw new LevelException("레벨 기준이 잘못되었습니다.");
+
+        List<Word> findWords = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateAfter(memberIdx, level, sLevel, date);
 
         List<WordDto> returnWords = new ArrayList<>();
         for (Word findWord : findWords) {
