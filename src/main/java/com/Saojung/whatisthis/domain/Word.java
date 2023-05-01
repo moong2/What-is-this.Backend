@@ -27,7 +27,7 @@ public class Word {
     private LocalDateTime date;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "word_idx")
+    @JoinColumn(name = "member_idx")
     private Member member;
 
     public Word(Long idx, @NonNull String word, @NonNull Integer level, @NonNull Integer successLevel, @NonNull LocalDateTime date, Member member) {
