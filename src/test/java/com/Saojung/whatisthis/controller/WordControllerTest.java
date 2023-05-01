@@ -18,6 +18,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
@@ -67,7 +69,6 @@ class WordControllerTest {
     void 모든_단어_전달() throws Exception {
         //given
         Member member = Member.builder()
-                .idx(1L)
                 .userId("castlehi")
                 .password("password")
                 .name("박성하")
@@ -83,11 +84,15 @@ class WordControllerTest {
 
         memberService.signUp(memberDto);
 
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("idx", String.valueOf(memberDto.getIdx()));
+
         //when
         //then
-        mvc.perform(get("/" + memberDto.getIdx() + "/words")
+        mvc.perform(get("/getWords")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .params(map))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.idx", notNullValue()))
                 .andExpect(jsonPath("$.member_idx", notNullValue()))
