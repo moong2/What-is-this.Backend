@@ -1,6 +1,8 @@
 package com.Saojung.whatisthis.service;
 
 import com.Saojung.whatisthis.domain.Member;
+import com.Saojung.whatisthis.domain.Word;
+import com.Saojung.whatisthis.repository.WordRepository;
 import com.Saojung.whatisthis.vo.LoginVo;
 import com.Saojung.whatisthis.dto.MemberDto;
 import com.Saojung.whatisthis.exception.DuplicateMemberException;
@@ -19,6 +21,7 @@ import java.util.*;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final WordRepository wordRepository;
     private final PasswordEncoder passwordEncoder;
 
     public MemberDto signUp(MemberDto memberDto) {
@@ -77,6 +80,11 @@ public class MemberService {
         if (memberRepository.findById(idx).orElse(null) == null)
             throw new NoMemberException("존재하지 않는 회원입니다.");
 
+        List<Word> words = wordRepository.findAllByMember_Idx(idx);
+        for (Word word : words) {
+            wordRepository.delete(word);
+        }
+
         memberRepository.deleteById(idx);
     }
 
@@ -94,5 +102,14 @@ public class MemberService {
             throw new NoMemberException("존재하지 않는 회원입니다.");
 
         return MemberDto.from(byUserId.get());
+    }
+
+    public MemberDto findMember(Long idx) {
+        Optional<Member> byId = memberRepository.findById(idx);
+
+        if (byId.equals(Optional.empty()))
+            throw new NoMemberException("회원이 존재하지 않습니다.");
+
+        return MemberDto.from(byId.get());
     }
 }
