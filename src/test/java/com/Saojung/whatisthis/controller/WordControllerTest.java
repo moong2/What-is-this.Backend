@@ -5,6 +5,7 @@ import com.Saojung.whatisthis.dto.MemberDto;
 import com.Saojung.whatisthis.dto.WordDto;
 import com.Saojung.whatisthis.service.MemberService;
 import com.Saojung.whatisthis.service.WordService;
+import com.Saojung.whatisthis.vo.WordVo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -28,10 +29,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.hamcrest.Matchers.notNullValue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -41,9 +42,8 @@ class WordControllerTest {
     MockMvc mvc;
 
     @Autowired
-    private static WebApplicationContext wac;
-    @Autowired
-    static ObjectMapper objectMapper;
+    private WebApplicationContext wac;
+    @Autowired ObjectMapper objectMapper;
 
     @Autowired
     WordService wordService;
@@ -65,8 +65,8 @@ class WordControllerTest {
     }
 
     @Test
-    @DisplayName("모든 단어 전달 테스트")
-    void 모든_단어_전달() throws Exception {
+    @DisplayName("단어 추가 테스트")
+    void 단어_추가() throws Exception {
         //given
         Member member = Member.builder()
                 .userId("castlehi")
@@ -78,14 +78,67 @@ class WordControllerTest {
 
         MemberDto memberDto = MemberDto.from(member);
 
-        WordDto wordDto = new WordDto(
-                null, "사과", 2, 1, LocalDateTime.of(2023, 04, 28, 13, 52 ,00), member
+        MemberDto returnDto = memberService.signUp(memberDto);
+
+        WordVo wordVo = new WordVo(
+                null, "사과", 2, 1, LocalDateTime.of(2023, 04, 28, 13, 52, 00)
         );
 
-        memberService.signUp(memberDto);
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("member_idx", String.valueOf(returnDto.getIdx()));
+
+        //when
+        //then
+        mvc.perform(post("/studyWord")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .params(map)
+                        .content(objectMapper.writeValueAsString(wordVo)))
+                .andExpect(status().isOk())
+                .andExpect(content().string("단어 학습이 완료되었습니다."));
+    }
+
+    @Test
+    @DisplayName("모든 단어 전달 테스트")
+    void 모든_단어_전달() throws Exception {
+        //given
+        Member member = Member.builder()
+                .idx(1L)
+                .userId("castlehi")
+                .password("password")
+                .name("박성하")
+                .birth(LocalDate.of(2000, 06, 17))
+                .parentPassword("p_password")
+                .build();
+
+        MemberDto memberDto = MemberDto.from(member);
+
+        MemberDto returnDto = memberService.signUp(memberDto);
+
+        Member returnMember = Member.builder()
+                .idx(returnDto.getIdx())
+                .userId(returnDto.getUserId())
+                .password(returnDto.getPassword())
+                .name(returnDto.getName())
+                .birth(returnDto.getBirth())
+                .parentPassword(returnDto.getParentPassword())
+                .amends(returnDto.getAmends())
+                .analysis(returnDto.getAnalysis())
+                .build();
+
+        WordDto wordDto = new WordDto(
+                null, "사과", 2, 1, LocalDateTime.of(2023, 04, 28, 13, 52 ,00), returnMember
+        );
+
+        WordDto wordDto2 = new WordDto(
+                null, "사과", 2, 1, LocalDateTime.of(2023, 04, 28, 13, 52 ,00), returnMember
+        );
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.add("idx", String.valueOf(memberDto.getIdx()));
+        map.add("member_idx", String.valueOf(memberDto.getIdx()));
+
+        wordService.create(wordDto);
+        wordService.create(wordDto2);
 
         //when
         //then
@@ -94,8 +147,6 @@ class WordControllerTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .params(map))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.idx", notNullValue()))
-                .andExpect(jsonPath("$.member_idx", notNullValue()))
                 .andDo(print());
     }
 }

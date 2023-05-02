@@ -52,8 +52,7 @@ class MemberControllerTest {
 
     @Autowired
     private WebApplicationContext wac;
-    @Autowired
-    static ObjectMapper objectMapper;
+    @Autowired ObjectMapper objectMapper;
 
     @Autowired
     MemberService memberService;
