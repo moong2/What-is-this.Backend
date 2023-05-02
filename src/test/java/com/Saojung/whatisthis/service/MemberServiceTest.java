@@ -1,6 +1,9 @@
 package com.Saojung.whatisthis.service;
 
 import com.Saojung.whatisthis.domain.Member;
+import com.Saojung.whatisthis.domain.Word;
+import com.Saojung.whatisthis.dto.WordDto;
+import com.Saojung.whatisthis.repository.WordRepository;
 import com.Saojung.whatisthis.vo.LoginVo;
 import com.Saojung.whatisthis.dto.MemberDto;
 import com.Saojung.whatisthis.exception.DuplicateMemberException;
@@ -35,12 +38,14 @@ class MemberServiceTest {
 
     @Mock
     private MemberRepository memberRepository;
+    @Mock
+    private WordRepository wordRepository;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         this.passwordEncoder = new BCryptPasswordEncoder();
-        memberService = new MemberService(memberRepository, passwordEncoder);
+        memberService = new MemberService(memberRepository, wordRepository, passwordEncoder);
     }
 
     @Test
@@ -169,6 +174,8 @@ class MemberServiceTest {
         memberService.signUp(memberDto);
 
         BDDMockito.given(memberRepository.findById(memberDto.getIdx())).willReturn(Optional.of(member));
+        List<Word> words = new ArrayList<>();
+        BDDMockito.given(wordRepository.findAllByMember_Idx(memberDto.getIdx())).willReturn(words);
         memberService.withdraw(memberDto.getIdx());
 
         //then
