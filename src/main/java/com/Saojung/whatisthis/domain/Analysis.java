@@ -17,18 +17,18 @@ public class Analysis {
     @NotNull
     private Integer level;
     @NotNull
-    private Double success_rate_1;
+    private Double successRate1;
     @NotNull
-    private Double success_rate_2;
+    private Double successRate2;
     @NotNull
-    private Double success_rate_3;
+    private Double successRate3;
 
-    public Analysis(Long idx, @NonNull Integer count, @NonNull Integer level, @NonNull Double success_rate_1, @NonNull Double success_rate_2, @NonNull Double success_rate_3) {
+    public Analysis(Long idx, @NonNull Integer count, @NonNull Integer level, @NonNull Double successRate1, @NonNull Double successRate2, @NonNull Double successRate3) {
         this.idx = idx;
         this.count = count;
         this.level = level;
-        this.success_rate_1 = success_rate_1;
-        this.success_rate_2 = success_rate_2;
-        this.success_rate_3 = success_rate_3;
+        this.successRate1 = successRate1;
+        this.successRate2 = successRate2;
+        this.successRate3 = successRate3;
     }
 }
