@@ -7,6 +7,8 @@ import com.Saojung.whatisthis.service.MemberService;
 import com.Saojung.whatisthis.service.WordService;
 import com.Saojung.whatisthis.vo.WordVo;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -63,7 +65,10 @@ public class WordController {
                 wordVos.add(wordVo);
             }
 
-            return new ResponseEntity<>(wordVos, HttpStatus.OK);
+            JSONObject result = new JSONObject();
+            result.put("words", wordVos);
+
+            return new ResponseEntity<>(result.toString(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
