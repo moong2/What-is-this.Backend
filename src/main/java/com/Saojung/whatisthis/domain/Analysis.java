@@ -7,7 +7,6 @@ import lombok.*;
 @Entity
 @Getter
 @Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Analysis {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +21,14 @@ public class Analysis {
     private Double successRate2;
     @NotNull
     private Double successRate3;
+
+    public Analysis() {
+        this.count = 0;
+        this.level = 1;
+        this.successRate1 = 0.0;
+        this.successRate2 = 0.0;
+        this.successRate3 = 0.0;
+    }
 
     public Analysis(Long idx, @NonNull Integer count, @NonNull Integer level, @NonNull Double successRate1, @NonNull Double successRate2, @NonNull Double successRate3) {
         this.idx = idx;

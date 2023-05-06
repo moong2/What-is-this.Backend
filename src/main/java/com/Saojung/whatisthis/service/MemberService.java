@@ -1,7 +1,9 @@
 package com.Saojung.whatisthis.service;
 
+import com.Saojung.whatisthis.domain.Analysis;
 import com.Saojung.whatisthis.domain.Member;
 import com.Saojung.whatisthis.domain.Word;
+import com.Saojung.whatisthis.repository.AnalysisRepository;
 import com.Saojung.whatisthis.repository.WordRepository;
 import com.Saojung.whatisthis.vo.LoginVo;
 import com.Saojung.whatisthis.dto.MemberDto;
@@ -22,6 +24,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final WordRepository wordRepository;
+    private final AnalysisRepository analysisRepository;
     private final PasswordEncoder passwordEncoder;
 
     public MemberDto signUp(MemberDto memberDto) {
@@ -35,7 +38,7 @@ public class MemberService {
                     .name(memberDto.getName())
                     .birth(memberDto.getBirth())
                     .parentPassword(passwordEncoder.encode(memberDto.getParentPassword()))
-                    .analysis(memberDto.getAnalysis())
+                    .analysis(analysisRepository.save(new Analysis()))
                     .amends(memberDto.getAmends())
                     .build();
 
@@ -77,7 +80,8 @@ public class MemberService {
     }
 
     public void withdraw(Long idx) {
-        if (memberRepository.findById(idx).orElse(null) == null)
+        Optional<Member> byId = memberRepository.findById(idx);
+        if (byId.equals(Optional.empty()))
             throw new NoMemberException("존재하지 않는 회원입니다.");
 
         List<Word> words = wordRepository.findAllByMember_Idx(idx);
