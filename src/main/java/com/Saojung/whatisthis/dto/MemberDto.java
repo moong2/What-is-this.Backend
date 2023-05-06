@@ -30,7 +30,7 @@ public class MemberDto {
     private Analysis analysis;
     private Amends amends;
 
-    public MemberDto(@NonNull Long idx, @NonNull String userId, @NonNull String password, @NonNull String name, LocalDate birth, @NonNull String parentPassword, Analysis analysis, Amends amends) {
+    public MemberDto(Long idx, @NonNull String userId, @NonNull String password, @NonNull String name, LocalDate birth, @NonNull String parentPassword, Analysis analysis, Amends amends) {
         this.idx = idx;
         this.userId = userId;
         this.password = password;
