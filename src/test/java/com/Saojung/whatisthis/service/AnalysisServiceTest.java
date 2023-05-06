@@ -141,6 +141,20 @@ class AnalysisServiceTest {
         words.add(word);
         words.add(word2);
         BDDMockito.given(wordRepository.findAllByMember_Idx(member.getIdx())).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAfter(member.getIdx(), 1)).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAfter(member.getIdx(), 2)).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAfter(member.getIdx(), 3)).willReturn(new ArrayList<>());
+
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member.getIdx(), 1, 1)).willReturn(new ArrayList<>());
+        ArrayList<Word> words1 = new ArrayList<>();
+        words1.add(word);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member.getIdx(), 2, 1)).willReturn(words1);
+        ArrayList<Word> words2 = new ArrayList<>();
+        words2.add(word2);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member.getIdx(), 2, 2)).willReturn(words2);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member.getIdx(), 3, 1)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member.getIdx(), 3, 2)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member.getIdx(), 3, 3)).willReturn(new ArrayList<>());
 
         BDDMockito.given(analysisRepository.findById(member.getAnalysis().getIdx())).willReturn(Optional.of(analysis));
         BDDMockito.given(analysisRepository.save(any())).willReturn(change_analysis);
