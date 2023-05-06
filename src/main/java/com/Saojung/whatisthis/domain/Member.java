@@ -26,7 +26,7 @@ public class Member {
     @NotNull
     private String parentPassword;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "analysis_idx")
     private Analysis analysis;
     @OneToOne
