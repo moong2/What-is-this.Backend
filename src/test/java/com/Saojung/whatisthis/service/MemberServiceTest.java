@@ -1,8 +1,10 @@
 package com.Saojung.whatisthis.service;
 
+import com.Saojung.whatisthis.domain.Analysis;
 import com.Saojung.whatisthis.domain.Member;
 import com.Saojung.whatisthis.domain.Word;
 import com.Saojung.whatisthis.dto.WordDto;
+import com.Saojung.whatisthis.repository.AnalysisRepository;
 import com.Saojung.whatisthis.repository.WordRepository;
 import com.Saojung.whatisthis.vo.LoginVo;
 import com.Saojung.whatisthis.dto.MemberDto;
@@ -40,12 +42,14 @@ class MemberServiceTest {
     private MemberRepository memberRepository;
     @Mock
     private WordRepository wordRepository;
+    @Mock
+    private AnalysisRepository analysisRepository;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         this.passwordEncoder = new BCryptPasswordEncoder();
-        memberService = new MemberService(memberRepository, wordRepository, passwordEncoder);
+        memberService = new MemberService(memberRepository, wordRepository, analysisRepository, passwordEncoder);
     }
 
     @Test
@@ -444,5 +448,133 @@ class MemberServiceTest {
         assertThrows(NoMemberException.class, () -> {
             MemberDto returnDto = memberService.parentLogin(givenDto);
         });
+    }
+
+    @Test
+    @DisplayName("Analysis Create 테스트")
+    void Analysis_생성() {
+        //given
+        Analysis analysis = Analysis.builder()
+                .idx(1L)
+                .count(0)
+                .level(1)
+                .successRate1(0.0)
+                .successRate2(0.0)
+                .successRate3(0.0)
+                .build();
+
+        Member member = Member.builder()
+                .idx(1L)
+                .userId("castlehi")
+                .password("password")
+                .name("박성하")
+                .birth(LocalDate.of(2000, 06, 17))
+                .parentPassword("p_password")
+                .analysis(analysis)
+                .build();
+
+        MemberDto memberDto = new MemberDto(
+                1L, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
+        );
+
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(Optional.empty());
+        BDDMockito.given(analysisRepository.save(any())).willReturn(analysis);
+        BDDMockito.given(memberRepository.save(any())).willReturn(member);
+
+        //when
+        MemberDto returnDto = memberService.signUp(memberDto);
+
+        //then
+        assertEquals(returnDto.getAnalysis().getIdx(), analysis.getIdx());
+    }
+
+    @Test
+    @DisplayName("Analysis Read 테스트")
+    void Analysis_읽기() {
+        //given
+        Analysis analysis = Analysis.builder()
+                .idx(1L)
+                .count(0)
+                .level(1)
+                .successRate1(0.0)
+                .successRate2(0.0)
+                .successRate3(0.0)
+                .build();
+
+        Member member = Member.builder()
+                .idx(1L)
+                .userId("castlehi")
+                .password(passwordEncoder.encode("password"))
+                .name("박성하")
+                .birth(LocalDate.of(2000, 06, 17))
+                .parentPassword(passwordEncoder.encode("p_password"))
+                .analysis(analysis)
+                .build();
+
+        MemberDto memberDto = new MemberDto(
+                1L, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
+        );
+
+        LoginVo givenDto = new LoginVo(
+                "castlehi", null, "p_password"
+        );
+
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(Optional.empty());
+        BDDMockito.given(analysisRepository.save(any())).willReturn(analysis);
+        BDDMockito.given(memberRepository.save(any())).willReturn(member);
+
+        memberService.signUp(memberDto);
+
+        BDDMockito.given(memberRepository.findByUserId(givenDto.getUserId())).willReturn(Optional.of(member));
+
+        //when
+        MemberDto returnDto = memberService.parentLogin(givenDto);
+
+        //then
+        assertEquals(returnDto.getAnalysis().getIdx(), analysis.getIdx());
+    }
+
+    @Test
+    @DisplayName("Analysis Delete 테스트")
+    void Analysis_삭제() {
+        //given
+        Analysis analysis = Analysis.builder()
+                .idx(1L)
+                .count(0)
+                .level(1)
+                .successRate1(0.0)
+                .successRate2(0.0)
+                .successRate3(0.0)
+                .build();
+
+        Member member = Member.builder()
+                .idx(1L)
+                .userId("castlehi")
+                .password(passwordEncoder.encode("password"))
+                .name("박성하")
+                .birth(LocalDate.of(2000, 06, 17))
+                .parentPassword(passwordEncoder.encode("p_password"))
+                .analysis(analysis)
+                .build();
+
+        MemberDto memberDto = new MemberDto(
+                1L, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
+        );
+
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(Optional.empty());
+        BDDMockito.given(analysisRepository.save(any())).willReturn(analysis);
+        BDDMockito.given(memberRepository.save(any())).willReturn(member);
+
+        memberService.signUp(memberDto);
+
+        BDDMockito.given(memberRepository.findById(memberDto.getIdx())).willReturn(Optional.of(member));
+        List<Word> words = new ArrayList<>();
+        BDDMockito.given(wordRepository.findAllByMember_Idx(memberDto.getIdx())).willReturn(words);
+
+        //when
+        memberService.withdraw(memberDto.getIdx());
+
+        //then
+        assertEquals(analysisRepository.findAll().size(), 0);
     }
 }
