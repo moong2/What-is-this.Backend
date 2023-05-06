@@ -20,6 +20,8 @@ public interface WordRepository extends JpaRepository<Word, Long> {
 
     List<Word> findAllByMember_Idx(Long idx);
 
+    List<Word> findAllByMember_IdxAndLevelAfter(Long idx, Integer level);
+
     List<Word> findAllByMember_IdxAndLevelAndSuccessLevel(Long idx, Integer level, Integer sLevel);
 
     List<Word> findAllByMember_IdxOrderByDate(Long idx);

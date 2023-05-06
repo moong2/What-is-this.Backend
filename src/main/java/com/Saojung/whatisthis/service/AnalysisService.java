@@ -60,30 +60,24 @@ public class AnalysisService {
         Analysis returnAnalysis;
 
         List<Word> words = wordRepository.findAllByMember_Idx(member_idx);
-        Integer count = 0;
-        Integer l1 = 0, l2 = 0, l3 = 0;
-        Integer s1 = 0, s2 = 0 ,s3 = 0;
+        Integer count = words.size();
 
-        //s1 = (1, 1) + (2, 1) + (3, 1) + (2, 2) + (3, 2) + (3, 3)
-        //s2 = (2, 2) + (3, 2) + (3, 3)
-        //s3 = (3, 3)
-        for (Word word : words) {
-            count++;
+        Integer l1 = wordRepository.findAllByMember_IdxAndLevelAfter(member_idx, 1).size();
+        Integer l2 = wordRepository.findAllByMember_IdxAndLevelAfter(member_idx, 2).size();
+        Integer l3 = wordRepository.findAllByMember_IdxAndLevelAfter(member_idx, 3).size();
 
-            if (word.getLevel() >= 1) l1++;
-            if (word.getLevel() >= 2) l2++;
-            if (word.getLevel() == 3) l3++;
+        Integer l11 = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member_idx, 1, 1).size();
+        Integer l21 = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member_idx, 2, 1).size();
+        Integer l22 = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member_idx, 2, 2).size();
+        Integer l31 = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member_idx, 3, 1).size();
+        Integer l32 = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member_idx, 3, 2).size();
+        Integer l33 = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member_idx, 3, 3).size();
 
-            if (word.getSuccessLevel() >= 1) s1++;
-            if (word.getSuccessLevel() >= 2) s2++;
-            if (word.getSuccessLevel() == 3) s3++;
-        }
+        Integer s1 = l11 + l21 + l31 + l22 + l32 + l33;
+        Integer s2 = l22 + l32 + l33;
+        Integer s3 = l33;
 
         try {
-            if (l1 == 0) l1 = 1;
-            if (l2 == 0) l2 = 1;
-            if (l3 == 0) l3 = 1;
-
             returnAnalysis = Analysis.builder()
                     .idx(analysis.get().getIdx())
                     .count(count)
