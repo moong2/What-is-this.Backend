@@ -103,7 +103,6 @@ class WordControllerTest {
     void 모든_단어_전달() throws Exception {
         //given
         Member member = Member.builder()
-                .idx(1L)
                 .userId("castlehi")
                 .password("password")
                 .name("박성하")
@@ -135,7 +134,7 @@ class WordControllerTest {
         );
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.add("member_idx", String.valueOf(memberDto.getIdx()));
+        map.add("member_idx", String.valueOf(returnDto.getIdx()));
 
         wordService.create(wordDto);
         wordService.create(wordDto2);
