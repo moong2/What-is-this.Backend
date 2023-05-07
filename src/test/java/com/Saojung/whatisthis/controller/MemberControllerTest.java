@@ -219,4 +219,53 @@ class MemberControllerTest {
                 .andExpect(content().string("존재하지 않는 회원입니다."))
                 .andDo(print());
     }
+
+    @Test
+    @DisplayName("부모 로그인")
+    void 부모로그인() throws Exception {
+        //given
+        MemberDto memberDto = new MemberDto(
+                null, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
+        );
+
+        LoginVo loginVo = new LoginVo(
+                "castlehi", null, "p_password"
+        );
+
+        MemberDto resultDto = memberService.signUp(memberDto);
+
+        //when
+        //then
+        mvc.perform(post("/plogin")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(loginVo)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.analysis", notNullValue()))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("부모 로그인 실패")
+    void 부모로그인_실패() throws Exception {
+        //given
+        MemberDto memberDto = new MemberDto(
+                null, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
+        );
+
+        LoginVo loginVo = new LoginVo(
+                "castlehi", null, "wrong"
+        );
+
+        MemberDto resultDto = memberService.signUp(memberDto);
+
+        //when
+        //then
+        mvc.perform(post("/plogin")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(loginVo)))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
 }
