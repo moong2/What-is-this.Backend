@@ -28,6 +28,8 @@ public interface WordRepository extends JpaRepository<Word, Long> {
 
     List<Word> findAllByMember_IdxAndDateAfter(Long idx, LocalDateTime date);
 
+    List<Word> findAllByMember_IdxAndLevelAfterAndDateAfter(Long idx, Integer level, LocalDateTime date);
+
     List<Word> findAllByMember_IdxAndLevelAndSuccessLevelAndDateAfter(Long idx, Integer level, Integer sLevel, LocalDateTime time);
 
     @Modifying(clearAutomatically = true)
