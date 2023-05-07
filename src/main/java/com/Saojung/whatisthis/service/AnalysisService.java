@@ -5,6 +5,7 @@ import com.Saojung.whatisthis.domain.Word;
 import com.Saojung.whatisthis.dto.AnalysisDto;
 import com.Saojung.whatisthis.exception.LevelException;
 import com.Saojung.whatisthis.exception.NoAnalysisException;
+import com.Saojung.whatisthis.exception.NoMemberException;
 import com.Saojung.whatisthis.repository.AnalysisRepository;
 import com.Saojung.whatisthis.repository.MemberRepository;
 import com.Saojung.whatisthis.repository.WordRepository;
@@ -54,6 +55,9 @@ public class AnalysisService {
     }
 
     public AnalysisDto calculate(Long member_idx) {
+        if (memberRepository.findById(member_idx).orElse(null) == null)
+            throw new NoMemberException("회원이 존재하지 않습니다.");
+
         Optional<Analysis> analysis = analysisRepository.findById(memberRepository.findById(member_idx).get().getAnalysis().getIdx());
         if (analysis.equals(Optional.empty()))
             throw new NoAnalysisException("분석 데이터가 존재하지 않습니다.");
@@ -79,13 +83,21 @@ public class AnalysisService {
         Integer s3 = l33;
 
         try {
+            Double r1, r2, r3;
+            if (s1 == 0 && l1 == 0) r1 = 0.0;
+            else r1 = s1 * 1.0 / l1 * 100.0;
+            if (s2 == 0 && l2 == 0) r2 = 0.0;
+            else r2 = s2 * 1.0 / l2 * 100.0;
+            if (s3 == 0 && l3 == 0) r3 = 0.0;
+            else r3 = s3 * 1.0 / l3 * 100.0;
+
             returnAnalysis = Analysis.builder()
                     .idx(analysis.get().getIdx())
                     .count(count)
                     .level(analysis.get().getLevel())
-                    .successRate1(s1 * 1.0 / l1 * 100.0)
-                    .successRate2(s2 * 1.0 / l2 * 100.0)
-                    .successRate3(s3 * 1.0 / l3 * 100.0)
+                    .successRate1(r1)
+                    .successRate2(r2)
+                    .successRate3(r3)
                     .build();
 
             return this.update(AnalysisDto.from(returnAnalysis));
@@ -95,6 +107,9 @@ public class AnalysisService {
     }
 
     public AnalysisDto calculate(Long member_idx, LocalDateTime date) {
+        if (memberRepository.findById(member_idx).orElse(null) == null)
+            throw new NoMemberException("회원이 존재하지 않습니다.");
+
         Optional<Analysis> analysis = analysisRepository.findById(memberRepository.findById(member_idx).get().getAnalysis().getIdx());
         if (analysis.equals(Optional.empty()))
             throw new NoAnalysisException("분석 데이터가 존재하지 않습니다.");
@@ -120,13 +135,21 @@ public class AnalysisService {
         Integer s3 = l33;
 
         try {
+            Double r1, r2, r3;
+            if (s1 == 0 && l1 == 0) r1 = 0.0;
+            else r1 = s1 * 1.0 / l1 * 100.0;
+            if (s2 == 0 && l2 == 0) r2 = 0.0;
+            else r2 = s2 * 1.0 / l2 * 100.0;
+            if (s3 == 0 && l3 == 0) r3 = 0.0;
+            else r3 = s3 * 1.0 / l3 * 100.0;
+
             returnAnalysis = Analysis.builder()
                     .idx(analysis.get().getIdx())
                     .count(count)
                     .level(analysis.get().getLevel())
-                    .successRate1(s1 * 1.0 / l1 * 100.0)
-                    .successRate2(s2 * 1.0 / l2 * 100.0)
-                    .successRate3(s3 * 1.0 / l3 * 100.0)
+                    .successRate1(r1)
+                    .successRate2(r2)
+                    .successRate3(r3)
                     .build();
 
             return this.update(AnalysisDto.from(returnAnalysis));
