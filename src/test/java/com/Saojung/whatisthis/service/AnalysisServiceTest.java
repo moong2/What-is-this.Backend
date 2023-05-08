@@ -277,4 +277,296 @@ class AnalysisServiceTest {
         assertEquals(calculateDto.getSuccessRate2(), change_analysis.getSuccessRate2());
         assertEquals(calculateDto.getSuccessRate3(), change_analysis.getSuccessRate3());
     }
+
+    @Test
+    @DisplayName("전체_단어학습_난이도 설정 - 10개 미만")
+    void 전체_단어학습_난이도_설정_10개미만() {
+        //given
+        Analysis analysis = Analysis.builder()
+                .idx(1L)
+                .count(0)
+                .level(1)
+                .successRate1(0.0)
+                .successRate2(0.0)
+                .successRate3(0.0)
+                .build();
+
+        Member member = Member.builder()
+                .idx(1L)
+                .userId("castlehi")
+                .password("password")
+                .name("박성하")
+                .birth(LocalDate.of(2000, 06, 17))
+                .parentPassword("p_password")
+                .analysis(analysis)
+                .build();
+
+        Word word = Word.builder()
+                .idx(1L)
+                .word("사과")
+                .level(1)
+                .successLevel(1)
+                .date(LocalDateTime.of(2023, 04, 28, 13, 52, 00))
+                .member(member)
+                .build();
+
+        Analysis change_analysis = Analysis.builder()
+                .idx(1L)
+                .count(7)
+                .level(1)
+                .successRate1(100.0)
+                .successRate2(0.0)
+                .successRate3(0.0)
+                .build();
+
+        BDDMockito.given(analysisRepository.findById(member.getAnalysis().getIdx())).willReturn(Optional.of(analysis));
+        BDDMockito.given(memberRepository.findById(member.getIdx())).willReturn(Optional.of(member));
+
+        List<Word> words = new ArrayList<>();
+        for (int i = 0; i < 7; i++) words.add(word);
+        BDDMockito.given(wordRepository.findAllByMember_Idx(member.getIdx())).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAfter(member.getIdx(), 1)).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAfter(member.getIdx(), 2)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAfter(member.getIdx(), 3)).willReturn(new ArrayList<>());
+
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member.getIdx(), 1, 1)).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member.getIdx(), 2, 1)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member.getIdx(), 2, 2)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member.getIdx(), 3, 1)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member.getIdx(), 3, 2)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member.getIdx(), 3, 3)).willReturn(new ArrayList<>());
+
+        BDDMockito.given(analysisRepository.findById(member.getAnalysis().getIdx())).willReturn(Optional.of(analysis));
+        BDDMockito.given(analysisRepository.save(any())).willReturn(change_analysis);
+
+        //when
+        AnalysisDto resultDto = analysisService.calculate(member.getIdx());
+
+        //then
+        assertEquals(resultDto.getLevel(), 1);
+    }
+
+    @Test
+    @DisplayName("전체_단어학습_난이도 설정 - 10개 이상")
+    void 전체_단어학습_난이도_설정_10개이상() {
+        //given
+        Analysis analysis = Analysis.builder()
+                .idx(1L)
+                .count(0)
+                .level(1)
+                .successRate1(0.0)
+                .successRate2(0.0)
+                .successRate3(0.0)
+                .build();
+
+        Member member = Member.builder()
+                .idx(1L)
+                .userId("castlehi")
+                .password("password")
+                .name("박성하")
+                .birth(LocalDate.of(2000, 06, 17))
+                .parentPassword("p_password")
+                .analysis(analysis)
+                .build();
+
+        Word word = Word.builder()
+                .idx(1L)
+                .word("사과")
+                .level(1)
+                .successLevel(1)
+                .date(LocalDateTime.of(2023, 04, 28, 13, 52, 00))
+                .member(member)
+                .build();
+
+        Analysis change_analysis = Analysis.builder()
+                .idx(1L)
+                .count(10)
+                .level(2)
+                .successRate1(100.0)
+                .successRate2(0.0)
+                .successRate3(0.0)
+                .build();
+
+        BDDMockito.given(analysisRepository.findById(member.getAnalysis().getIdx())).willReturn(Optional.of(analysis));
+        BDDMockito.given(memberRepository.findById(member.getIdx())).willReturn(Optional.of(member));
+
+        List<Word> words = new ArrayList<>();
+        for (int i = 0; i < 10; i++) words.add(word);
+        BDDMockito.given(wordRepository.findAllByMember_Idx(member.getIdx())).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAfter(member.getIdx(), 1)).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAfter(member.getIdx(), 2)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAfter(member.getIdx(), 3)).willReturn(new ArrayList<>());
+
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member.getIdx(), 1, 1)).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member.getIdx(), 2, 1)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member.getIdx(), 2, 2)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member.getIdx(), 3, 1)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member.getIdx(), 3, 2)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member.getIdx(), 3, 3)).willReturn(new ArrayList<>());
+
+        BDDMockito.given(analysisRepository.findById(member.getAnalysis().getIdx())).willReturn(Optional.of(analysis));
+        BDDMockito.given(analysisRepository.save(any())).willReturn(change_analysis);
+
+        //when
+        AnalysisDto resultDto = analysisService.calculate(member.getIdx());
+
+        //then
+        assertEquals(resultDto.getLevel(), 2);
+    }
+
+    @Test
+    @DisplayName("기간_단어학습_난이도 설정 - 10개 미만")
+    void 기간_단어학습_난이도_설정_10개미만() {
+        //given
+        Analysis analysis = Analysis.builder()
+                .idx(1L)
+                .count(0)
+                .level(1)
+                .successRate1(0.0)
+                .successRate2(0.0)
+                .successRate3(0.0)
+                .build();
+
+        Member member = Member.builder()
+                .idx(1L)
+                .userId("castlehi")
+                .password("password")
+                .name("박성하")
+                .birth(LocalDate.of(2000, 06, 17))
+                .parentPassword("p_password")
+                .analysis(analysis)
+                .build();
+
+        Word word = Word.builder()
+                .idx(1L)
+                .word("사과")
+                .level(1)
+                .successLevel(1)
+                .date(LocalDateTime.of(2023, 04, 28, 13, 52, 00))
+                .member(member)
+                .build();
+
+        Word word2 = Word.builder()
+                .idx(2L)
+                .word("사과")
+                .level(1)
+                .successLevel(1)
+                .date(LocalDateTime.of(2020, 04, 28, 13, 52, 00))
+                .member(member)
+                .build();
+
+        Analysis change_analysis = Analysis.builder()
+                .idx(1L)
+                .count(7)
+                .level(1)
+                .successRate1(100.0)
+                .successRate2(0.0)
+                .successRate3(0.0)
+                .build();
+
+        BDDMockito.given(analysisRepository.findById(member.getAnalysis().getIdx())).willReturn(Optional.of(analysis));
+        BDDMockito.given(memberRepository.findById(member.getIdx())).willReturn(Optional.of(member));
+
+        LocalDateTime date = LocalDateTime.now().minusWeeks(2);
+        List<Word> words = new ArrayList<>();
+        for (int i = 0; i < 7; i++) words.add(word);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndDateAfter(member.getIdx(), date)).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAfterAndDateAfter(member.getIdx(), 1, date)).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAfterAndDateAfter(member.getIdx(), 2, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAfterAndDateAfter(member.getIdx(), 3, date)).willReturn(new ArrayList<>());
+
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateAfter(member.getIdx(), 1, 1, date)).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateAfter(member.getIdx(), 2, 1, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateAfter(member.getIdx(), 2, 2, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateAfter(member.getIdx(), 3, 1, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateAfter(member.getIdx(), 3, 2, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateAfter(member.getIdx(), 3, 3, date)).willReturn(new ArrayList<>());
+
+        BDDMockito.given(analysisRepository.findById(member.getAnalysis().getIdx())).willReturn(Optional.of(analysis));
+        BDDMockito.given(analysisRepository.save(any())).willReturn(change_analysis);
+
+        //when
+        AnalysisDto calculateDto = analysisService.calculate(member.getIdx(), date);
+
+        //then
+        assertEquals(calculateDto.getLevel(), 1);
+    }
+
+    @Test
+    @DisplayName("기간_단어학습_난이도 설정 - 10개 이상")
+    void 기간_단어학습_난이도_설정_10개이상() {
+        //given
+        Analysis analysis = Analysis.builder()
+                .idx(1L)
+                .count(0)
+                .level(1)
+                .successRate1(0.0)
+                .successRate2(0.0)
+                .successRate3(0.0)
+                .build();
+
+        Member member = Member.builder()
+                .idx(1L)
+                .userId("castlehi")
+                .password("password")
+                .name("박성하")
+                .birth(LocalDate.of(2000, 06, 17))
+                .parentPassword("p_password")
+                .analysis(analysis)
+                .build();
+
+        Word word = Word.builder()
+                .idx(1L)
+                .word("사과")
+                .level(1)
+                .successLevel(1)
+                .date(LocalDateTime.of(2023, 04, 28, 13, 52, 00))
+                .member(member)
+                .build();
+
+        Word word2 = Word.builder()
+                .idx(2L)
+                .word("사과")
+                .level(1)
+                .successLevel(1)
+                .date(LocalDateTime.of(2020, 04, 28, 13, 52, 00))
+                .member(member)
+                .build();
+
+        Analysis change_analysis = Analysis.builder()
+                .idx(1L)
+                .count(7)
+                .level(2)
+                .successRate1(100.0)
+                .successRate2(0.0)
+                .successRate3(0.0)
+                .build();
+
+        BDDMockito.given(analysisRepository.findById(member.getAnalysis().getIdx())).willReturn(Optional.of(analysis));
+        BDDMockito.given(memberRepository.findById(member.getIdx())).willReturn(Optional.of(member));
+
+        LocalDateTime date = LocalDateTime.now().minusWeeks(2);
+        List<Word> words = new ArrayList<>();
+        for (int i = 0; i < 10; i++) words.add(word);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndDateAfter(member.getIdx(), date)).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAfterAndDateAfter(member.getIdx(), 1, date)).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAfterAndDateAfter(member.getIdx(), 2, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAfterAndDateAfter(member.getIdx(), 3, date)).willReturn(new ArrayList<>());
+
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateAfter(member.getIdx(), 1, 1, date)).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateAfter(member.getIdx(), 2, 1, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateAfter(member.getIdx(), 2, 2, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateAfter(member.getIdx(), 3, 1, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateAfter(member.getIdx(), 3, 2, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateAfter(member.getIdx(), 3, 3, date)).willReturn(new ArrayList<>());
+
+        BDDMockito.given(analysisRepository.findById(member.getAnalysis().getIdx())).willReturn(Optional.of(analysis));
+        BDDMockito.given(analysisRepository.save(any())).willReturn(change_analysis);
+
+        //when
+        AnalysisDto calculateDto = analysisService.calculate(member.getIdx(), date);
+
+        //then
+        assertEquals(calculateDto.getLevel(), 2);
+    }
 }
