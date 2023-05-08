@@ -91,10 +91,14 @@ public class AnalysisService {
             if (s3 == 0 && l3 == 0) r3 = 0.0;
             else r3 = s3 * 1.0 / l3 * 100.0;
 
+            Integer level = 1;
+            if (l1 >= 10 && r1 >= 75.0) level = 2;
+            if (l2 >= 10 && r2 >= 75.0) level = 3;
+
             returnAnalysis = Analysis.builder()
                     .idx(analysis.get().getIdx())
                     .count(count)
-                    .level(analysis.get().getLevel())
+                    .level(level)
                     .successRate1(r1)
                     .successRate2(r2)
                     .successRate3(r3)
@@ -143,10 +147,14 @@ public class AnalysisService {
             if (s3 == 0 && l3 == 0) r3 = 0.0;
             else r3 = s3 * 1.0 / l3 * 100.0;
 
+            Integer level = 1;
+            if (l1 >= 10 && r1 >= 75.0) level = 2;
+            if (l2 >= 10 && r2 >= 75.0) level = 3;
+
             returnAnalysis = Analysis.builder()
                     .idx(analysis.get().getIdx())
                     .count(count)
-                    .level(analysis.get().getLevel())
+                    .level(level)
                     .successRate1(r1)
                     .successRate2(r2)
                     .successRate3(r3)
