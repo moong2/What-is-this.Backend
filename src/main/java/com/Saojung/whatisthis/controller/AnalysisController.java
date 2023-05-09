@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,6 +40,17 @@ public class AnalysisController {
             AnalysisVo analysisVo = new AnalysisVo(analysisDto.getIdx(), analysisDto.getCount(), analysisDto.getLevel(), analysisDto.getSuccessRate1(), analysisDto.getSuccessRate2(), analysisDto.getSuccessRate3());
 
             return new ResponseEntity<>(analysisVo, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/getLevel")
+    public ResponseEntity getLevel(@RequestParam Long member_idx) {
+        try {
+            Integer level = analysisService.getLevel(member_idx);
+
+            return new ResponseEntity<>(level, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

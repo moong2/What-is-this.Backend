@@ -92,8 +92,8 @@ public class AnalysisService {
             else r3 = s3 * 1.0 / l3 * 100.0;
 
             Integer level = 1;
-            if (l1 >= 10 && r1 >= 75.0) level = 2;
-            if (l2 >= 10 && r2 >= 75.0) level = 3;
+            if (l1 + l2 >= 10 && r1 >= 75.0) level = 2;
+            if (l2 + l3 >= 10 && r2 >= 75.0) level = 3;
 
             returnAnalysis = Analysis.builder()
                     .idx(analysis.get().getIdx())
@@ -148,8 +148,8 @@ public class AnalysisService {
             else r3 = s3 * 1.0 / l3 * 100.0;
 
             Integer level = 1;
-            if (l1 >= 10 && r1 >= 75.0) level = 2;
-            if (l2 >= 10 && r2 >= 75.0) level = 3;
+            if (l1 + l2 >= 10 && r1 >= 75.0) level = 2;
+            if (l2 + l3 >= 10 && r2 >= 75.0) level = 3;
 
             returnAnalysis = Analysis.builder()
                     .idx(analysis.get().getIdx())
@@ -163,6 +163,17 @@ public class AnalysisService {
             return this.update(AnalysisDto.from(returnAnalysis));
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public Integer getLevel(Long member_idx) {
+        try {
+            AnalysisDto calculate = this.calculate(member_idx);
+            AnalysisDto calculateDate = this.calculate(member_idx, LocalDateTime.now().minusWeeks(2));
+
+            return (calculate.getLevel() > calculateDate.getLevel()) ? calculate.getLevel() : calculateDate.getLevel();
+        } catch (Exception e) {
+            throw e;
         }
     }
 }
