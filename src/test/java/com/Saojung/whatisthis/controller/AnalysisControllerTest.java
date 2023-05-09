@@ -115,4 +115,27 @@ class AnalysisControllerTest {
                 .andExpect(jsonPath("$.idx", notNullValue()))
                 .andDo(print());
     }
+
+    @Test
+    @DisplayName("난이도 계산 테스트")
+    void 난이도_받아오기() throws Exception {
+        //given
+        MemberDto memberDto = new MemberDto(
+                null, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
+        );
+
+        MemberDto resultDto = memberService.signUp(memberDto);
+
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("member_idx", String.valueOf(resultDto.getIdx()));
+
+        //when
+        //then
+        mvc.perform(get("/getLevel")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .params(map))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
 }
