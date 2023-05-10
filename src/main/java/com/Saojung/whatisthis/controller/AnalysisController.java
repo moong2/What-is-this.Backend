@@ -32,10 +32,23 @@ public class AnalysisController {
         }
     }
 
-    @GetMapping("/getAnalysisDate")
+    @GetMapping("/getAnalysis/date/after")
     public ResponseEntity getAnalysis(@RequestParam Long member_idx, LocalDateTime date) {
         try {
             AnalysisDto analysisDto = analysisService.calculate(member_idx, date);
+
+            AnalysisVo analysisVo = new AnalysisVo(analysisDto.getIdx(), analysisDto.getCount(), analysisDto.getLevel(), analysisDto.getSuccessRate1(), analysisDto.getSuccessRate2(), analysisDto.getSuccessRate3());
+
+            return new ResponseEntity<>(analysisVo, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/getAnalysis/date/between")
+    public ResponseEntity getAnalysis(@RequestParam Long member_idx, LocalDateTime older_date, LocalDateTime newer_date) {
+        try {
+            AnalysisDto analysisDto = analysisService.calculate(member_idx, older_date, newer_date);
 
             AnalysisVo analysisVo = new AnalysisVo(analysisDto.getIdx(), analysisDto.getCount(), analysisDto.getLevel(), analysisDto.getSuccessRate1(), analysisDto.getSuccessRate2(), analysisDto.getSuccessRate3());
 

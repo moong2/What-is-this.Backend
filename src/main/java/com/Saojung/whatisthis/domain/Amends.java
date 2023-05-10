@@ -16,14 +16,12 @@ public class Amends {
     private Long idx;
     private String amends;
     private Integer times;
-    private String picture;
     private Integer goal;
 
-    public Amends(Long idx, String amends, Integer times, String picture, Integer goal) {
+    public Amends(Long idx, String amends, Integer times, Integer goal) {
         this.idx = idx;
         this.amends = amends;
         this.times = times;
-        this.picture = picture;
         this.goal = goal;
     }
 }
