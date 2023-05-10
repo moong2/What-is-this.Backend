@@ -33,7 +33,7 @@ class WordRepositoryTest {
                 .word("사과")
                 .level(1)
                 .successLevel(1)
-                .date(LocalDateTime.of(2023, 04, 27, 17, 42, 43))
+                .date(LocalDateTime.now())
                 .build();
 
         //when
@@ -62,7 +62,7 @@ class WordRepositoryTest {
                 .word("사과")
                 .level(1)
                 .successLevel(1)
-                .date(LocalDateTime.of(2023, 04, 27, 17, 42, 43))
+                .date(LocalDateTime.now())
                 .build();
 
         Word saveWord = wordRepository.save(word);
@@ -97,7 +97,7 @@ class WordRepositoryTest {
                 .word("사과")
                 .level(1)
                 .successLevel(1)
-                .date(LocalDateTime.of(2023, 04, 27, 17, 42, 43))
+                .date(LocalDateTime.now())
                 .build();
         
         Word saveWord = wordRepository.save(word);
@@ -134,7 +134,7 @@ class WordRepositoryTest {
                 .word("사과")
                 .level(1)
                 .successLevel(1)
-                .date(LocalDateTime.of(2023, 04, 27, 17, 42, 43))
+                .date(LocalDateTime.now())
                 .member(member)
                 .build();
 
@@ -142,7 +142,7 @@ class WordRepositoryTest {
                 .word("사과")
                 .level(1)
                 .successLevel(1)
-                .date(LocalDateTime.of(2023, 04, 27, 17, 42, 43))
+                .date(LocalDateTime.now())
                 .member(member2)
                 .build();
 
@@ -175,7 +175,7 @@ class WordRepositoryTest {
                 .word("사과")
                 .level(1)
                 .successLevel(1)
-                .date(LocalDateTime.of(2023, 04, 27, 17, 42, 43))
+                .date(LocalDateTime.now())
                 .member(member)
                 .build();
 
@@ -183,7 +183,7 @@ class WordRepositoryTest {
                 .word("과자")
                 .level(1)
                 .successLevel(1)
-                .date(LocalDateTime.of(2023, 04, 27, 17, 42, 44))
+                .date(LocalDateTime.now().plusMonths(2))
                 .member(member)
                 .build();
 
@@ -216,7 +216,7 @@ class WordRepositoryTest {
                 .word("사과")
                 .level(2)
                 .successLevel(1)
-                .date(LocalDateTime.of(2023, 04, 27, 17, 42, 43))
+                .date(LocalDateTime.now())
                 .member(member)
                 .build();
 
@@ -224,7 +224,7 @@ class WordRepositoryTest {
                 .word("사과")
                 .level(2)
                 .successLevel(2)
-                .date(LocalDateTime.of(2023, 04, 27, 17, 42, 44))
+                .date(LocalDateTime.now())
                 .member(member)
                 .build();
 
@@ -256,7 +256,7 @@ class WordRepositoryTest {
                 .word("사과")
                 .level(2)
                 .successLevel(1)
-                .date(LocalDateTime.of(2023, 04, 27, 17, 42, 43))
+                .date(LocalDateTime.now())
                 .member(member)
                 .build();
 
@@ -264,7 +264,7 @@ class WordRepositoryTest {
                 .word("사과")
                 .level(2)
                 .successLevel(2)
-                .date(LocalDateTime.of(2022, 04, 27, 17, 42, 44))
+                .date(LocalDateTime.now().minusYears(1))
                 .member(member)
                 .build();
 
@@ -276,7 +276,7 @@ class WordRepositoryTest {
         //when
         LocalDate now = LocalDate.now();
         LocalDate before2Weeks = now.minusWeeks(2);
-        List<Word> findWords = wordRepository.findAllByMember_IdxAndDateAfter(saveMember.getIdx(), LocalDateTime.of(before2Weeks.getYear(), before2Weeks.getMonth(), before2Weeks.getDayOfMonth(), 00, 00, 00));
+        List<Word> findWords = wordRepository.findAllByMember_IdxAndDateGreaterThan(saveMember.getIdx(), LocalDateTime.of(before2Weeks.getYear(), before2Weeks.getMonth(), before2Weeks.getDayOfMonth(), 00, 00, 00));
 
         //then
         assertEquals(findWords.size(), 1);
@@ -298,7 +298,7 @@ class WordRepositoryTest {
                 .word("사과")
                 .level(2)
                 .successLevel(1)
-                .date(LocalDateTime.of(2023, 04, 27, 17, 42, 43))
+                .date(LocalDateTime.now())
                 .member(member)
                 .build();
 
@@ -306,7 +306,7 @@ class WordRepositoryTest {
                 .word("사과")
                 .level(2)
                 .successLevel(2)
-                .date(LocalDateTime.of(20223, 04, 27, 17, 42, 44))
+                .date(LocalDateTime.now().minusWeeks(1))
                 .member(member)
                 .build();
 
@@ -319,7 +319,7 @@ class WordRepositoryTest {
         LocalDate now = LocalDate.now();
         LocalDate before2Weeks = now.minusWeeks(2);
 
-        List<Word> findWords = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateAfter(saveMember.getIdx(), 2, 2, LocalDateTime.of(before2Weeks.getYear(), before2Weeks.getMonth(), before2Weeks.getDayOfMonth(), 00, 00, 00));
+        List<Word> findWords = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(saveMember.getIdx(), 2, 2, LocalDateTime.of(before2Weeks.getYear(), before2Weeks.getMonth(), before2Weeks.getDayOfMonth(), 00, 00, 00));
 
         //then
         assertEquals(findWords.size(), 1);
@@ -333,7 +333,7 @@ class WordRepositoryTest {
                 .word("사과")
                 .level(1)
                 .successLevel(1)
-                .date(LocalDateTime.of(2023, 04, 27, 17, 42, 43))
+                .date(LocalDateTime.now())
                 .build();
 
         Word saveWord = wordRepository.save(word);
@@ -353,7 +353,7 @@ class WordRepositoryTest {
                 .word("사과")
                 .level(1)
                 .successLevel(1)
-                .date(LocalDateTime.of(2023, 04, 27, 17, 42, 43))
+                .date(LocalDateTime.now())
                 .build();
 
         Word saveWord = wordRepository.save(word);
@@ -365,5 +365,143 @@ class WordRepositoryTest {
         //then
         assertEquals(changeWord.get().getWord(), saveWord.getWord());
         assertNotEquals(changeWord.get().getLevel(), saveWord.getLevel());
+    }
+
+    @Test
+    @DisplayName("기간 동안 학습한 단어 제공")
+    void 기간_학습_단어_제공() {
+        //given
+        Member member = Member.builder()
+                .userId("castlehi")
+                .password("password")
+                .name("박성하")
+                .birth(LocalDate.of(2000, 06, 17))
+                .parentPassword("p_password")
+                .build();
+
+        Word word = Word.builder()
+                .word("사과")
+                .level(2)
+                .successLevel(1)
+                .date(LocalDateTime.now())
+                .member(member)
+                .build();
+
+        Word word2 = Word.builder()
+                .word("사과")
+                .level(2)
+                .successLevel(2)
+                .date(LocalDateTime.now().minusYears(1))
+                .member(member)
+                .build();
+
+        Member saveMember = memberRepository.save(member);
+
+        Word save_word1 = wordRepository.save(word);
+        Word save_word2 = wordRepository.save(word2);
+
+        //when
+        List<Word> words = wordRepository.findAllByMember_IdxAndDateBetween(saveMember.getIdx(), LocalDateTime.now().minusWeeks(8), LocalDateTime.now());
+
+        //then
+        assertEquals(words.get(0).getIdx(), save_word1.getIdx());
+    }
+
+    @Test
+    @DisplayName("기간 동안 일정 기준 이상 학습한 단어 제공")
+    void 기간_학습_난이도_기준_단어_제공() {
+        //given
+        Member member = Member.builder()
+                .userId("castlehi")
+                .password("password")
+                .name("박성하")
+                .birth(LocalDate.of(2000, 06, 17))
+                .parentPassword("p_password")
+                .build();
+
+        Word word = Word.builder()
+                .word("사과")
+                .level(2)
+                .successLevel(1)
+                .date(LocalDateTime.now())
+                .member(member)
+                .build();
+
+        Word word2 = Word.builder()
+                .word("사과")
+                .level(2)
+                .successLevel(2)
+                .date(LocalDateTime.now().minusYears(1))
+                .member(member)
+                .build();
+
+        Word word3 = Word.builder()
+                .word("사과")
+                .level(2)
+                .successLevel(2)
+                .date(LocalDateTime.now().minusWeeks(2))
+                .member(member)
+                .build();
+
+        Member saveMember = memberRepository.save(member);
+
+        Word save_word1 = wordRepository.save(word);
+        Word save_word2 = wordRepository.save(word2);
+        Word save_word3 = wordRepository.save(word3);
+
+        //when
+        List<Word> words = wordRepository.findAllByMember_IdxAndLevelGreaterThanAndDateBetween(saveMember.getIdx(), 1, LocalDateTime.now().minusWeeks(8), LocalDateTime.now());
+
+        //then
+        assertEquals(words.size(), 2);
+    }
+
+    @Test
+    @DisplayName("기간 동안 일정 기준 이상 학습 성공한 단어 제공")
+    void 기간_학습_난이도_성공난이도_기준_단어_제공() {
+        //given
+        Member member = Member.builder()
+                .userId("castlehi")
+                .password("password")
+                .name("박성하")
+                .birth(LocalDate.of(2000, 06, 17))
+                .parentPassword("p_password")
+                .build();
+
+        Word word = Word.builder()
+                .word("사과")
+                .level(2)
+                .successLevel(1)
+                .date(LocalDateTime.now())
+                .member(member)
+                .build();
+
+        Word word2 = Word.builder()
+                .word("사과")
+                .level(2)
+                .successLevel(2)
+                .date(LocalDateTime.now().minusYears(1))
+                .member(member)
+                .build();
+
+        Word word3 = Word.builder()
+                .word("사과")
+                .level(2)
+                .successLevel(2)
+                .date(LocalDateTime.now().minusWeeks(2))
+                .member(member)
+                .build();
+
+        Member saveMember = memberRepository.save(member);
+
+        Word save_word1 = wordRepository.save(word);
+        Word save_word2 = wordRepository.save(word2);
+        Word save_word3 = wordRepository.save(word3);
+
+        //when
+        List<Word> words = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateBetween(saveMember.getIdx(), 2, 2, LocalDateTime.now().minusWeeks(8), LocalDateTime.now());
+
+        //then
+        assertEquals(words.size(), 1);
     }
 }
