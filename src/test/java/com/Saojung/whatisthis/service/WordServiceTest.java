@@ -62,12 +62,12 @@ class WordServiceTest {
                 .word("사과")
                 .level(2)
                 .successLevel(1)
-                .date(LocalDateTime.of(2023, 04, 28, 13, 52, 00))
+                .date(LocalDateTime.now())
                 .member(member)
                 .build();
 
         WordDto wordDto = new WordDto(
-                null, "사과", 2, 1, LocalDateTime.of(2023, 04, 28, 13, 52 ,00), member
+                null, "사과", 2, 1, returnWord.getDate(), member
         );
 
         BDDMockito.given(memberRepository.findById(member.getIdx())).willReturn(Optional.of(member));
@@ -98,12 +98,12 @@ class WordServiceTest {
                 .word("사과")
                 .level(2)
                 .successLevel(1)
-                .date(LocalDateTime.of(2023, 04, 28, 13, 52, 00))
+                .date(LocalDateTime.now())
                 .member(member)
                 .build();
 
         WordDto wordDto = new WordDto(
-                null, "사과", 2, 1, LocalDateTime.of(2023, 04, 28, 13, 52 ,00), member
+                null, "사과", 2, 1, returnWord.getDate(), member
         );
 
         BDDMockito.given(memberRepository.findById(member.getIdx())).willReturn(Optional.of(member));
@@ -138,7 +138,7 @@ class WordServiceTest {
                 .word("사과")
                 .level(2)
                 .successLevel(1)
-                .date(LocalDateTime.of(2023, 04, 28, 13, 52, 00))
+                .date(LocalDateTime.now())
                 .member(member)
                 .build();
 
@@ -147,12 +147,12 @@ class WordServiceTest {
                 .word("사과")
                 .level(3)
                 .successLevel(1)
-                .date(LocalDateTime.of(2023, 04, 28, 13, 52, 00))
+                .date(LocalDateTime.now())
                 .member(member)
                 .build();
 
         WordDto wordDto = new WordDto(
-                null, "사과", 2, 1, LocalDateTime.of(2023, 04, 28, 13, 52 ,00), member
+                null, "사과", 2, 1, returnWord.getDate(), member
         );
 
         BDDMockito.given(memberRepository.findById(member.getIdx())).willReturn(Optional.of(member));
@@ -186,7 +186,7 @@ class WordServiceTest {
                 .build();
 
         WordDto wordDto = new WordDto(
-                null, "사과", -1, -5, LocalDateTime.of(2023, 04, 28, 13, 52 ,00), member
+                null, "사과", -1, -5, LocalDateTime.now(), member
         );
 
         //when
@@ -212,7 +212,7 @@ class WordServiceTest {
                 .build();
 
         WordDto wordDto = new WordDto(
-                null, "사과", 4, 1, LocalDateTime.of(2023, 04, 28, 13, 52 ,00), member
+                null, "사과", 4, 1, LocalDateTime.now(), member
         );
 
         //when
@@ -238,7 +238,7 @@ class WordServiceTest {
                 .build();
 
         WordDto wordDto = new WordDto(
-                null, "사과", -1, -5, LocalDateTime.of(2023, 04, 28, 13, 52 ,00), member
+                null, "사과", -1, -5, LocalDateTime.now(), member
         );
 
         //when
@@ -268,12 +268,12 @@ class WordServiceTest {
                 .word("사과")
                 .level(2)
                 .successLevel(1)
-                .date(LocalDateTime.of(2023, 04, 28, 13, 52, 00))
+                .date(LocalDateTime.now())
                 .member(member)
                 .build();
 
         WordDto wordDto = new WordDto(
-                null, "사과", 2, 1, LocalDateTime.of(2023, 04, 28, 13, 52 ,00), member
+                null, "사과", 2, 1, returnWord.getDate(), member
         );
 
         BDDMockito.given(memberRepository.findById(member.getIdx())).willReturn(Optional.of(member));
@@ -312,12 +312,12 @@ class WordServiceTest {
                 .word("사과")
                 .level(2)
                 .successLevel(1)
-                .date(LocalDateTime.of(2023, 04, 28, 13, 52, 00))
+                .date(LocalDateTime.now())
                 .member(member)
                 .build();
 
         WordDto wordDto = new WordDto(
-                null, "사과", 2, 1, LocalDateTime.of(2023, 04, 28, 13, 52 ,00), member
+                null, "사과", 2, 1, returnWord.getDate(), member
         );
 
         BDDMockito.given(memberRepository.findById(member.getIdx())).willReturn(Optional.of(member));
@@ -352,12 +352,12 @@ class WordServiceTest {
                 .word("사과")
                 .level(2)
                 .successLevel(1)
-                .date(LocalDateTime.of(2023, 04, 28, 13, 52, 00))
+                .date(LocalDateTime.now())
                 .member(member)
                 .build();
 
         WordDto wordDto = new WordDto(
-                null, "사과", 2, 1, LocalDateTime.of(2023, 04, 28, 13, 52 ,00), member
+                null, "사과", 2, 1, returnWord.getDate(), member
         );
 
         BDDMockito.given(memberRepository.findById(member.getIdx())).willReturn(Optional.of(member));
