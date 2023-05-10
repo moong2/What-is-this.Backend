@@ -1,6 +1,9 @@
 package com.Saojung.whatisthis.controller;
 
+import com.Saojung.whatisthis.domain.Member;
+import com.Saojung.whatisthis.domain.Word;
 import com.Saojung.whatisthis.dto.MemberDto;
+import com.Saojung.whatisthis.dto.WordDto;
 import com.Saojung.whatisthis.service.AnalysisService;
 import com.Saojung.whatisthis.service.MemberService;
 import com.Saojung.whatisthis.service.WordService;
@@ -17,6 +20,7 @@ import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -107,7 +111,7 @@ class AnalysisControllerTest {
 
         //when
         //then
-        mvc.perform(get("/getAnalysisDate")
+        mvc.perform(get("/getAnalysis/date/after")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .params(map))
@@ -132,6 +136,74 @@ class AnalysisControllerTest {
         //when
         //then
         mvc.perform(get("/getLevel")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .params(map))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("기간동안 분석값 받아오기")
+    void 기간동안_분석값_받아오기() throws Exception {
+        //given
+        Member member = Member.builder()
+                .userId("castlehi")
+                .password("password")
+                .name("박성하")
+                .birth(LocalDate.of(2000, 06, 17))
+                .parentPassword("p_password")
+                .analysis(null)
+                .amends(null)
+                .build();
+
+        MemberDto member_dto = MemberDto.from(member);
+
+        MemberDto result_dto = memberService.signUp(member_dto);
+
+        Member result_member = Member.builder()
+                .idx(result_dto.getIdx())
+                .userId(result_dto.getUserId())
+                .password(result_dto.getPassword())
+                .name(result_dto.getName())
+                .birth(result_dto.getBirth())
+                .parentPassword(result_dto.getParentPassword())
+                .analysis(result_dto.getAnalysis())
+                .amends(result_dto.getAmends())
+                .build();
+
+        Word word = Word.builder()
+                .word("apple")
+                .level(2)
+                .successLevel(1)
+                .date(LocalDateTime.now().minusWeeks(2))
+                .member(result_member)
+                .build();
+
+        Word old_word = Word.builder()
+                .word("apple")
+                .level(2)
+                .successLevel(1)
+                .date(LocalDateTime.now())
+                .member(result_member)
+                .build();
+
+        WordDto word_dto = WordDto.from(word);
+        WordDto old_word_dto = WordDto.from(old_word);
+
+        for (int i = 0; i < 10; i++) {
+            wordService.create(word_dto);
+            wordService.create(old_word_dto);
+        }
+
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("member_idx", String.valueOf(result_dto.getIdx()));
+        map.add("older_date", String.valueOf(word.getDate()));
+        map.add("newer_date", String.valueOf(word.getDate().plusWeeks(1)));
+
+        //when
+        //then
+        mvc.perform(get("/getAnalysis/date/between")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .params(map))
