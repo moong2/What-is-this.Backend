@@ -1,9 +1,11 @@
 package com.Saojung.whatisthis.service;
 
+import com.Saojung.whatisthis.domain.Amends;
 import com.Saojung.whatisthis.domain.Analysis;
 import com.Saojung.whatisthis.domain.Member;
 import com.Saojung.whatisthis.domain.Word;
 import com.Saojung.whatisthis.dto.WordDto;
+import com.Saojung.whatisthis.repository.AmendsRepository;
 import com.Saojung.whatisthis.repository.AnalysisRepository;
 import com.Saojung.whatisthis.repository.WordRepository;
 import com.Saojung.whatisthis.vo.LoginVo;
@@ -44,12 +46,14 @@ class MemberServiceTest {
     private WordRepository wordRepository;
     @Mock
     private AnalysisRepository analysisRepository;
+    @Mock
+    private AmendsRepository amendsRepository;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         this.passwordEncoder = new BCryptPasswordEncoder();
-        memberService = new MemberService(memberRepository, wordRepository, analysisRepository, passwordEncoder);
+        memberService = new MemberService(memberRepository, wordRepository, analysisRepository, amendsRepository, passwordEncoder);
     }
 
     @Test
@@ -576,5 +580,128 @@ class MemberServiceTest {
 
         //then
         assertEquals(analysisRepository.findAll().size(), 0);
+    }
+
+    @Test
+    @DisplayName("Amends Create 테스트")
+    void Amends_Create_테스트() {
+        //given
+        Amends amends = Amends.builder()
+                .idx(1L)
+                .amends(null)
+                .goal(0)
+                .remain(0)
+                .build();
+
+        Member member = Member.builder()
+                .idx(1L)
+                .userId("castlehi")
+                .password("password")
+                .name("박성하")
+                .birth(LocalDate.of(2000, 06, 17))
+                .parentPassword("p_password")
+                .amends(amends)
+                .build();
+
+        MemberDto memberDto = new MemberDto(
+                1L, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, amends
+        );
+
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(Optional.empty());
+        BDDMockito.given(amendsRepository.save(any())).willReturn(amends);
+        BDDMockito.given(memberRepository.save(any())).willReturn(member);
+
+        MemberDto returnDto = memberService.signUp(memberDto);
+
+        //when
+        //then
+        assertEquals(returnDto.getAmends().getIdx(), amends.getIdx());
+    }
+
+    @Test
+    @DisplayName("Amends Delete 테스트")
+    void Amends_Delete_테스트() {
+        //given
+        Amends amends = Amends.builder()
+                .idx(1L)
+                .amends(null)
+                .goal(0)
+                .remain(0)
+                .build();
+
+        Member member = Member.builder()
+                .idx(1L)
+                .userId("castlehi")
+                .password("password")
+                .name("박성하")
+                .birth(LocalDate.of(2000, 06, 17))
+                .parentPassword("p_password")
+                .amends(amends)
+                .build();
+
+        MemberDto memberDto = new MemberDto(
+                1L, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
+        );
+
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(Optional.empty());
+        BDDMockito.given(amendsRepository.save(any())).willReturn(amends);
+        BDDMockito.given(memberRepository.save(any())).willReturn(member);
+
+        memberService.signUp(memberDto);
+
+        BDDMockito.given(memberRepository.findById(memberDto.getIdx())).willReturn(Optional.of(member));
+        List<Word> words = new ArrayList<>();
+        BDDMockito.given(wordRepository.findAllByMember_Idx(memberDto.getIdx())).willReturn(words);
+
+        //when
+        memberService.withdraw(memberDto.getIdx());
+
+        //then
+        assertEquals(amendsRepository.findAll().size(), 0);
+    }
+
+    @Test
+    @DisplayName("Amends Read 테스트")
+    void Amends_Read_테스트() {
+        //given
+        Amends amends = Amends.builder()
+                .idx(1L)
+                .amends(null)
+                .goal(0)
+                .remain(0)
+                .build();
+
+        Member member = Member.builder()
+                .idx(1L)
+                .userId("castlehi")
+                .password(passwordEncoder.encode("password"))
+                .name("박성하")
+                .birth(LocalDate.of(2000, 06, 17))
+                .parentPassword(passwordEncoder.encode("p_password"))
+                .amends(amends)
+                .build();
+
+        MemberDto memberDto = new MemberDto(
+                1L, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
+        );
+
+        LoginVo givenDto = new LoginVo(
+                "castlehi", null, "p_password"
+        );
+
+        BDDMockito.given(memberRepository.findByUserId(member.getUserId())).willReturn(Optional.empty());
+        BDDMockito.given(amendsRepository.save(any())).willReturn(amends);
+        BDDMockito.given(memberRepository.save(any())).willReturn(member);
+
+        memberService.signUp(memberDto);
+
+        BDDMockito.given(memberRepository.findByUserId(givenDto.getUserId())).willReturn(Optional.of(member));
+
+        //when
+        MemberDto returnDto = memberService.parentLogin(givenDto);
+
+        //when
+        //then
+        assertEquals(returnDto.getAmends().getIdx(), amends.getIdx());
     }
 }

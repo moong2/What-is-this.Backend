@@ -1,8 +1,10 @@
 package com.Saojung.whatisthis.service;
 
+import com.Saojung.whatisthis.domain.Amends;
 import com.Saojung.whatisthis.domain.Analysis;
 import com.Saojung.whatisthis.domain.Member;
 import com.Saojung.whatisthis.domain.Word;
+import com.Saojung.whatisthis.repository.AmendsRepository;
 import com.Saojung.whatisthis.repository.AnalysisRepository;
 import com.Saojung.whatisthis.repository.WordRepository;
 import com.Saojung.whatisthis.vo.LoginVo;
@@ -25,6 +27,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final WordRepository wordRepository;
     private final AnalysisRepository analysisRepository;
+    private final AmendsRepository amendsRepository;
     private final PasswordEncoder passwordEncoder;
 
     public MemberDto signUp(MemberDto memberDto) {
@@ -39,7 +42,7 @@ public class MemberService {
                     .birth(memberDto.getBirth())
                     .parentPassword(passwordEncoder.encode(memberDto.getParentPassword()))
                     .analysis(analysisRepository.save(new Analysis()))
-                    .amends(memberDto.getAmends())
+                    .amends(amendsRepository.save(new Amends()))
                     .build();
 
             return MemberDto.from(memberRepository.save(member));
