@@ -1,10 +1,7 @@
 package com.Saojung.whatisthis.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
@@ -15,13 +12,13 @@ public class Amends {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
     private String amends;
-    private Integer times;
     private Integer goal;
+    private Integer remain;
 
-    public Amends(Long idx, String amends, Integer times, Integer goal) {
+    public Amends(Long idx, String amends, @NonNull Integer goal, @NonNull Integer remain) {
         this.idx = idx;
         this.amends = amends;
-        this.times = times;
         this.goal = goal;
+        this.remain = remain;
     }
 }
