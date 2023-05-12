@@ -1,6 +1,7 @@
 package com.Saojung.whatisthis.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -11,7 +12,9 @@ public class Amends {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
     private String amends;
+    @NotNull
     private Integer goal;
+    @NotNull
     private Integer remain;
 
     public Amends() {
