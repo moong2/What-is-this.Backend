@@ -129,14 +129,14 @@ public class WordService {
         return returnWords;
     }
 
-    public List<WordDto> getWordsGreaterThanDate(Long memberIdx, LocalDateTime date) {
+    public List<WordDto> getWordsGreaterThanEqualDate(Long memberIdx, LocalDateTime date) {
         if (memberRepository.findById(memberIdx).orElse(null) == null)
             throw new NoMemberException("학습한 회원이 존재하지 않습니다.");
 
         if (date.isAfter(LocalDateTime.now()))
             throw new DateException("기준 날짜가 잘못되었습니다.");
 
-        List<Word> findWords = wordRepository.findAllByMember_IdxAndDateGreaterThan(memberIdx, date);
+        List<Word> findWords = wordRepository.findAllByMember_IdxAndDateGreaterThanEqual(memberIdx, date);
 
         List<WordDto> returnWords = new ArrayList<>();
         for (Word findWord : findWords) {
@@ -146,7 +146,7 @@ public class WordService {
         return returnWords;
     }
 
-    public List<WordDto> getWordsMatchLevelsGreaterThanDate(Long memberIdx, Integer level, Integer sLevel, LocalDateTime date) {
+    public List<WordDto> getWordsMatchLevelsGreaterThanEqualDate(Long memberIdx, Integer level, Integer sLevel, LocalDateTime date) {
         if (memberRepository.findById(memberIdx).orElse(null) == null)
             throw new NoMemberException("학습한 회원이 존재하지 않습니다.");
 
@@ -155,7 +155,7 @@ public class WordService {
         if (level < sLevel)
             throw new LevelException("레벨 기준이 잘못되었습니다.");
 
-        List<Word> findWords = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(memberIdx, level, sLevel, date);
+        List<Word> findWords = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(memberIdx, level, sLevel, date);
 
         List<WordDto> returnWords = new ArrayList<>();
         for (Word findWord : findWords) {

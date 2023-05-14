@@ -20,21 +20,21 @@ public interface WordRepository extends JpaRepository<Word, Long> {
 
     List<Word> findAllByMember_Idx(Long idx);
 
-    List<Word> findAllByMember_IdxAndLevelGreaterThan(Long idx, Integer level);
+    List<Word> findAllByMember_IdxAndLevelGreaterThanEqual(Long idx, Integer level);
 
     List<Word> findAllByMember_IdxAndLevelAndSuccessLevel(Long idx, Integer level, Integer sLevel);
 
     List<Word> findAllByMember_IdxOrderByDate(Long idx);
 
-    List<Word> findAllByMember_IdxAndDateGreaterThan(Long idx, LocalDateTime date);
+    List<Word> findAllByMember_IdxAndDateGreaterThanEqual(Long idx, LocalDateTime date);
 
-    List<Word> findAllByMember_IdxAndLevelGreaterThanAndDateGreaterThan(Long idx, Integer level, LocalDateTime date);
+    List<Word> findAllByMember_IdxAndLevelGreaterThanEqualAndDateGreaterThanEqual(Long idx, Integer level, LocalDateTime date);
 
-    List<Word> findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(Long idx, Integer level, Integer sLevel, LocalDateTime time);
+    List<Word> findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(Long idx, Integer level, Integer sLevel, LocalDateTime time);
 
     List<Word> findAllByMember_IdxAndDateBetween(Long idx, LocalDateTime date1, LocalDateTime date2);
 
-    List<Word> findAllByMember_IdxAndLevelGreaterThanAndDateBetween(Long idx, Integer level, LocalDateTime date1, LocalDateTime date2);
+    List<Word> findAllByMember_IdxAndLevelGreaterThanEqualAndDateBetween(Long idx, Integer level, LocalDateTime date1, LocalDateTime date2);
 
     List<Word> findAllByMember_IdxAndLevelAndSuccessLevelAndDateBetween(Long idx, Integer level, Integer sLevel, LocalDateTime date1, LocalDateTime date2);
 

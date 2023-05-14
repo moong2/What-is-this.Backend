@@ -44,6 +44,12 @@ public class AnalysisService {
             throw new RuntimeException(e.getMessage());
         }
 
+        System.out.println("analysis.getCount() = " + analysis.getCount());
+        System.out.println("analysis = " + analysis.getLevel());
+        System.out.println("analysis.getSuccessRate1() = " + analysis.getSuccessRate1());
+        System.out.println("analysis.getSuccessRate2()\\ = " + analysis.getSuccessRate2());
+        System.out.println("analysis = " + analysis.getSuccessRate3());
+
         if (analysis.getCount() < 0 || analysis.getLevel() < 0 ||
                 analysis.getLevel() > 3 ||
                 analysis.getSuccessRate1() < 0.0 || analysis.getSuccessRate1() > 100.0 ||
@@ -67,9 +73,9 @@ public class AnalysisService {
         List<Word> words = wordRepository.findAllByMember_Idx(member_idx);
         Integer count = words.size();
 
-        Integer l1 = wordRepository.findAllByMember_IdxAndLevelGreaterThan(member_idx, 1).size();
-        Integer l2 = wordRepository.findAllByMember_IdxAndLevelGreaterThan(member_idx, 2).size();
-        Integer l3 = wordRepository.findAllByMember_IdxAndLevelGreaterThan(member_idx, 3).size();
+        Integer l1 = wordRepository.findAllByMember_IdxAndLevelGreaterThanEqual(member_idx, 1).size();
+        Integer l2 = wordRepository.findAllByMember_IdxAndLevelGreaterThanEqual(member_idx, 2).size();
+        Integer l3 = wordRepository.findAllByMember_IdxAndLevelGreaterThanEqual(member_idx, 3).size();
 
         Integer l11 = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member_idx, 1, 1).size();
         Integer l21 = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member_idx, 2, 1).size();
@@ -120,19 +126,19 @@ public class AnalysisService {
 
         Analysis returnAnalysis;
 
-        List<Word> words = wordRepository.findAllByMember_IdxAndDateGreaterThan(member_idx, date);
+        List<Word> words = wordRepository.findAllByMember_IdxAndDateGreaterThanEqual(member_idx, date);
         Integer count = words.size();
 
-        Integer l1 = wordRepository.findAllByMember_IdxAndLevelGreaterThanAndDateGreaterThan(member_idx, 1, date).size();
-        Integer l2 = wordRepository.findAllByMember_IdxAndLevelGreaterThanAndDateGreaterThan(member_idx, 2, date).size();
-        Integer l3 = wordRepository.findAllByMember_IdxAndLevelGreaterThanAndDateGreaterThan(member_idx, 3, date).size();
+        Integer l1 = wordRepository.findAllByMember_IdxAndLevelGreaterThanEqualAndDateGreaterThanEqual(member_idx, 1, date).size();
+        Integer l2 = wordRepository.findAllByMember_IdxAndLevelGreaterThanEqualAndDateGreaterThanEqual(member_idx, 2, date).size();
+        Integer l3 = wordRepository.findAllByMember_IdxAndLevelGreaterThanEqualAndDateGreaterThanEqual(member_idx, 3, date).size();
 
-        Integer l11 = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(member_idx, 1, 1, date).size();
-        Integer l21 = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(member_idx, 2, 1, date).size();
-        Integer l22 = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(member_idx, 2, 2, date).size();
-        Integer l31 = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(member_idx, 3, 1, date).size();
-        Integer l32 = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(member_idx, 3, 2, date).size();
-        Integer l33 = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(member_idx, 3, 3, date).size();
+        Integer l11 = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(member_idx, 1, 1, date).size();
+        Integer l21 = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(member_idx, 2, 1, date).size();
+        Integer l22 = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(member_idx, 2, 2, date).size();
+        Integer l31 = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(member_idx, 3, 1, date).size();
+        Integer l32 = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(member_idx, 3, 2, date).size();
+        Integer l33 = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(member_idx, 3, 3, date).size();
 
         Integer s1 = l11 + l21 + l31 + l22 + l32 + l33;
         Integer s2 = l22 + l32 + l33;
@@ -179,9 +185,9 @@ public class AnalysisService {
         List<Word> words = wordRepository.findAllByMember_IdxAndDateBetween(member_idx, date1, date2);
         Integer count = words.size();
 
-        Integer l1 = wordRepository.findAllByMember_IdxAndLevelGreaterThanAndDateBetween(member_idx, 1, date1, date2).size();
-        Integer l2 = wordRepository.findAllByMember_IdxAndLevelGreaterThanAndDateBetween(member_idx, 2, date1, date2).size();
-        Integer l3 = wordRepository.findAllByMember_IdxAndLevelGreaterThanAndDateBetween(member_idx, 3, date1, date2).size();
+        Integer l1 = wordRepository.findAllByMember_IdxAndLevelGreaterThanEqualAndDateBetween(member_idx, 1, date1, date2).size();
+        Integer l2 = wordRepository.findAllByMember_IdxAndLevelGreaterThanEqualAndDateBetween(member_idx, 2, date1, date2).size();
+        Integer l3 = wordRepository.findAllByMember_IdxAndLevelGreaterThanEqualAndDateBetween(member_idx, 3, date1, date2).size();
 
         Integer l11 = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateBetween(member_idx, 1, 1, date1, date2).size();
         Integer l21 = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateBetween(member_idx, 2, 1, date1, date2).size();
@@ -193,10 +199,6 @@ public class AnalysisService {
         Integer s1 = l11 + l21 + l31 + l22 + l32 + l33;
         Integer s2 = l22 + l32 + l33;
         Integer s3 = l33;
-
-        System.out.println("s1 = " + s1);
-        System.out.println("s2 = " + s2);
-        System.out.println("s3 = " + s3);
 
         try {
             Double r1, r2, r3;
