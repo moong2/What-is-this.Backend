@@ -276,7 +276,7 @@ class WordRepositoryTest {
         //when
         LocalDate now = LocalDate.now();
         LocalDate before2Weeks = now.minusWeeks(2);
-        List<Word> findWords = wordRepository.findAllByMember_IdxAndDateGreaterThan(saveMember.getIdx(), LocalDateTime.of(before2Weeks.getYear(), before2Weeks.getMonth(), before2Weeks.getDayOfMonth(), 00, 00, 00));
+        List<Word> findWords = wordRepository.findAllByMember_IdxAndDateGreaterThanEqual(saveMember.getIdx(), LocalDateTime.of(before2Weeks.getYear(), before2Weeks.getMonth(), before2Weeks.getDayOfMonth(), 00, 00, 00));
 
         //then
         assertEquals(findWords.size(), 1);
@@ -319,7 +319,7 @@ class WordRepositoryTest {
         LocalDate now = LocalDate.now();
         LocalDate before2Weeks = now.minusWeeks(2);
 
-        List<Word> findWords = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(saveMember.getIdx(), 2, 2, LocalDateTime.of(before2Weeks.getYear(), before2Weeks.getMonth(), before2Weeks.getDayOfMonth(), 00, 00, 00));
+        List<Word> findWords = wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(saveMember.getIdx(), 2, 2, LocalDateTime.of(before2Weeks.getYear(), before2Weeks.getMonth(), before2Weeks.getDayOfMonth(), 00, 00, 00));
 
         //then
         assertEquals(findWords.size(), 1);
@@ -450,7 +450,7 @@ class WordRepositoryTest {
         Word save_word3 = wordRepository.save(word3);
 
         //when
-        List<Word> words = wordRepository.findAllByMember_IdxAndLevelGreaterThanAndDateBetween(saveMember.getIdx(), 1, LocalDateTime.now().minusWeeks(8), LocalDateTime.now());
+        List<Word> words = wordRepository.findAllByMember_IdxAndLevelGreaterThanEqualAndDateBetween(saveMember.getIdx(), 1, LocalDateTime.now().minusWeeks(8), LocalDateTime.now());
 
         //then
         assertEquals(words.size(), 2);

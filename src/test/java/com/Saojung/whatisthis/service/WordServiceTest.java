@@ -370,7 +370,7 @@ class WordServiceTest {
         //when
         //then
         assertThrows(DateException.class, () -> {
-            wordService.getWordsGreaterThanDate(1L, LocalDateTime.now().plusMonths(2));
+            wordService.getWordsGreaterThanEqualDate(1L, LocalDateTime.now().plusMonths(2));
         });
     }
 }

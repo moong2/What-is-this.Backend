@@ -141,9 +141,9 @@ class AnalysisServiceTest {
         words.add(word);
         words.add(word2);
         BDDMockito.given(wordRepository.findAllByMember_Idx(member.getIdx())).willReturn(words);
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThan(member.getIdx(), 1)).willReturn(words);
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThan(member.getIdx(), 2)).willReturn(words);
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThan(member.getIdx(), 3)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanEqual(member.getIdx(), 1)).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanEqual(member.getIdx(), 2)).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanEqual(member.getIdx(), 3)).willReturn(new ArrayList<>());
 
         BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member.getIdx(), 1, 1)).willReturn(new ArrayList<>());
         ArrayList<Word> words1 = new ArrayList<>();
@@ -246,23 +246,23 @@ class AnalysisServiceTest {
         words.add(word);
         words.add(word2);
         words.add(word3);
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndDateGreaterThan(member.getIdx(), date)).willReturn(words);
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanAndDateGreaterThan(member.getIdx(), 1, date)).willReturn(words);
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanAndDateGreaterThan(member.getIdx(), 2, date)).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndDateGreaterThanEqual(member.getIdx(), date)).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanEqualAndDateGreaterThanEqual(member.getIdx(), 1, date)).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanEqualAndDateGreaterThanEqual(member.getIdx(), 2, date)).willReturn(words);
         ArrayList<Word> words3 = new ArrayList<>();
         words3.add(word3);
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanAndDateGreaterThan(member.getIdx(), 3, date)).willReturn(words3);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanEqualAndDateGreaterThanEqual(member.getIdx(), 3, date)).willReturn(words3);
 
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(member.getIdx(), 1, 1, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(member.getIdx(), 1, 1, date)).willReturn(new ArrayList<>());
         ArrayList<Word> words1 = new ArrayList<>();
         words1.add(word);
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(member.getIdx(), 2, 1, date)).willReturn(words1);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(member.getIdx(), 2, 1, date)).willReturn(words1);
         ArrayList<Word> words2 = new ArrayList<>();
         words2.add(word2);
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(member.getIdx(), 2, 2, date)).willReturn(words2);
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(member.getIdx(), 3, 1, date)).willReturn(new ArrayList<>());
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(member.getIdx(), 3, 2, date)).willReturn(new ArrayList<>());
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(member.getIdx(), 3, 3, date)).willReturn(words3);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(member.getIdx(), 2, 2, date)).willReturn(words2);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(member.getIdx(), 3, 1, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(member.getIdx(), 3, 2, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(member.getIdx(), 3, 3, date)).willReturn(words3);
 
         BDDMockito.given(analysisRepository.findById(member.getAnalysis().getIdx())).willReturn(Optional.of(analysis));
         BDDMockito.given(analysisRepository.save(any())).willReturn(change_analysis);
@@ -325,9 +325,9 @@ class AnalysisServiceTest {
         List<Word> words = new ArrayList<>();
         for (int i = 0; i < 7; i++) words.add(word);
         BDDMockito.given(wordRepository.findAllByMember_Idx(member.getIdx())).willReturn(words);
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThan(member.getIdx(), 1)).willReturn(words);
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThan(member.getIdx(), 2)).willReturn(new ArrayList<>());
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThan(member.getIdx(), 3)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanEqual(member.getIdx(), 1)).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanEqual(member.getIdx(), 2)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanEqual(member.getIdx(), 3)).willReturn(new ArrayList<>());
 
         BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member.getIdx(), 1, 1)).willReturn(words);
         BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member.getIdx(), 2, 1)).willReturn(new ArrayList<>());
@@ -393,9 +393,9 @@ class AnalysisServiceTest {
         List<Word> words = new ArrayList<>();
         for (int i = 0; i < 10; i++) words.add(word);
         BDDMockito.given(wordRepository.findAllByMember_Idx(member.getIdx())).willReturn(words);
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThan(member.getIdx(), 1)).willReturn(words);
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThan(member.getIdx(), 2)).willReturn(new ArrayList<>());
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThan(member.getIdx(), 3)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanEqual(member.getIdx(), 1)).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanEqual(member.getIdx(), 2)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanEqual(member.getIdx(), 3)).willReturn(new ArrayList<>());
 
         BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member.getIdx(), 1, 1)).willReturn(words);
         BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevel(member.getIdx(), 2, 1)).willReturn(new ArrayList<>());
@@ -470,17 +470,17 @@ class AnalysisServiceTest {
         LocalDateTime date = LocalDateTime.now().minusWeeks(2);
         List<Word> words = new ArrayList<>();
         for (int i = 0; i < 7; i++) words.add(word);
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndDateGreaterThan(member.getIdx(), date)).willReturn(words);
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanAndDateGreaterThan(member.getIdx(), 1, date)).willReturn(words);
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanAndDateGreaterThan(member.getIdx(), 2, date)).willReturn(new ArrayList<>());
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanAndDateGreaterThan(member.getIdx(), 3, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndDateGreaterThanEqual(member.getIdx(), date)).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanEqualAndDateGreaterThanEqual(member.getIdx(), 1, date)).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanEqualAndDateGreaterThanEqual(member.getIdx(), 2, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanEqualAndDateGreaterThanEqual(member.getIdx(), 3, date)).willReturn(new ArrayList<>());
 
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(member.getIdx(), 1, 1, date)).willReturn(words);
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(member.getIdx(), 2, 1, date)).willReturn(new ArrayList<>());
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(member.getIdx(), 2, 2, date)).willReturn(new ArrayList<>());
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(member.getIdx(), 3, 1, date)).willReturn(new ArrayList<>());
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(member.getIdx(), 3, 2, date)).willReturn(new ArrayList<>());
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(member.getIdx(), 3, 3, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(member.getIdx(), 1, 1, date)).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(member.getIdx(), 2, 1, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(member.getIdx(), 2, 2, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(member.getIdx(), 3, 1, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(member.getIdx(), 3, 2, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(member.getIdx(), 3, 3, date)).willReturn(new ArrayList<>());
 
         BDDMockito.given(analysisRepository.findById(member.getAnalysis().getIdx())).willReturn(Optional.of(analysis));
         BDDMockito.given(analysisRepository.save(any())).willReturn(change_analysis);
@@ -548,17 +548,17 @@ class AnalysisServiceTest {
         LocalDateTime date = LocalDateTime.now().minusWeeks(2);
         List<Word> words = new ArrayList<>();
         for (int i = 0; i < 10; i++) words.add(word);
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndDateGreaterThan(member.getIdx(), date)).willReturn(words);
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanAndDateGreaterThan(member.getIdx(), 1, date)).willReturn(words);
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanAndDateGreaterThan(member.getIdx(), 2, date)).willReturn(new ArrayList<>());
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanAndDateGreaterThan(member.getIdx(), 3, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndDateGreaterThanEqual(member.getIdx(), date)).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanEqualAndDateGreaterThanEqual(member.getIdx(), 1, date)).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanEqualAndDateGreaterThanEqual(member.getIdx(), 2, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelGreaterThanEqualAndDateGreaterThanEqual(member.getIdx(), 3, date)).willReturn(new ArrayList<>());
 
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(member.getIdx(), 1, 1, date)).willReturn(words);
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(member.getIdx(), 2, 1, date)).willReturn(new ArrayList<>());
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(member.getIdx(), 2, 2, date)).willReturn(new ArrayList<>());
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(member.getIdx(), 3, 1, date)).willReturn(new ArrayList<>());
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(member.getIdx(), 3, 2, date)).willReturn(new ArrayList<>());
-        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThan(member.getIdx(), 3, 3, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(member.getIdx(), 1, 1, date)).willReturn(words);
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(member.getIdx(), 2, 1, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(member.getIdx(), 2, 2, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(member.getIdx(), 3, 1, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(member.getIdx(), 3, 2, date)).willReturn(new ArrayList<>());
+        BDDMockito.given(wordRepository.findAllByMember_IdxAndLevelAndSuccessLevelAndDateGreaterThanEqual(member.getIdx(), 3, 3, date)).willReturn(new ArrayList<>());
 
         BDDMockito.given(analysisRepository.findById(member.getAnalysis().getIdx())).willReturn(Optional.of(analysis));
         BDDMockito.given(analysisRepository.save(any())).willReturn(change_analysis);
