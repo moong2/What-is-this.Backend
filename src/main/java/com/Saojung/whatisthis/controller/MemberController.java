@@ -1,12 +1,16 @@
 package com.Saojung.whatisthis.controller;
 
+import com.Saojung.whatisthis.domain.Amends;
 import com.Saojung.whatisthis.domain.Analysis;
 import com.Saojung.whatisthis.dto.MemberDto;
 import com.Saojung.whatisthis.exception.CannotJoinException;
 import com.Saojung.whatisthis.service.MemberService;
+import com.Saojung.whatisthis.vo.AmendsVo;
 import com.Saojung.whatisthis.vo.AnalysisVo;
 import com.Saojung.whatisthis.vo.LoginVo;
 import com.Saojung.whatisthis.vo.MemberVo;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -80,8 +84,14 @@ public class MemberController {
             ArrayList<AnalysisVo> analysisVos = new ArrayList<>();
             analysisVos.add(analysisVo);
 
+            Amends amends = member.getAmends();
+            AmendsVo amendsVo = new AmendsVo(amends.getIdx(), amends.getAmends(), amends.getGoal(), amends.getRemain());
+            ArrayList<AmendsVo> amendsVos = new ArrayList<>();
+            amendsVos.add(amendsVo);
+
             JSONObject result = new JSONObject();
             result.put("analysis", analysisVos);
+            result.put("amends", amendsVos);
 
             return new ResponseEntity<>(result.toString(), HttpStatus.OK);
         } catch(Exception e) {
