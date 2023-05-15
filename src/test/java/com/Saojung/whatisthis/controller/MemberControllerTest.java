@@ -221,8 +221,8 @@ class MemberControllerTest {
     }
 
     @Test
-    @DisplayName("부모 로그인")
-    void 부모로그인() throws Exception {
+    @DisplayName("부모 로그인 - 분석값 제공")
+    void 부모로그인_분석() throws Exception {
         //given
         MemberDto memberDto = new MemberDto(
                 null, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
@@ -242,6 +242,31 @@ class MemberControllerTest {
                         .content(objectMapper.writeValueAsString(loginVo)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.analysis", notNullValue()))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("부모 로그인 - 보상 제공")
+    void 부모로그인_보상() throws Exception {
+        //given
+        MemberDto memberDto = new MemberDto(
+                null, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
+        );
+
+        LoginVo loginVo = new LoginVo(
+                "castlehi", null, "p_password"
+        );
+
+        MemberDto resultDto = memberService.signUp(memberDto);
+
+        //when
+        //then
+        mvc.perform(post("/plogin")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(loginVo)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.amends", notNullValue()))
                 .andDo(print());
     }
 
