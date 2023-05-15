@@ -44,12 +44,6 @@ public class AnalysisService {
             throw new RuntimeException(e.getMessage());
         }
 
-        System.out.println("analysis.getCount() = " + analysis.getCount());
-        System.out.println("analysis = " + analysis.getLevel());
-        System.out.println("analysis.getSuccessRate1() = " + analysis.getSuccessRate1());
-        System.out.println("analysis.getSuccessRate2()\\ = " + analysis.getSuccessRate2());
-        System.out.println("analysis = " + analysis.getSuccessRate3());
-
         if (analysis.getCount() < 0 || analysis.getLevel() < 0 ||
                 analysis.getLevel() > 3 ||
                 analysis.getSuccessRate1() < 0.0 || analysis.getSuccessRate1() > 100.0 ||
