@@ -9,8 +9,6 @@ import com.Saojung.whatisthis.vo.AmendsVo;
 import com.Saojung.whatisthis.vo.AnalysisVo;
 import com.Saojung.whatisthis.vo.LoginVo;
 import com.Saojung.whatisthis.vo.MemberVo;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
