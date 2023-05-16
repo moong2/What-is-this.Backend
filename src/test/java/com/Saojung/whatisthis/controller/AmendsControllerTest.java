@@ -3,6 +3,7 @@ package com.Saojung.whatisthis.controller;
 import com.Saojung.whatisthis.dto.MemberDto;
 import com.Saojung.whatisthis.service.AmendsService;
 import com.Saojung.whatisthis.service.MemberService;
+import com.Saojung.whatisthis.vo.AmendsVo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -25,8 +26,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -83,6 +86,79 @@ class AmendsControllerTest {
                         .params(map))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.idx", notNullValue()))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("보상 입력")
+    void 보상_입력() throws Exception {
+        //given
+        MemberDto memberDto = new MemberDto(
+                null, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
+        );
+
+        MemberDto resultDto = memberService.signUp(memberDto);
+
+        AmendsVo amendsVo = new AmendsVo(
+                resultDto.getAmends().getIdx(), "마이쮸", 5, 5
+        );
+
+        //when
+        //then
+        mvc.perform(post("/amends/update")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(amendsVo)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.amends", notNullValue()))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("보상 입력 - 오류")
+    void 보상_입력_오류() throws Exception {
+        //given
+        MemberDto memberDto = new MemberDto(
+                null, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
+        );
+
+        MemberDto resultDto = memberService.signUp(memberDto);
+
+        AmendsVo amendsVo = new AmendsVo(
+                resultDto.getAmends().getIdx(), "마이쮸", 3, 5
+        );
+
+        //when
+        //then
+        mvc.perform(post("/amends/update")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(amendsVo)))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("보상 제거")
+    void 보상_제거() throws Exception {
+        //given
+        MemberDto memberDto = new MemberDto(
+                null, "castlehi", "password", "박성하", LocalDate.of(2000, 06, 17), "p_password", null, null
+        );
+
+        MemberDto resultDto = memberService.signUp(memberDto);
+
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("member_idx", String.valueOf(resultDto.getIdx()));
+
+        //when
+        //then
+        mvc.perform(post("/amends/reset")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .params(map))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.amends", nullValue()))
                 .andDo(print());
     }
 }
