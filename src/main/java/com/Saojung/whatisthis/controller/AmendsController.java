@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -24,6 +26,45 @@ public class AmendsController {
             AmendsVo amendsVo = new AmendsVo(amends.getIdx(), amends.getAmends(), amends.getGoal(), amends.getRemain());
 
             return new ResponseEntity<>(amendsVo, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/amends/update")
+    public ResponseEntity updateAmends(@RequestBody AmendsVo amendsVo) {
+        try {
+
+            AmendsDto amendsDto = new AmendsDto(
+                    amendsVo.getIdx(), amendsVo.getAmends(), amendsVo.getGoal(), amendsVo.getRemain()
+            );
+
+            AmendsDto update = amendsService.update(amendsDto);
+
+            AmendsVo returnVo = new AmendsVo(
+                    update.getIdx(), update.getAmends(), update.getGoal(), update.getRemain()
+            );
+
+            return new ResponseEntity<>(returnVo, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/amends/reset")
+    public ResponseEntity resetAmends(@RequestParam Long member_idx) {
+        try {
+
+            AmendsVo amendsVo = new AmendsVo(member_idx);
+            AmendsDto amendsDto = new AmendsDto(amendsVo.getIdx(), amendsVo.getAmends(), amendsVo.getGoal(), amendsVo.getRemain());
+
+            AmendsDto update = amendsService.update(amendsDto);
+
+            AmendsVo returnVo = new AmendsVo(
+                    update.getIdx(), update.getAmends(), update.getGoal(), update.getRemain()
+            );
+
+            return new ResponseEntity<>(returnVo, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
