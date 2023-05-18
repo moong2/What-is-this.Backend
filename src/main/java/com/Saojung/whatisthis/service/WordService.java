@@ -1,11 +1,14 @@
 package com.Saojung.whatisthis.service;
 
+import com.Saojung.whatisthis.domain.Amends;
+import com.Saojung.whatisthis.domain.Member;
 import com.Saojung.whatisthis.domain.Word;
 import com.Saojung.whatisthis.dto.WordDto;
 import com.Saojung.whatisthis.exception.DateException;
 import com.Saojung.whatisthis.exception.LevelException;
 import com.Saojung.whatisthis.exception.NoMemberException;
 import com.Saojung.whatisthis.exception.NoWordException;
+import com.Saojung.whatisthis.repository.AmendsRepository;
 import com.Saojung.whatisthis.repository.MemberRepository;
 import com.Saojung.whatisthis.repository.WordRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +27,12 @@ public class WordService {
 
     private final WordRepository wordRepository;
     private final MemberRepository memberRepository;
+    private final AmendsRepository amendsRepository;
 
     public WordDto create(WordDto wordDto) {
-        if (memberRepository.findById(wordDto.getMember().getIdx()).orElse(null) == null)
+        Optional<Member> byId = memberRepository.findById(wordDto.getMember().getIdx());
+
+        if (byId.equals(Optional.empty()))
             throw new NoMemberException("학습한 회원이 존재하지 않습니다.");
 
         Word word;
@@ -46,6 +52,10 @@ public class WordService {
                 word.getSuccessLevel() < 0 || word.getSuccessLevel() > 3 ||
                 word.getSuccessLevel() > word.getLevel())
             throw new LevelException("비정상적인 레벨입니다.");
+
+        Amends amends = byId.get().getAmends();
+        if (amends.getGoal() > 0 && amends.getRemain() > 0)
+            amendsRepository.update(amends.getAmends(), amends.getGoal(), amends.getRemain() - 1, amends.getIdx());
 
         return WordDto.from(wordRepository.save(word));
     }
