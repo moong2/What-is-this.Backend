@@ -1,11 +1,13 @@
 package com.Saojung.whatisthis.service;
 
+import com.Saojung.whatisthis.domain.Amends;
 import com.Saojung.whatisthis.domain.Member;
 import com.Saojung.whatisthis.domain.Word;
 import com.Saojung.whatisthis.dto.MemberDto;
 import com.Saojung.whatisthis.dto.WordDto;
 import com.Saojung.whatisthis.exception.DateException;
 import com.Saojung.whatisthis.exception.LevelException;
+import com.Saojung.whatisthis.repository.AmendsRepository;
 import com.Saojung.whatisthis.repository.MemberRepository;
 import com.Saojung.whatisthis.repository.WordRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,11 +39,13 @@ class WordServiceTest {
     private WordRepository wordRepository;
     @Mock
     private MemberRepository memberRepository;
+    @Mock
+    private AmendsRepository amendsRepository;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        wordService = new WordService(wordRepository, memberRepository);
+        wordService = new WordService(wordRepository, memberRepository, amendsRepository);
     }
 
     @Test
@@ -55,6 +59,7 @@ class WordServiceTest {
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
                 .parentPassword("p_password")
+                .amends(new Amends())
                 .build();
 
         Word returnWord = Word.builder()
@@ -91,6 +96,7 @@ class WordServiceTest {
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
                 .parentPassword("p_password")
+                .amends(new Amends())
                 .build();
 
         Word returnWord = Word.builder()
@@ -131,6 +137,7 @@ class WordServiceTest {
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
                 .parentPassword("p_password")
+                .amends(new Amends())
                 .build();
 
         Word returnWord = Word.builder()
@@ -261,6 +268,7 @@ class WordServiceTest {
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
                 .parentPassword("p_password")
+                .amends(new Amends())
                 .build();
 
         Word returnWord = Word.builder()
@@ -305,6 +313,7 @@ class WordServiceTest {
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
                 .parentPassword("p_password")
+                .amends(new Amends())
                 .build();
 
         Word returnWord = Word.builder()
@@ -345,6 +354,7 @@ class WordServiceTest {
                 .name("박성하")
                 .birth(LocalDate.of(2000, 06, 17))
                 .parentPassword("p_password")
+                .amends(new Amends())
                 .build();
 
         Word returnWord = Word.builder()
