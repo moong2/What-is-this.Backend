@@ -1,10 +1,13 @@
 package com.Saojung.whatisthis.controller;
 
 import com.Saojung.whatisthis.domain.Member;
+import com.Saojung.whatisthis.dto.AmendsDto;
 import com.Saojung.whatisthis.dto.MemberDto;
 import com.Saojung.whatisthis.dto.WordDto;
+import com.Saojung.whatisthis.service.AmendsService;
 import com.Saojung.whatisthis.service.MemberService;
 import com.Saojung.whatisthis.service.WordService;
+import com.Saojung.whatisthis.vo.AmendsVo;
 import com.Saojung.whatisthis.vo.WordVo;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
@@ -22,6 +25,7 @@ public class WordController {
 
     private final WordService wordService;
     private final MemberService memberService;
+    private final AmendsService amendsService;
 
     @PostMapping("/studyWord")
     public ResponseEntity studyWord(@RequestParam Long member_idx, @RequestBody WordVo wordVo) {
@@ -48,7 +52,11 @@ public class WordController {
 
             wordService.create(wordDto);
 
-            return new ResponseEntity<>("단어 학습이 완료되었습니다.", HttpStatus.OK);
+            AmendsDto amendsDto = amendsService.getAmends(member_idx);
+            AmendsVo amendsVo = new AmendsVo(amendsDto.getIdx(), amendsDto.getAmends(), amendsDto.getGoal(), amendsDto.getRemain());
+
+
+            return new ResponseEntity<>(amendsVo, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

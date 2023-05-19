@@ -54,7 +54,10 @@ public class WordService {
             throw new LevelException("비정상적인 레벨입니다.");
 
         Amends amends = byId.get().getAmends();
-        if (wordDto.getSuccessLevel() == wordDto.getLevel() && amends.getGoal() > 0 && amends.getRemain() > 0)
+        if (amends.getAmends() != null && amends.getRemain() == 0) {
+            amendsRepository.update(null, 0, 0, amends.getIdx());
+        }
+        else if (wordDto.getSuccessLevel() == wordDto.getLevel() && amends.getGoal() > 0 && amends.getRemain() > 0)
             amendsRepository.update(amends.getAmends(), amends.getGoal(), amends.getRemain() - 1, amends.getIdx());
 
         return WordDto.from(wordRepository.save(word));
