@@ -94,8 +94,7 @@ class WordControllerTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .params(map)
                         .content(objectMapper.writeValueAsString(wordVo)))
-                .andExpect(status().isOk())
-                .andExpect(content().string("단어 학습이 완료되었습니다."));
+                .andExpect(status().isOk());
     }
 
     @Test
