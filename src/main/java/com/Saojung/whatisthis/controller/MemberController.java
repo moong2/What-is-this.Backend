@@ -2,8 +2,10 @@ package com.Saojung.whatisthis.controller;
 
 import com.Saojung.whatisthis.domain.Amends;
 import com.Saojung.whatisthis.domain.Analysis;
+import com.Saojung.whatisthis.dto.AnalysisDto;
 import com.Saojung.whatisthis.dto.MemberDto;
 import com.Saojung.whatisthis.exception.CannotJoinException;
+import com.Saojung.whatisthis.service.AnalysisService;
 import com.Saojung.whatisthis.service.MemberService;
 import com.Saojung.whatisthis.vo.AmendsVo;
 import com.Saojung.whatisthis.vo.AnalysisVo;
@@ -26,6 +28,7 @@ import java.util.ArrayList;
 public class MemberController {
 
     private final MemberService memberService;
+    private final AnalysisService analysisService;
 
     @PostMapping("/signup")
     public ResponseEntity signUp(@RequestBody MemberVo memberVo) {
@@ -77,7 +80,7 @@ public class MemberController {
         try {
             MemberDto member = memberService.parentLogin(loginVo);
 
-            Analysis analysis = member.getAnalysis();
+            AnalysisDto analysis = analysisService.calculate(member.getIdx());
             AnalysisVo analysisVo = new AnalysisVo(analysis.getIdx(), analysis.getCount(), analysis.getLevel(), analysis.getSuccessRate1(), analysis.getSuccessRate2(), analysis.getSuccessRate3());
             ArrayList<AnalysisVo> analysisVos = new ArrayList<>();
             analysisVos.add(analysisVo);
