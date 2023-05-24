@@ -96,4 +96,5 @@
 
 <h1><strike>클라우드 연결 (AWS)</strike></h1>
 <h1><strike>CI/CD (jenkins)</strike></h1>
+<h1>ec2에 jenkins 올리기</h1>
 <h1>무중단 배포 (NGINX)</h1>
