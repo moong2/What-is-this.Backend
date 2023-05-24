@@ -93,3 +93,7 @@
 
 - 잔여 일수 계산
 </div>
+
+<h1><strike>클라우드 연결 (AWS)</strike></h1>
+<h1><strike>CI/CD (jenkins)</strike></h1>
+<h1>무중단 배포 (NGINX)</h1>
