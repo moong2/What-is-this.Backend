@@ -5,7 +5,7 @@ import org.springframework.mock.env.MockEnvironment;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ProfileControllerTest {
+class ProfileControllerUnitTest {
 
     @Test
     public void real_profile이_조회된다() {
