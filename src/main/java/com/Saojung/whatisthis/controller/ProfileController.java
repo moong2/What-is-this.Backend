@@ -15,6 +15,6 @@ public class ProfileController {
 
     @GetMapping("/profile")
     public String profile() {
-        return Arrays.stream(env.getActiveProfiles()).findFirst().orElse("");
+        return Arrays.stream(env.getActiveProfiles()).findFirst().orElse("real1");
     }
 }
