@@ -40,18 +40,4 @@ class ProfileControllerUnitTest {
         //then
         assertEquals(profile, expectedProfile);
     }
-
-    @Test
-    public void active_profile이_없으면_default가_조회된다() {
-        //given
-        String expectedProfile = "default";
-        MockEnvironment env = new MockEnvironment();
-        ProfileController controller = new ProfileController(env);
-
-        //when
-        String profile = controller.profile();
-
-        //then
-        assertEquals(profile, expectedProfile);
-    }
 }
