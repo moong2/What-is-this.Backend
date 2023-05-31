@@ -216,7 +216,7 @@ NoAmendsException
 3. **Controller**
 > 보상 조회 테스트 <br>
 > 보상 입력 테스트 <br>
-> 보상 재설정 테스
+> 보상 재설정 테스트
 
 
 ## 배포
@@ -232,7 +232,7 @@ NoAmendsException
 > 2. **real1** - NGINX 사용 시 프로필 1 (application-real1.properties)
 > 3. **real2** - NGINX 사용 시 프로필 2 (application-real2.properties)
 > 
-> ProfileController에서 프로필 판단 후 resources 연
+> ProfileController에서 프로필 판단 후 resources 연결
 
 ## 프로젝트 설치 방법
 > git clone https://github.com/Sao-jung-listens-well/Backend.git
@@ -368,9 +368,9 @@ sudo service nginx reload
 
 ### 버그 수정 방법
 1. 프로젝트를 fork합니다.
-2. branch를 생성합니다.(```git checkout -b MedicMagic-BACKEND```)
+2. branch를 생성합니다.(```git checkout -b issue```)
 3. 버그를 수정하고 커밋합니다.(```git commit -m 'Catch some Error'```)
-4. branch를 push합니다. (```git push origin MedicMagic-BACKEND```)
+4. branch를 push합니다. (```git push origin issue```)
 5. Pull Request합니다.
 
 ## Contact
