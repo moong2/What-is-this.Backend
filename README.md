@@ -239,7 +239,7 @@ NoAmendsException
 > localhost/h2-console 접속 후 데이터베이스 확인
 
 ### 배포시 (AWS)
-> src/main/resources에 application-real-db.properties 추가
+> src/main/resources에 application-real-db.properties 추가 <br>
 > ssh 연결 후 지정 디렉토리에 application-real-db.properties 추가
 ```properties
 #application-real-db.properties
@@ -254,7 +254,9 @@ spring.datasource.hikari.driver-class-name=com.mysql.cj.jdbc.Driver
 ```
 <br>
 
-> ssh 연결 후 지정 디렉토리에 deploy.sh 추가
+> ssh 연결 후 지정 디렉토리에 deploy.sh 추가 <br>
+> 아래 deploy.sh는 NGINX가 연결되어 있다는 것을 전제로 합니다. <br>
+> NGINX를 사용하지 않거나 다른 무중단 배포를 사용한다면 그에 맞게 바꾸셔야 합니다.
 ```shell
 #!/bin/bash
 
