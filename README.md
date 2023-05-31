@@ -27,8 +27,8 @@
 또한, 영어 기능을 넣어 한글을 배우고 싶은 외국인도 사용할 수 있도록 제작하였습니다.
 
 This is a preschool Korean education application that allows interaction with the surroundings through object recognition, voice recognition, and AR. <br>
-Currently, in the Korean education market, there are not many applications that follow the recommended Korean education sequence of teaching integrated letters first, followed by individual letters. <br>
-For these reason, there is a lack of applications that allow interaction with the surroundings. Due to these reasons, we felt a sense of regret. Therefore, we have developed an application that incorporates object recognition to learn integrated letters through surrounding objects and allows practicing speaking by using AR to find hidden individual letters and combine them to form the learned integrated letters. <br>
+Currently, in the Korean education market, there are not many applications that follow the recommended Korean education sequence of teaching integrated letters first, followed by individual letters. Due to these reasons, we felt a sense of regret. <br>
+Therefore, we have developed an application that incorporates object recognition to learn integrated letters through surrounding objects and allows practicing speaking by using AR to find hidden individual letters and combine them to form the learned integrated letters. <br>
 Moreover, we have included an English feature to make the application usable for foreigners who are interested in learning Korean.
 
 ## 제공되는 기능
