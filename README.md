@@ -17,11 +17,11 @@
 |                                       이승재                                        |                                       한보은                                        |                                       김한슬                                       |                                       박성하                                       |                                                                               
 |:--------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------:|
 | <img width="160px" src="https://avatars.githubusercontent.com/u/81508501?v=4" /> | <img width="160px" src="https://avatars.githubusercontent.com/u/81304917?v=4" /> | <img width="160px" src="https://avatars.githubusercontent.com/u/67732600?v=4"/> | <img width="160px" src="https://avatars.githubusercontent.com/u/67732143?v=4"/> |
-|                      [@fghy788](https://github.com/fghy788)                      |                     [@Boeunhan](https://github.com/BoeunHan)                     |                      [@slcloe](https://github.com/slcloe)                       |                      [@moong2](https://github.com/moong2)                       |
+|                      [@fghy788](https://github.com/fghy788)                      |                     [@BoeunHan](https://github.com/BoeunHan)                     |                      [@slcloe](https://github.com/slcloe)                       |                      [@moong2](https://github.com/moong2)                       |
 |                                  프론트엔드 - AR 담당                                   |                               프론트엔드 - UI / 음성인식 담당                               |                                 프론트엔드 - 사물인식 담당                                 |                                     백엔드 담당                                      |
 
 ## 프로젝트 소개
-사물인식, 음성인식, AR을 통해 주변과 상호작용할 수 있는 유아 한글 교육 어플리케이션입니다. <br>
+<a style="color:#CBA0EB"><strong>사물인식, 음성인식, AR을 통해 주변과 상호작용할 수 있는 유아 한글 교육 어플리케이션</strong></a>입니다. <br>
 현재, 한글 교육 시장에는 전문가가 강조하는 한글 교육 순서인 통글자 -> 자모음 순서를 지키는 어플리케이션이 많지 않을 뿐더러 주변과 상호작용을 할 수 있는 어플리케이션은 존재하지 않아 아쉬움이 있었습니다. <br>
 그러한 이유로 사물인식 기능을 적용해 주변 사물을 통글자로 배우고, 말하기 연습을 히거 AR로 숨겨진 자모음을 찾아 배운 통글자를 조합하는 어플리케이션을 만들게 되었습니다. <br>
 또한, 영어 기능을 넣어 한글을 배우고 싶은 외국인도 사용할 수 있도록 제작하였습니다.
@@ -68,11 +68,72 @@ Moreover, we have included an English feature to make the application usable for
 ![Notion](https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=Notion&logoColor=white)
 ![Discord](https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=Discord&logoColor=white)
 
+## 개발
 
-<h1>ERD</h1>
-<img width="80%" src="https://user-images.githubusercontent.com/67732143/237047836-4ace6ae8-89dc-48db-8635-1912a91f3e6e.png"/>
+### Dependency
+- 비밀번호 암호화를 위한 Spring Security 사용 (BCryptPasswordEncoder())
+- 간편한 개발을 위한 Lombok:annotation 사용
+- RestAPI시 json 배열을 보내주기 위한 json 사용
+- Spring JPA를 이용해 개발
 
-<h1>TDD</h1>
+### ERD
+<img width="40%" src="https://user-images.githubusercontent.com/67732143/237047836-4ace6ae8-89dc-48db-8635-1912a91f3e6e.png"/>
+
+### 프로젝트 구성
+<img width="70%" src="https://user-images.githubusercontent.com/67732143/242218985-a5dbd919-a609-4c47-93dc-b1f8cdf0db08.jpg"/>
+
+#### Member
+1. **Entity**
+> 생일, 이름, 아이디, 비밀번호 저장
+2. **Repository**
+> CRUD, 아이디 조회
+3. **Service, Controller**
+> 회원가입, 로그인, 정보 업데이트, 회원탈퇴, 부모 페이지 로그인
+4. 이외
+> LoginVo <br>
+NoMemberException <br>
+DuplicateMemberException <br>
+CannotJoinException <br>
+SecurityConfig
+
+#### Word
+1. **Entity**
+> Member가 학습한 단어의 내용, 제공된 레벨, 성공한 레벨, 학습한 날짜
+2. **Repository**
+> CRUD, Member의 아이디로 조회, 제공된 레벨로 조회, 성공한 레벨로 조회, 학습한 날짜 기준 조회
+3. **Service, Controller**
+> 단어 학습, Member가 학습한 단어 모두 조회
+4. 이외
+> LevelException <br>
+NoWordException <br>
+DateException
+
+#### Analysis
+1. **Entity**
+> Member가 학습한 단어 개수, Member의 평균 난이도, Member의 Level당 성공률
+2. **Repository**
+> CRUD
+3. **Service, Controller**
+> 분석, 날짜 기준 분석, 평균 난이도 조회
+4. 이외
+> LevelException <br>
+NoAnalysisException <br>
+DateException
+
+#### Amends
+1. **Entity**
+> Member의 보상 내용, 목표 학습 단어 개수, 보상 수령까지 남은 학습 수
+2. **Repository**
+> CRUD
+3. **Service, Controller**
+> Amends 정보 input, Amends 정보 output, Amends 정보 리셋
+4. 이외
+> LevelException <br>
+NoAmendsException
+
+### TDD
+<img width="70%" src="https://user-images.githubusercontent.com/67732143/242228054-b1d80a02-5959-408b-8239-cf304125e947.jpg">
+
 <h3>유저 API</h3>
 <div>
 1. 회원가입
