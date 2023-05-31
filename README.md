@@ -143,6 +143,9 @@ DateException
 > LevelException <br>
 NoAmendsException
 
+<br>
+<br>
+
 ### TDD
 <img width="60%" src="https://user-images.githubusercontent.com/67732143/242228054-b1d80a02-5959-408b-8239-cf304125e947.jpg">
 
@@ -234,11 +237,11 @@ NoAmendsException
 ## 프로젝트 설치 방법
 > git clone https://github.com/Sao-jung-listens-well/Backend.git
 
-### 개발 테스트 시
+### 1. 개발 테스트 시
 > src/main/resources에 존재하는 application.yml 사용 <br>
 > localhost/h2-console 접속 후 데이터베이스 확인
 
-### 배포시 (AWS)
+### 2. 배포시 (AWS)
 > src/main/resources에 application-real-db.properties 추가 <br>
 > ssh 연결 후 지정 디렉토리에 application-real-db.properties 추가
 ```properties
