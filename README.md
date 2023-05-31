@@ -23,7 +23,7 @@
 ## 프로젝트 소개
 <a style="color:#CBA0EB"><strong>사물인식, 음성인식, AR을 통해 주변과 상호작용할 수 있는 유아 한글 교육 어플리케이션</strong></a>입니다. <br>
 현재, 한글 교육 시장에는 전문가가 강조하는 한글 교육 순서인 통글자 -> 자모음 순서를 지키는 어플리케이션이 많지 않을 뿐더러 주변과 상호작용을 할 수 있는 어플리케이션은 존재하지 않아 아쉬움이 있었습니다. <br>
-그러한 이유로 사물인식 기능을 적용해 주변 사물을 통글자로 배우고, 말하기 연습을 히거 AR로 숨겨진 자모음을 찾아 배운 통글자를 조합하는 어플리케이션을 만들게 되었습니다. <br>
+그러한 이유로 사물인식 기능을 적용해 주변 사물을 통글자로 배우고, 말하기 연습을 하고 AR로 숨겨진 자모음을 찾아 배운 통글자를 조합하는 어플리케이션을 만들게 되었습니다. <br>
 또한, 영어 기능을 넣어 한글을 배우고 싶은 외국인도 사용할 수 있도록 제작하였습니다.
 
 This is a preschool Korean education application that allows interaction with the surroundings through object recognition, voice recognition, and AR. <br>
@@ -82,7 +82,7 @@ Moreover, we have included an English feature to make the application usable for
 ### 프로젝트 구성
 <img width="70%" src="https://user-images.githubusercontent.com/67732143/242218985-a5dbd919-a609-4c47-93dc-b1f8cdf0db08.jpg"/>
 
-#### Member
+<h4 style="color:#CBA0EB"><strong>Member</strong></h4>
 1. **Entity**
 > 생일, 이름, 아이디, 비밀번호 저장
 2. **Repository**
@@ -96,7 +96,7 @@ DuplicateMemberException <br>
 CannotJoinException <br>
 SecurityConfig
 
-#### Word
+<h4 style="color:#CBA0EB"><strong>Word</strong></h4>
 1. **Entity**
 > Member가 학습한 단어의 내용, 제공된 레벨, 성공한 레벨, 학습한 날짜
 2. **Repository**
@@ -108,7 +108,7 @@ SecurityConfig
 NoWordException <br>
 DateException
 
-#### Analysis
+<h4 style="color:#CBA0EB"><strong>Analysis</strong></h4>
 1. **Entity**
 > Member가 학습한 단어 개수, Member의 평균 난이도, Member의 Level당 성공률
 2. **Repository**
@@ -120,7 +120,7 @@ DateException
 NoAnalysisException <br>
 DateException
 
-#### Amends
+<h4 style="color:#CBA0EB"><strong>Amends</strong></h4>
 1. **Entity**
 > Member의 보상 내용, 목표 학습 단어 개수, 보상 수령까지 남은 학습 수
 2. **Repository**
