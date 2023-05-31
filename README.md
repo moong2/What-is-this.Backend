@@ -62,7 +62,9 @@ Moreover, we have included an English feature to make the application usable for
 ![Amazon EC2](https://img.shields.io/badge/Amazon%20EC2-FF9900?style=for-the-badge&logo=Amazon%20EC2&logoColor=white)
 ![Amazon RDS](https://img.shields.io/badge/Amazon%20RDS-527FFF?style=for-the-badge&logo=Amazon%20RDS&logoColor=white)
 ![Jenkins](https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white)
-![NGINX](https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=NGINX&logoColor=white)
+![NGINX](https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=NGINX&logoColor=white) <br>
+![Hibernate](https://img.shields.io/badge/Hibernate-59666C?style=for-the-badge&logo=Hibernate&logoColor=white)
+![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=MariaDB&logoColor=white)
 
 ### Communication
 ![Notion](https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=Notion&logoColor=white)
@@ -75,12 +77,13 @@ Moreover, we have included an English feature to make the application usable for
 - 간편한 개발을 위한 Lombok:annotation 사용
 - RestAPI시 json 배열을 보내주기 위한 json 사용
 - Spring JPA를 이용해 개발
+- HQL 사용
 
 ### ERD
-<img width="40%" src="https://user-images.githubusercontent.com/67732143/237047836-4ace6ae8-89dc-48db-8635-1912a91f3e6e.png"/>
+<img width="50%" src="https://user-images.githubusercontent.com/67732143/237047836-4ace6ae8-89dc-48db-8635-1912a91f3e6e.png"/>
 
 ### 프로젝트 구성
-<img width="70%" src="https://user-images.githubusercontent.com/67732143/242218985-a5dbd919-a609-4c47-93dc-b1f8cdf0db08.jpg"/>
+<img width="80%" src="https://user-images.githubusercontent.com/67732143/242218985-a5dbd919-a609-4c47-93dc-b1f8cdf0db08.jpg"/>
 
 #### Member
 1. **Entity**
@@ -89,12 +92,15 @@ Moreover, we have included an English feature to make the application usable for
 > CRUD, 아이디 조회
 3. **Service, Controller**
 > 회원가입, 로그인, 정보 업데이트, 회원탈퇴, 부모 페이지 로그인
-4. 이외
+4. **이외**
 > LoginVo <br>
 NoMemberException <br>
 DuplicateMemberException <br>
 CannotJoinException <br>
 SecurityConfig
+
+<br>
+<br>
 
 #### Word
 1. **Entity**
@@ -103,10 +109,13 @@ SecurityConfig
 > CRUD, Member의 아이디로 조회, 제공된 레벨로 조회, 성공한 레벨로 조회, 학습한 날짜 기준 조회
 3. **Service, Controller**
 > 단어 학습, Member가 학습한 단어 모두 조회
-4. 이외
+4. **이외**
 > LevelException <br>
 NoWordException <br>
 DateException
+
+<br>
+<br>
 
 #### Analysis
 1. **Entity**
@@ -115,10 +124,13 @@ DateException
 > CRUD
 3. **Service, Controller**
 > 분석, 날짜 기준 분석, 평균 난이도 조회
-4. 이외
+4. **이외**
 > LevelException <br>
 NoAnalysisException <br>
 DateException
+
+<br>
+<br>
 
 #### Amends
 1. **Entity**
@@ -127,105 +139,234 @@ DateException
 > CRUD
 3. **Service, Controller**
 > Amends 정보 input, Amends 정보 output, Amends 정보 리셋
-4. 이외
+4. **이외**
 > LevelException <br>
 NoAmendsException
 
 ### TDD
-<img width="70%" src="https://user-images.githubusercontent.com/67732143/242228054-b1d80a02-5959-408b-8239-cf304125e947.jpg">
+<img width="60%" src="https://user-images.githubusercontent.com/67732143/242228054-b1d80a02-5959-408b-8239-cf304125e947.jpg">
 
-<h3>유저 API</h3>
-<div>
-1. 회원가입
+#### Member
+1. **Repository**
+> Create, Null Attribute, NotNull Attribute 테스트 <br>
+> Read, 아이디 동일성, 비밀번호 동일성, 부모 비밀번호 동일성, 존재하지 않는 Member 조회 테스트 <br>
+> Delete 테스트 <br>
+> Update 테스트
+2. **Service**
+> CRUD 테스트 <br>
+> 비밀번호 암호화, 부모 비밀번호 암호화 동일성 테스트 <br>
+> 중복 아이디 회원가입 테스트 <br>
+> 로그인 성공, 로그인 실패 (아이디, 비밀번호 각각), 부모 로그인 성공, 부모 로그인 실패 테스트 <br>
+> 연관관계 Entity CRD (amends, analysis) 테스트
+3. **Controller**
+> 회원가입 성공, 회원가입 실패 테스트 <br>
+> 로그인 성공, 로그인 실패 테스트 <br>
+> 부모 로그인 성공 (amends, analysis 조회), 부모 로그인 실패 테스트
 
-- 속성 NULL 여부 테스트
-- 패스워드 암호화 (only service test)
-- 부모 패스워드 암호화 (only service test)
-- 중복 아이디 검사 (only service test)
-- 회원 정보 받고 결과 반환 (controller test)
-</div>
-<div>
-2. 로그인
+<br>
+<br> 
 
-- 아이디, 패스워드 조회
-- 아이디, 패스워드 동일 여부 검사 (only repository test)
-- 로그인 성공 / 실패 (only service test)
-- 부모 패스워드 동일 여부 검사 (only repository test)
-- 부모 페이지 로그인 성공 / 실패 (only service test)
-- 로그인 정보 받고 정보 반환 (controller test)
-- 부모 패스워드 관련 정보 받고 Amends, Analysis 반환 (controller test)
-</div>
-<div>
-3. 회원 정보 조회
+#### Word
+1. **Repository**
+> Create, Null Attribute, NotNull Attribute 테스트 <br>
+> Read, 존재하지 않는 Word 조회, 빈 Database 조회, Member Idx로 조회, 학습순서대로 조회, 난이도 기준 조회, 날짜 기준 조회, 기준 합성 조회 테스트 <br>
+> Update 테스트 <br>
+> Delete 테스트
+2. **Service**
+> CRUD 테스트 <br>
+> 난이도 에러 테스트 <br>
+> 레벨 조회 에러 테스트 <br>
+> 날짜 조회 에러 테스트
+3. **Controller**
+> 단어 추가 테스트 <br>
+> 단어 조회 테스트
 
-- 조회
-- 회원 정보 변경
-- 삭제
-- 빈 db 조회 예외 핸들링
-- 변경된 정보 받고 결과 반환 (controller test)
-- 삭제할 정보 받고 결과 반환 (controller test)
-</div>
+<br>
+<br>
 
-<h3>단어 학습 API</h3>
-<div>
-1. 단어 학습
+#### Analysis
+1. **Repository**
+> Create, NotNull Attribute 테스트 <br>
+> Read, 빈 Database 조회 테스트 <br>
+> Update 테스트 <br>
+> Delete 테스트
+2. **Service**
+> U 테스트 <br>
+> 모든 단어 분석, 기간 분석 테스트 <br>
+> 전체 학습 난이도 설정, 기간 학습 난이도 설정 테스트
+3. **Controller**
+> 전체 분석값, 기간 분석값 조회 테스트 <br>
+> 난이도 조회 테스트
 
-- 단어 학습(추가)
-- 학습 단어 업데이트 (crud 전용)
-</div>
-<div>
-2. 학습 단어 조회
+<br>
+<br>
 
-- 날짜 정렬 확인
-- 제공 난이도 정렬 확인
-- 조회
-- 빈 db 조회 예외 핸들링
-</div>
-<div>
-3. 학습 단어 제거
+#### Amends
+1. **Repository**
+> Create, NotNull Attribute 테스트 <br>
+> Read, 빈 Database 조회 테스트 <br>
+> Update 테스트 <br>
+> Delete 테스트
+2. **Service**
+> U 테스트 <br>
+> Amends 조회 테스트
+3. **Controller**
+> 보상 조회 테스트 <br>
+> 보상 입력 테스트 <br>
+> 보상 재설정 테스
 
-- cascade 테스트 (service test)
-</div>
 
-<h3>학습 진척도 API</h3>
-<div>
-1. 분석 데이터 추가
+## 배포
 
-- null 확인
-</div>
-<div>
-2. 분석 데이터 조회
+- 호스팅을 위한 AWS EC2 사용
+- 클라우드 데이터베이스 접속을 위한 AWS RDS (Maria DB) 사용
+- CI / CD를 위한 Jenkins 사용
+- Github 코드를 이용하기 위한 Webhook 사용
+- 무중단 배포를 위한 NGINX 사용 (Port : 8082, 8083)
 
-- 빈 db 조회 예외 핸들링
-- 조회
-</div>
-<div>
-3. 데이터 분석
+> **프로필**
+> 1. **real** - 내장 서버 사용 시 프로필 (application-real.properties)
+> 2. **real1** - NGINX 사용 시 프로필 1 (application-real1.properties)
+> 3. **real2** - NGINX 사용 시 프로필 2 (application-real2.properties)
+> 
+> ProfileController에서 프로필 판단 후 resources 연
 
-- 성공률 분석
-- word 테이블 빈 db 조회 예외 핸들링
-- 성공률에 따른 레벨 설정
-</div>
+## 프로젝트 설치 방법
+> git clone https://github.com/Sao-jung-listens-well/Backend.git
 
-<h3>보상 API</h3>
-<div>
-1. 보상 정보 추가
+### 개발 테스트 시
+> src/main/resources에 존재하는 application.yml 사용 <br>
+> localhost/h2-console 접속 후 데이터베이스 확인
 
-- null 확인
-</div>
-<div>
-2. 보상 정보 조회
+### 배포시 (AWS)
+> src/main/resources에 application-real-db.properties 추가
+> ssh 연결 후 지정 디렉토리에 application-real-db.properties 추가
+```properties
+#application-real-db.properties
 
-- 빈 db 조회 예외 핸들링
-- 조회
-</div>
-<div>
-3. 보상 수여 계산
+spring.jpa.hibernate.ddl-auto=none
+spring.jpa.show_sql=true
 
-- 잔여 일수 계산
-</div>
+spring.datasource.hikari.jdbc-url=jdbc:mysql://[호스트]:[포트]/what-is-this
+spring.datasource.hikari.username=[유저네임]
+spring.datasource.hikari.password=[패스워드]
+spring.datasource.hikari.driver-class-name=com.mysql.cj.jdbc.Driver
+```
+<br>
 
-<h2><strike>클라우드 연결 (AWS)</strike></h2>
-<h2><strike>CI/CD (jenkins)</strike></h2>
-<h2><strike>ec2에 jenkins 올리기</strike></h2>
-<h2><strike>무중단 배포 (NGINX)</strike></h2>
+> ssh 연결 후 지정 디렉토리에 deploy.sh 추가
+```shell
+#!/bin/bash
+
+REPOSITORY=[지정 디렉토리]
+
+echo "> current profile"
+REPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/profile)
+echo "> $RESPONSE_CODE"
+
+if [ $RESPONSE_CODE -ge 400 ]
+then
+	CURRENT_PROFILE=real2
+else
+	CURRENT_PROFILE=$(curl -s http://localhost/profile)
+fi
+
+echo "> $CURRENT_PROFILE"
+
+echo "> find pid activated"
+if [ ${CURRENT_PROFILE} == real1 ]
+then
+        PREV_PORT=8082
+else
+        PREV_PORT=8083
+fi
+IDLE_PID=$(lsof -ti tcp:${PREV_PORT})
+
+if [ -z ${IDLE_PID} ]
+then
+        echo "> There is no activated application"
+else
+        echo "> kill -15 $IDLE_PID"
+fi
+
+if [ ${CURRENT_PROFILE} == real1 ]
+then
+        IDLE_PROFILE=real2
+        IDLE_PORT=8083
+else
+        IDLE_PROFILE=real1
+        IDLE_PORT=8082
+fi
+
+echo "> Build file copy"
+echo "> cp $REPOSITORY/zip/*.jar $REPOSITORY/"
+sudo cp $REPOSITORY/zip/*.jar $REPOSITORY/
+
+echo "> deploy new Application"
+JAR_NAME=$(ls -tr $REPOSITORY/*.jar | tail -n 1)
+
+echo "> JAR Name: $JAR_NAME"
+
+echo "> add previlege"
+sudo chmod +x $JAR_NAME
+
+echo "> deploy $IDLE_PROFILE"
+sudo fuser -k -n tcp $IDLE_PORT
+
+sudo nohup java -jar \
+	-Dspring.config.location=[지정 디렉토리]/application-real-db.properties,classpath:/application-$IDLE_PROFILE.properties \
+        -Dspring.profiles.active=$IDLE_PROFILE \
+        $JAR_NAME >> $REPOSITORY/nohup.out &
+
+echo "> $IDLE_PROFILE Health Check"
+echo "> curl -s http://localhost:$IDLE_PORT/profile"
+sleep 10
+
+for RETRY_COUNT in {1..10}
+do
+        RESPONSE=$(curl -s http://localhost:$IDLE_PORT/profile)
+        UP_COUNT=$(echo ${RESPONSE} | grep 'real' | wc -l)
+
+        if [ ${UP_COUNT} -ge 1 ]
+        then
+                echo "> Success Health check"
+		break
+	else
+                echo "> Can't know Health check response or status is not UP"
+                echo "> Health check: ${RESPONSE}"
+        fi
+
+	if [ $RETRY_COUNT -eq 10 ]
+	then
+		echo "> Fail to Health check"
+		echo "> Not connect to Nginx and stop to deploy"
+		exit 1
+	fi
+
+	echo "> Fail to connect to Health check. Retry... "
+	sleep 10
+done
+
+echo "> Try to switch... "
+sleep 10
+
+echo "> Convert Port"
+echo "set \$service_url http://127.0.0.1:${IDLE_PORT};" | sudo tee /etc/nginx/conf.d/service-url.inc
+
+echo "> Nginx Reload"
+sudo service nginx reload
+```
+
+## 버그
+- 일부 자료형식에서 지정된 형식이 정해져있습니다. 사용하려는 Front 코드에서 이를 정확하게 맞추어야 합니다.
+- 정보를 주고 받는 과정에서 고려되지 못한 exception이 있을 수 있습니다.
+
+### 버그 수정 방법
+1. 프로젝트를 fork합니다.
+2. branch를 생성합니다.(```git checkout -b MedicMagic-BACKEND```)
+3. 버그를 수정하고 커밋합니다.(```git commit -m 'Catch some Error'```)
+4. branch를 push합니다. (```git push origin MedicMagic-BACKEND```)
+5. Pull Request합니다.
+
+## Contact
+www.castlehi@gmail.com
