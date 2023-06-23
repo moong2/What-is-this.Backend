@@ -221,6 +221,8 @@ NoAmendsException
 
 ## 배포
 
+<img width="80%" src="https://user-images.githubusercontent.com/67732143/242211525-88d45540-d493-4f04-814b-ea2424da7ddc.jpg"/>
+
 - 호스팅을 위한 AWS EC2 사용
 - 클라우드 데이터베이스 접속을 위한 AWS RDS (Maria DB) 사용
 - CI / CD를 위한 Jenkins 사용
