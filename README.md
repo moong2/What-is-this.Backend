@@ -85,6 +85,8 @@ Moreover, we have included an English feature to make the application usable for
 ### 프로젝트 구성
 <img width="80%" src="https://user-images.githubusercontent.com/67732143/242218985-a5dbd919-a609-4c47-93dc-b1f8cdf0db08.jpg"/>
 
+각 서비스 단에는 Transactional annotation을 이용하여 에러 발생 시 데이터베이스 복구 과정을 거침
+
 #### Member
 1. **Entity**
 > 생일, 이름, 아이디, 비밀번호 저장
